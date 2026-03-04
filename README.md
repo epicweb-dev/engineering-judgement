@@ -1,0 +1,104 @@
+<div>
+  <h1 align="center"><a href="https://www.epicweb.dev/workshops">Engineering Judgement Workshop</a></h1>
+  <strong>
+    Practice making better technical decisions under ambiguity
+  </strong>
+  <p>
+    Learn a repeatable framework for clarifying requirements, surfacing assumptions, evaluating trade-offs, and validating outcomes in real-world engineering work.
+  </p>
+</div>
+
+<hr />
+
+<div align="center">
+  <a
+    alt="Epic Web logo with the words Deployed Version"
+    href="https://epicweb-dev-engineering-judgement.fly.dev/"
+  >
+    <img
+      width="300px"
+      src="https://github-production-user-asset-6210df.s3.amazonaws.com/1500684/254000390-447a3559-e7b9-4918-947a-1b326d239771.png"
+    />
+  </a>
+</div>
+
+<hr />
+
+<!-- prettier-ignore-start -->
+[![Build Status][build-badge]][build]
+[![GPL 3.0 License][license-badge]][license]
+[![Code of Conduct][coc-badge]][coc]
+<!-- prettier-ignore-end -->
+
+## Prerequisites
+
+- Working JavaScript and TypeScript experience
+- Basic experience with React-style full stack web applications
+- Familiarity with using AI coding assistants (or willingness to learn as you go)
+- Comfort discussing trade-offs and documenting assumptions
+
+## Pre-workshop Resources
+
+Here are some resources you can read before taking the workshop to get you up to
+speed on some of the tools and concepts we'll be covering:
+
+- [How to Think Like an Engineer](https://kentcdodds.com/blog)
+- [Epic Web Getting Started Guide](https://www.epicweb.dev/get-started)
+- [The Pragmatic Engineer Newsletter](https://newsletter.pragmaticengineer.com/)
+
+## System Requirements
+
+- [git][git] v2.18 or greater
+- [NodeJS][node] v18 or greater
+- [npm][npm] v8 or greater
+
+All of these must be available in your `PATH`. To verify things are set up
+properly, you can run this:
+
+```shell
+git --version
+node --version
+npm --version
+```
+
+If you have trouble with any of these, learn more about the PATH environment
+variable and how to fix it here for [windows][win-path] or
+[mac/linux][mac-path].
+
+## Setup
+
+Use the Epic Workshop CLI to get this setup:
+
+```sh nonumber
+npx --yes epicshop@latest add engineering-judgement
+```
+
+If you experience errors here, please open [an issue][issue] with as many
+details as you can offer.
+
+## The Workshop App
+
+Learn all about the workshop app on the
+[Epic Web Getting Started Guide](https://www.epicweb.dev/get-started).
+
+Make sure to complete
+[the Epic Workshop app Tutorial](https://github.com/epicweb-dev/epicshop-tutorial):
+
+```
+npx --yes epicshop@latest add epicshop-tutorial
+```
+
+<!-- prettier-ignore-start -->
+[npm]: https://www.npmjs.com/
+[node]: https://nodejs.org
+[git]: https://git-scm.com/
+[build-badge]: https://img.shields.io/github/actions/workflow/status/epicweb-dev/engineering-judgement/validate.yml?branch=main&logo=github&style=flat-square
+[build]: https://github.com/epicweb-dev/engineering-judgement/actions?query=workflow%3Avalidate
+[license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
+[license]: https://github.com/epicweb-dev/engineering-judgement/blob/main/LICENSE
+[coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+[coc]: https://kentcdodds.com/conduct
+[win-path]: https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
+[mac-path]: http://stackoverflow.com/a/24322978/971592
+[issue]: https://github.com/epicweb-dev/engineering-judgement/issues/new
+<!-- prettier-ignore-end -->

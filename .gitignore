@@ -1,0 +1,31 @@
+node_modules
+
+# non-npm JavaScript lockfiles
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+bun.lockb
+
+workspace/
+**/.cache/
+**/build/
+**/public/build
+**/playwright-report
+data.db
+/playground
+**/*.tsbuildinfo
+**/dist
+
+# in a real app you'd want to not commit the .env
+# file as well, but since this is for a workshop
+# we're going to keep them around.
+# .env
+
+# ignored stuff
+*.ignored.*
+*.ignored/
+# ignored stuff
+*.local.*
+*.local/
+
+saved-playgrounds

@@ -1,0 +1,57 @@
+{
+  "name": "engineering-judgement",
+  "private": true,
+  "epicshop": {
+    "title": "Engineering Judgement Workshop",
+    "subtitle": "Practice making better technical decisions under ambiguity",
+    "githubRepo": "https://github.com/epicweb-dev/engineering-judgement",
+    "subdomain": "engineering-judgement",
+    "instructor": {
+      "name": "Kent C. Dodds",
+      "avatar": "/images/instructor.png",
+      "𝕏": "kentcdodds"
+    },
+    "product": {
+      "host": "www.epicweb.dev",
+      "displayName": "EpicWeb.dev",
+      "displayNameShort": "Epic Web"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "postinstall": "cd ./epicshop && pkgmgr install",
+    "start": "pkgmgrx --prefix ./epicshop epicshop start",
+    "dev": "pkgmgrx --prefix ./epicshop epicshop start",
+    "test": "pkgmgr run test --silent --prefix playground",
+    "test:e2e": "pkgmgr run test:e2e --silent --prefix playground",
+    "test:e2e:dev": "pkgmgr run test:e2e:dev --silent --prefix playground",
+    "test:e2e:run": "pkgmgr run test:e2e:run --silent --prefix playground",
+    "setup": "pkgmgrx epicshop setup",
+    "setup:custom": "node ./epicshop/setup-custom.ts",
+    "lint": "oxlint --config .oxlintrc.json .",
+    "format": "prettier --write .",
+    "typecheck": "tsc -b",
+    "validate:all": "npm-run-all --parallel --print-label --print-name --continue-on-error test:all lint typecheck"
+  },
+  "keywords": [],
+  "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
+  "license": "GPL-3.0-only",
+  "workspaces": [
+    "exercises/*/*",
+    "examples/*"
+  ],
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=8.16.0",
+    "git": ">=2.18.0"
+  },
+  "devDependencies": {
+    "@epic-web/config": "^1.24.1",
+    "@types/node": "^25.3.3",
+    "oxlint": "^1.51.0",
+    "pkgmgr": "^1.1.1",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3"
+  },
+  "prettier": "@epic-web/config/prettier"
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/tsconfig.tsbuildinfo"
+  },
+  "files": [],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "exercises/01.example/01.problem.hello"
+    },
+    {
+      "path": "exercises/01.example/01.solution.goodbye"
+    }
+  ]
+}
