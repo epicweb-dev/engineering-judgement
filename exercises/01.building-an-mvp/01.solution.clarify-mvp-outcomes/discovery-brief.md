@@ -10,7 +10,7 @@ List what needs clarification before implementation begins.
 
 ## Stakeholders to meet
 
-- 💼 Berry the Business Owner (business goals, viability, scope pressure)
+- 💼 Brett the Business Owner (business goals, viability, scope pressure)
 - 👤 Una the User (workflow pain, trust, usability expectations)
 
 ## Clarity needed before implementation
@@ -42,7 +42,7 @@ List what needs clarification before implementation begins.
 
 ## Questions to drive in the meeting
 
-### For 💼 Berry the Business Owner
+### For 💼 Brett the Business Owner
 
 - What single business outcome should this MVP improve first?
 - Which user segment is in scope now, and which is out?
