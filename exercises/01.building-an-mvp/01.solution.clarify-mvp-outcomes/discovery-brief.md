@@ -1,4 +1,4 @@
-# Clarity Brief
+# Discovery Brief
 
 Use this document to prepare for the stakeholder meeting in the next step.
 List what needs clarification before implementation begins.
@@ -12,7 +12,6 @@ List what needs clarification before implementation begins.
 
 - 💼 Berry the Business Owner (business goals, viability, scope pressure)
 - 👤 Una the User (workflow pain, trust, usability expectations)
-- 🧝‍♀️ Kellie the Co-worker (feasibility, delivery constraints, technical risk)
 
 ## Clarity needed before implementation
 
@@ -54,12 +53,6 @@ List what needs clarification before implementation begins.
 - Where does the current scheduling process break down most?
 - What would make this MVP trustworthy enough to adopt?
 - Which workflow details are non-negotiable for v1 usability?
-
-### For 🧝‍♀️ Kellie the Co-worker
-
-- Which technical constraints should shape MVP scope immediately?
-- What can be deferred without invalidating learning?
-- What is the highest-likelihood technical failure mode in v1?
 
 ## Assumptions to test
 

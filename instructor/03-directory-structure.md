@@ -54,11 +54,15 @@ Format: `XX.type.step-name`
 - `XX` is a zero-padded number matching within the exercise
 - `type` is either `problem` or `solution`
 - `step-name` is lowercase with hyphens
+- Keep `step-name` outcome-focused and terse
+- Avoid filler verbs like `run`, `do`, `build`, or `work-on` when a shorter noun phrase is clear
 - Examples:
   - `01.problem.hello`
   - `01.solution.hello`
   - `02.problem.root`
   - `02.solution.root`
+  - `02.problem.stakeholder-meeting`
+  - `02.solution.stakeholder-meeting`
 
 ### Important Rules
 - Problem and solution pairs MUST have matching numbers and names
