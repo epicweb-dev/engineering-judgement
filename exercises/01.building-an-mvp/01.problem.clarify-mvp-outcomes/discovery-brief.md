@@ -1,4 +1,4 @@
-# Clarity Brief
+# Discovery Brief
 
 Use this document as your working planning notes before and during stakeholder
 conversations.
