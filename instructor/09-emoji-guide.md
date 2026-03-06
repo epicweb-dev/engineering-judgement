@@ -7,6 +7,8 @@ Epic Workshops use emoji characters to guide learners. Each emoji represents a s
 | Emoji | Name | Role |
 |-------|------|------|
 | 👨‍💼 | Peter the Product Manager | Helps us know what our users want |
+| 💼 | Berry the Business Owner | Defines business goals and viability constraints |
+| 👤 | Una the User | Represents real user workflow pain and needs |
 | 🧝‍♀️ | Kellie the Co-worker | Does work ahead of your exercises |
 | 🐨 | Kody the Koala | Tells you something specific to do |
 | 🦺 | Lily the Life Jacket | TypeScript-specific help |
@@ -108,6 +110,16 @@ expect(
 - Friendly and encouraging
 - Thinks about users and business needs
 - Celebrates success ("Great job!", "Perfect!")
+
+### 💼 Berry
+- Outcome-focused and pragmatic
+- Clarifies viability, timeline, and scope boundaries
+- Anchors decisions to business impact
+
+### 👤 Una
+- Grounded in real user behavior
+- Highlights friction in actual workflows
+- Clarifies what is required vs merely nice to have
 
 ### 🐨 Kody
 - Direct and helpful
