@@ -35,13 +35,46 @@ existing tools do not solve well, and we can define success against that gap.
 💼 Brett: Exactly. If we cannot outperform the default chat-plus-poll behavior on
 finalized plans, we should stop and not keep investing.
 
+🐨 Kody: Where are we going to draw inspiration for the user experience? Which
+competitors should we study directly?
+
+💼 Brett: Start with when2meet.com, whenavailable.com, and Doodle. Those are the
+closest references for how people already think about sharing availability.
+
+🐨 Kody: Great. Una, what do those experiences feel like in real use?
+
+👤 Una: They are familiar enough to get people started quickly, which is good.
+But they also feel clunky when chats are messy and the final plan is still
+unclear.
+
+👤 Una: On phones, the biggest issue is interaction friction. If selecting slots
+is awkward, people stop midway and go back to chat.
+
+💼 Brett: That is why we should build our own instead of just adopting one tool.
+We can keep familiar interaction patterns, but improve completion and integrate
+cleanly with AI agents via MCP.
+
+🐨 Kody: What should the design feel like and look like?
+
+💼 Brett: I want it to feel like planning with friends, not filling out a stiff
+form. Friendly energy, clear momentum, and no visual intimidation.
+
+💼 Brett: Color-wise, I keep picturing blues and greens because they feel calm,
+optimistic, and trustworthy for coordination.
+
+💼 Brett: At the same time, I do not want visual noise. It should stay minimal and
+clean so the schedule grid and final decision stand out.
+
+🐨 Kody: Good direction. We can tune the existing design system/theme foundation to
+that style instead of inventing a brand-new visual system.
+
 🐨 Kody: Una, from your perspective, what is the most painful part of coordinating a
 plan today?
 
 👤 Una: My pain is that group chats get noisy, people miss messages, and nobody knows
 if a plan is actually confirmed.
 
-🐨 Kody: For objective, should we optimize for poll creation or finalized plans?
+🐨 Kody: What should the MVP optimize for first?
 
 💼 Brett: Honestly, my instinct is we should make it feel complete from day one.
 I am thinking polished invites, reminders, some level of calendar connection,
@@ -135,8 +168,24 @@ people will go back to chat.
 👤 Una: Also, most people in my groups will respond on their phones, not desktop.
 If the mobile experience is clunky, they simply will not finish availability.
 
+🐨 Kody: Mobile usage is core for this audience. I want to design that interaction
+intentionally.
+
+👤 Una: Agreed. If mobile feels awkward, people will not finish.
+
 🐨 Kody: Great call. So mobile-first UX is not optional; it is part of core
 viability.
+
+🐨 Kody: One direction I would propose is a spreadsheet-like model: select time
+slots like Excel cells on desktop, then on mobile tap a cell and drag a corner
+handle like Google Sheets to expand the range.
+
+🐨 Kody: If the drag reaches near the edge, we should auto-scroll so people can
+continue selecting without lifting their finger. Does that match what would feel
+natural?
+
+👤 Una: Yes, that would feel natural. The key is that it stays obvious and easy to
+control.
 
 🐨 Kody: Is a native mobile app on the table for this MVP?
 
@@ -155,6 +204,30 @@ required account is friction that will kill response rates.
 to manage event details and view results.
 
 👤 Una: That works. As long as the host link is clear and easy to find again.
+
+🐨 Kody: Let’s make routes explicit so implementation and UX stay aligned. On the
+home page (`/`), the host should pick start/end dates using standard date
+inputs, select the time slots they want in the schedule, then tap a "Create
+schedule" button. Does that match the expected first step?
+
+💼 Brett: Yes, that is exactly the creation flow we need.
+
+🐨 Kody: After create, we should route to the host dashboard at
+`/s/{scheduleKey}/{hostKey}`.
+
+💼 Brett: Correct. That page must make it easy to copy/share both links: the
+public attendee schedule link and the private host dashboard link.
+
+🐨 Kody: And on that same host dashboard, hosts need clear controls to edit the
+date range and available slot times, plus a live view of attendee responses.
+
+💼 Brett: Yes. If host edits are awkward, coordination falls apart.
+
+🐨 Kody: The attendee route should be `/s/{scheduleKey}`, which is the link hosts
+send out.
+
+👤 Una: Perfect. On that page, attendees should enter their name and mark the
+time slots they can do. That flow has to be very mobile friendly.
 
 🐨 Kody: What constraints should shape scope immediately?
 
