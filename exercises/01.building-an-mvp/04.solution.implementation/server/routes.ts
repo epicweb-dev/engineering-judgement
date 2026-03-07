@@ -2,14 +2,12 @@ import { post, route } from 'remix/fetch-router/routes'
 
 export const routes = route({
 	home: '/',
-	chat: '/chat',
 	health: '/health',
-	login: '/login',
-	signup: '/signup',
-	account: '/account',
-	auth: post('/auth'),
-	session: '/session',
-	logout: post('/logout'),
-	passwordResetRequest: post('/password-reset'),
-	passwordResetConfirm: post('/password-reset/confirm'),
+	scheduleRespondPage: '/s/:scheduleKey',
+	scheduleHostPage: '/s/:scheduleKey/:hostKey',
+	apiCreateSchedule: post('/api/schedules'),
+	apiSchedule: '/api/schedules/:scheduleKey',
+	apiScheduleResponses: post('/api/schedules/:scheduleKey/responses'),
+	apiHostSchedule: '/api/schedules/:scheduleKey/:hostKey',
+	apiHostScheduleUpdate: post('/api/schedules/:scheduleKey/:hostKey'),
 })
