@@ -187,6 +187,19 @@ natural?
 👤 Una: Yes, that would feel natural. The key is that it stays obvious and easy to
 control.
 
+🐨 Kody: We also need full-day availability, not business-hours-only. Hosts should
+be able to select any time in the day and choose slot precision.
+
+💼 Brett: Yes, make increment configurable per schedule: 15-minute, 30-minute, or
+60-minute slots.
+
+👤 Una: And timezone behavior has to be explicit. If times are converted, I need
+to see the timezone clearly so no one shows up at the wrong time.
+
+🐨 Kody: Agreed. We should store canonical times in UTC, preserve the host
+timezone in schedule metadata, and render attendee views with clear timezone
+labels.
+
 🐨 Kody: Is a native mobile app on the table for this MVP?
 
 👤 Una: Honestly, no. This is too infrequent for most people to install an app.
@@ -228,6 +241,12 @@ send out.
 
 👤 Una: Perfect. On that page, attendees should enter their name and mark the
 time slots they can do. That flow has to be very mobile friendly.
+
+🐨 Kody: We should also keep the product experience fully in-world. No meta copy
+about internal process in the live flow.
+
+💼 Brett: Absolutely. The language should feel like a real product, not an
+internal demo.
 
 🐨 Kody: What constraints should shape scope immediately?
 

@@ -40,6 +40,36 @@ maintenance noise.
 - Standard web date inputs (`<input type="date">`) for start/end dates on `/`
   and `/s/{scheduleKey}/{hostKey}` (no custom date picker)
 
+## Interaction and scheduling requirements
+
+- Grid interaction should feel spreadsheet-like (Excel-like on desktop):
+  - dense, table-like slot layout
+  - drag-to-select / drag-to-expand interactions
+  - strong selected-state visibility
+- Host must be able to choose availability from any time in the day (full-day
+  coverage), not only business hours.
+- Host must be able to set slot increment to one of:
+  - 15 minutes
+  - 30 minutes
+  - 60 minutes
+- Slot increment is part of schedule configuration and can be updated from the
+  host route.
+- Respond route should honor host-selected slot increment and availability
+  window.
+
+## Timezone and temporal correctness requirements
+
+- Timezone handling is a release-critical behavior.
+- Persist canonical slot times in UTC, and persist the host IANA timezone as
+  schedule metadata.
+- Display times using clear timezone context:
+  - host sees schedule in host timezone
+  - attendee sees schedule in attendee local timezone with explicit timezone
+    label/indicator
+- Maintain deterministic conversion behavior across DST boundaries and date
+  transitions.
+- Ensure final confirmed-plan outputs include unambiguous timezone information.
+
 ## Route-mode mapping
 
 - Create mode on `/`: date setup + initial slot setup + create action
@@ -62,3 +92,11 @@ maintenance noise.
   handlers.
 - Keep route modules thin by composing shared pieces instead of duplicating
   interaction logic.
+
+## Simulation realism requirements
+
+- Treat this step as an in-world product implementation scenario.
+- Keep UI copy, logs, and route-facing behavior product-realistic and
+  user-facing.
+- Do not introduce workshop/training/meta language inside the in-app
+  experience for this step.

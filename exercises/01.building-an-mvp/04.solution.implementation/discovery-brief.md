@@ -36,6 +36,12 @@ This document now captures clarified answers and decisions before implementation
   - Home route (`/`): host selects start/end dates with standard date inputs and initial available schedule slots, then clicks "Create schedule"
   - Host dashboard route (`/s/{scheduleKey}/{hostKey}`): host can copy/share both links (public schedule link and private host dashboard link), edit schedule details/date/slot availability, and review attendee responses
   - Attendee schedule route (`/s/{scheduleKey}`): attendees enter name and select available slots; this route must be especially mobile friendly
+- What should the schedule grid interaction feel like?
+  - Spreadsheet-like and high-velocity on desktop (Excel-like selection model), while preserving touch-friendly behavior on mobile
+- What temporal granularity and coverage are required in MVP?
+  - Full-day host availability selection (not business-hours-only), with configurable slot increments of 15, 30, or 60 minutes
+- What timezone behavior is required for trust?
+  - Explicit timezone-safe rendering and conversion across host and attendee views, with unambiguous final plan output
 - Why build instead of just adopting existing tools?
   - Existing tools like when2meet.com, whenavailable.com, and Doodle validate demand, but we still need a tighter completion-first UX and agent-native workflows (AI agents using MCP to create, update, and finalize plans with users)
 
@@ -50,6 +56,7 @@ This document now captures clarified answers and decisions before implementation
   - Many polls created, but few result in a confirmed plan
 - What UX quality bar should support the success metric?
   - Availability selection should feel spreadsheet-fast: like selecting time-slot cells in Excel on desktop, with clear visual state and low interaction friction
+  - Selected state must be visually obvious at a glance (high-contrast fill/border and clear active-range affordance)
   - Proposed implementation direction from product/developer facilitation: on mobile, tap-to-select plus draggable corner handle expansion with edge auto-scroll
   - Overall product aesthetics should feel friendly and colorful (primarily blues/greens) without losing a minimalistic, clean interface
   - Route transitions should be direct and explicit: create on `/`, manage on `/s/{scheduleKey}/{hostKey}`, collect attendee availability on `/s/{scheduleKey}`
@@ -66,6 +73,7 @@ This document now captures clarified answers and decisions before implementation
   - Use the existing web stack with lightweight sharing links and a mobile-first web experience
   - Preserve an interaction model that supports drag selection and future MCP-triggered scheduling actions without complex rewrites
   - Route model should keep host and attendee capabilities clearly separated while preserving easy sharing
+  - Preserve in-world realism in this step: avoid workshop/training/meta language in product-facing behavior and copy
 
 ### Risk clarity
 
