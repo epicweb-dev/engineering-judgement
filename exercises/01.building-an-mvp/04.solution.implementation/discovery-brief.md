@@ -32,6 +32,10 @@ This document now captures clarified answers and decisions before implementation
   - Enterprise admin controls, deep integrations, and complex recurring scheduling
 - What is the MVP access model for participation and hosting?
   - No required accounts in MVP; anyone can create a schedule and receive a private host link to manage details and view results
+- What are the explicit MVP routes and responsibilities?
+  - Home route (`/`): host selects date range and initial available schedule slots, then clicks "Create schedule"
+  - Host dashboard route (`/s/scheduleKey/hostKey`): host can copy/share both links (public schedule link and private host dashboard link), edit schedule details/date range/slot availability, and review attendee responses
+  - Attendee schedule route (`/s/scheduleKey`): attendees enter name and select available slots; this route must be especially mobile friendly
 - Why build instead of just adopting existing tools?
   - Existing tools like when2meet.com, whenavailable.com, and Doodle validate demand, but we still need a tighter completion-first UX and agent-native workflows (AI agents using MCP to create, update, and finalize plans with users)
 
@@ -48,6 +52,7 @@ This document now captures clarified answers and decisions before implementation
   - Availability selection should feel spreadsheet-fast: like selecting time-slot cells in Excel on desktop, with clear visual state and low interaction friction
   - Proposed implementation direction from product/developer facilitation: on mobile, tap-to-select plus draggable corner handle expansion with edge auto-scroll
   - Overall product aesthetics should feel friendly and colorful (primarily blues/greens) without losing a minimalistic, clean interface
+  - Route transitions should be direct and explicit: create on `/`, manage on `/s/scheduleKey/hostKey`, collect attendee availability on `/s/scheduleKey`
 
 ### Constraint clarity
 
@@ -60,6 +65,7 @@ This document now captures clarified answers and decisions before implementation
 - Technical constraints that could force tradeoffs
   - Use the existing web stack with lightweight sharing links and a mobile-first web experience
   - Preserve an interaction model that supports drag selection and future MCP-triggered scheduling actions without complex rewrites
+  - Route model should keep host and attendee capabilities clearly separated while preserving easy sharing
 
 ### Risk clarity
 
@@ -68,6 +74,7 @@ This document now captures clarified answers and decisions before implementation
   - Low invitee response rate
   - Scope creep from adding too many features in v1
   - UX interaction complexity for touch devices (selection, drag handles, and edge auto-scroll) causing accidental input
+  - Confusion between host and attendee links causing incorrect sharing or lost host control
 - What evidence would indicate each risk is becoming real?
   - Polls with low completion
   - Low response rates despite poll creation
@@ -78,6 +85,7 @@ This document now captures clarified answers and decisions before implementation
   - Avoid mandatory account creation in MVP; use private host link access for management
   - Limit v1 to a narrow set of social planning flows
   - Adopt proven interaction patterns: desktop cell selection inspired by spreadsheet tools, and mobile selection behavior similar to Google Sheets (tap cell, drag corner dot to expand, edge-drag auto-scroll)
+  - Make route purpose explicit in UI copy and provide clear copy/share controls for both schedule and host links
 
 ## Questions asked in the meeting
 
@@ -93,6 +101,10 @@ This document now captures clarified answers and decisions before implementation
   - Not in v1. Defer accounts and prioritize participation completion
 - How should hosts manage events in MVP without accounts?
   - Issue a private host dashboard link on event creation
+- What should the core route map be for MVP?
+  - `/` for schedule creation, `/s/scheduleKey/hostKey` for host management, `/s/scheduleKey` for attendee responses
+- What capabilities must the host dashboard include on first release?
+  - Easy copy/share for both links, schedule/date/slot editing controls, and attendee response visibility
 - If existing scheduling tools already work, why build this?
   - We need a differentiated UX for reliable plan completion plus AI-agent orchestration via MCP, not just another availability poll
 - Where are we drawing UX inspiration and which competitors should guide baseline expectations?
@@ -112,12 +124,16 @@ This document now captures clarified answers and decisions before implementation
   - No. The use case is too infrequent for most users to install an app; mobile web is sufficient
 - Should participants be required to create accounts?
   - No. Account creation adds too much friction for an infrequent-use flow
+- What should attendees do on the schedule page?
+  - Enter a name and select available slots on `/s/scheduleKey`
 - Which existing tools and interaction patterns feel familiar enough to borrow?
   - when2meet.com, whenavailable.com, and Doodle are familiar references
 - How do those competitor experiences feel in real use?
   - Familiar enough to start quickly, but clunky on phones and still weak on clear finalization confidence
 - What should mobile time-slot selection feel like?
   - Kody's proposed direction validated by user feedback: similar to Google Sheets mobile selection (tap a start cell, drag a corner handle to expand selected slots, auto-scroll near view edges)
+- Which route is most sensitive to mobile usability quality?
+  - `/s/scheduleKey` attendee submission flow, because most invitees respond on phones
 
 ## Assumptions to test
 
@@ -144,3 +160,9 @@ This document now captures clarified answers and decisions before implementation
     - Familiar spreadsheet-like slot selection (desktop) and Google Sheets-like touch selection (mobile) will reduce cognitive load and improve completion rates
   - How we will validate it:
     - Track response-completion and error-correction rates across desktop and mobile cohorts, and compare against baseline interaction prototypes
+
+- Assumption:
+  - Why we believe this:
+    - Explicit route separation (`/`, `/s/scheduleKey/hostKey`, `/s/scheduleKey`) will reduce user confusion while preserving fast sharing
+  - How we will validate it:
+    - Track host-link misuse rates, attendee completion rates, and support friction signals related to link-sharing mistakes

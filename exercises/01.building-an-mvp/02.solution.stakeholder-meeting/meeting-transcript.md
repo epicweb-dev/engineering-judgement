@@ -202,6 +202,30 @@ to manage event details and view results.
 
 👤 Una: That works. As long as the host link is clear and easy to find again.
 
+🐨 Kody: Let’s make routes explicit so implementation and UX stay aligned. On the
+home page (`/`), the host should pick a date range, select the time slots they
+want in the schedule, then tap a "Create schedule" button. Does that match the
+expected first step?
+
+💼 Brett: Yes, that is exactly the creation flow we need.
+
+🐨 Kody: After create, we should route to the host dashboard at
+`/s/scheduleKey/hostKey`.
+
+💼 Brett: Correct. That page must make it easy to copy/share both links: the
+public attendee schedule link and the private host dashboard link.
+
+🐨 Kody: And on that same host dashboard, hosts need clear controls to edit the
+date range and available slot times, plus a live view of attendee responses.
+
+💼 Brett: Yes. If host edits are awkward, coordination falls apart.
+
+🐨 Kody: The attendee route should be `/s/scheduleKey`, which is the link hosts
+send out.
+
+👤 Una: Perfect. On that page, attendees should enter their name and mark the
+time slots they can do. That flow has to be very mobile friendly.
+
 🐨 Kody: What constraints should shape scope immediately?
 
 💼 Brett: I want this to feel premium right away. I know that is not a hard
