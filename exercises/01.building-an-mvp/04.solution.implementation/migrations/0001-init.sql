@@ -35,18 +35,3 @@ CREATE TABLE IF NOT EXISTS mock_resend_messages (
 
 CREATE INDEX IF NOT EXISTS mock_resend_messages_token_received_at
 	ON mock_resend_messages(token_hash, received_at DESC);
-
-CREATE TABLE IF NOT EXISTS schedules (
-	schedule_key TEXT PRIMARY KEY,
-	host_key TEXT NOT NULL,
-	title TEXT NOT NULL,
-	start_date TEXT NOT NULL,
-	end_date TEXT NOT NULL,
-	host_slots_json TEXT NOT NULL,
-	responses_json TEXT NOT NULL DEFAULT '[]',
-	created_at TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-	updated_at TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_schedules_host_key ON schedules(host_key);
-CREATE INDEX IF NOT EXISTS idx_schedules_updated_at ON schedules(updated_at DESC);

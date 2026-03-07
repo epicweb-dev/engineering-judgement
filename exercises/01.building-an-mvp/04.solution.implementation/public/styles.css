@@ -1,29 +1,29 @@
 :root {
 	color-scheme: light dark;
 
-	/* Colors - Light mode (clean blue/green) */
-	--color-primary: #0f7ecb;
-	--color-primary-hover: #0a6eb4;
-	--color-primary-active: #095f99;
-	--color-on-primary: #f7feff;
-	--color-primary-text: #0f6fae;
-	--color-background: #f4fbff;
-	--color-surface: #ffffff;
-	--color-text: #15304a;
-	--color-text-muted: #50708f;
-	--color-border: #cfe4f3;
+	/* Colors - Light mode (epic-scheduler ember) */
+	--color-primary: #f47c00;
+	--color-primary-hover: #e26c00;
+	--color-primary-active: #c85a00;
+	--color-on-primary: #120b08;
+	--color-primary-text: #b04700;
+	--color-background: #f6f6f8;
+	--color-surface: #ececf1;
+	--color-text: #2f2f34;
+	--color-text-muted: #676770;
+	--color-border: #d7d7df;
 
-	/* Colors - Dark mode */
-	--color-primary-dark: #38a2e8;
-	--color-primary-hover-dark: #2596e2;
-	--color-primary-active-dark: #1b87d0;
-	--color-on-primary-dark: #031421;
-	--color-primary-text-dark: #6ec5ff;
-	--color-background-dark: #0c1722;
-	--color-surface-dark: #132536;
-	--color-text-dark: #ebf6ff;
-	--color-text-muted-dark: #9fbbd2;
-	--color-border-dark: #26435c;
+	/* Colors - Dark mode (smoldering ember) */
+	--color-primary-dark: #f6a23a;
+	--color-primary-hover-dark: #f08b1a;
+	--color-primary-active-dark: #d87305;
+	--color-on-primary-dark: #120b08;
+	--color-primary-text-dark: #f6a23a;
+	--color-background-dark: #121216;
+	--color-surface-dark: #1c1c22;
+	--color-text-dark: #f1f1f5;
+	--color-text-muted-dark: #b3b3bd;
+	--color-border-dark: #2b2b33;
 
 	/* Typography */
 	--font-family: system-ui, sans-serif;

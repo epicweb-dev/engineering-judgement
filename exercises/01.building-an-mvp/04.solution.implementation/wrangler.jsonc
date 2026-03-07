@@ -4,6 +4,12 @@
 	"compatibility_date": "2026-01-31",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"main": "./worker/index.ts",
+	"migrations": [
+		{
+			"new_sqlite_classes": ["MCP"],
+			"tag": "v1",
+		},
+	],
 
 	"observability": {
 		"enabled": true,
@@ -13,6 +19,15 @@
 			"assets": {
 				"directory": "./public",
 				"binding": "ASSETS",
+				"run_worker_first": ["/mcp-apps/*", "/styles.css"],
+			},
+			"durable_objects": {
+				"bindings": [
+					{
+						"class_name": "MCP",
+						"name": "MCP_OBJECT",
+					},
+				],
 			},
 			"d1_databases": [
 				{
@@ -22,11 +37,27 @@
 					"migrations_dir": "migrations",
 				},
 			],
+			"kv_namespaces": [
+				{
+					"binding": "OAUTH_KV",
+					"id": "e2c0caa629a04af198d90fb5ec388f62",
+					"preview_id": "becbb91b27364709a7e8a9c7533c9ff5",
+				},
+			],
 		},
 		"preview": {
 			"assets": {
 				"directory": "./public",
 				"binding": "ASSETS",
+				"run_worker_first": ["/mcp-apps/*", "/styles.css"],
+			},
+			"durable_objects": {
+				"bindings": [
+					{
+						"class_name": "MCP",
+						"name": "MCP_OBJECT",
+					},
+				],
 			},
 			"d1_databases": [
 				{
@@ -36,11 +67,27 @@
 					"migrations_dir": "migrations",
 				},
 			],
+			"kv_namespaces": [
+				{
+					"binding": "OAUTH_KV",
+					"id": "e2c0caa629a04af198d90fb5ec388f62",
+					"preview_id": "becbb91b27364709a7e8a9c7533c9ff5",
+				},
+			],
 		},
 		"test": {
 			"assets": {
 				"directory": "./public",
 				"binding": "ASSETS",
+				"run_worker_first": ["/mcp-apps/*", "/styles.css"],
+			},
+			"durable_objects": {
+				"bindings": [
+					{
+						"class_name": "MCP",
+						"name": "MCP_OBJECT",
+					},
+				],
 			},
 			"d1_databases": [
 				{
@@ -48,6 +95,13 @@
 					"database_name": "epic-scheduler-preview",
 					"database_id": "0e2f1e31-b7c4-42bc-8133-04627230a25f",
 					"migrations_dir": "migrations",
+				},
+			],
+			"kv_namespaces": [
+				{
+					"binding": "OAUTH_KV",
+					"id": "e2c0caa629a04af198d90fb5ec388f62",
+					"preview_id": "becbb91b27364709a7e8a9c7533c9ff5",
 				},
 			],
 		},
