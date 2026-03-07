@@ -15,6 +15,7 @@ This document now captures clarified answers and decisions before implementation
 - 💼 Brett the Business Owner (business goals, viability, scope pressure)
   - Meeting input: prioritize fast learning and completed-plan outcomes
   - Meeting input: reference competitor UX patterns from when2meet.com, whenavailable.com, and Doodle, then differentiate via completion-first flow and MCP-enabled agent orchestration
+  - Meeting input: visual direction should feel friendly and colorful with blues/greens, while remaining minimalistic and clean
 - 👤 Una the User (workflow pain, trust, usability expectations)
   - Meeting input: group chat coordination is fragmented, and most availability responses happen on phones
   - Meeting input: competitor tools are familiar but can feel clunky in mobile usage and ambiguous around final plan confidence
@@ -46,6 +47,7 @@ This document now captures clarified answers and decisions before implementation
 - What UX quality bar should support the success metric?
   - Availability selection should feel spreadsheet-fast: like selecting time-slot cells in Excel on desktop, with clear visual state and low interaction friction
   - Proposed implementation direction from product/developer facilitation: on mobile, tap-to-select plus draggable corner handle expansion with edge auto-scroll
+  - Overall product aesthetics should feel friendly and colorful (primarily blues/greens) without losing a minimalistic, clean interface
 
 ### Constraint clarity
 
@@ -95,6 +97,8 @@ This document now captures clarified answers and decisions before implementation
   - We need a differentiated UX for reliable plan completion plus AI-agent orchestration via MCP, not just another availability poll
 - Where are we drawing UX inspiration and which competitors should guide baseline expectations?
   - when2meet.com, whenavailable.com, and Doodle
+- What should the design feel like and look like?
+  - Friendly and colorful with a calm blue/green palette, but still minimalistic and clean so core scheduling actions stay visually obvious
 
 ### For 👤 Una the User
 

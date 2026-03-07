@@ -54,6 +54,17 @@ is awkward, people stop midway and go back to chat.
 We can keep familiar interaction patterns, but improve completion and integrate
 cleanly with AI agents via MCP.
 
+🐨 Kody: What should the design feel like and look like?
+
+💼 Brett: I want it to feel like planning with friends, not filling out a stiff
+form. Friendly energy, clear momentum, and no visual intimidation.
+
+💼 Brett: Color-wise, I keep picturing blues and greens because they feel calm,
+optimistic, and trustworthy for coordination.
+
+💼 Brett: At the same time, I do not want visual noise. It should stay minimal and
+clean so the schedule grid and final decision stand out.
+
 🐨 Kody: Una, from your perspective, what is the most painful part of coordinating a
 plan today?
 
