@@ -35,15 +35,24 @@ existing tools do not solve well, and we can define success against that gap.
 💼 Brett: Exactly. If we cannot outperform the default chat-plus-poll behavior on
 finalized plans, we should stop and not keep investing.
 
-🐨 Kody: To be explicit, are we using tools like when2meet.com, whenavailable.com,
-and Doodle as UX inspiration?
+🐨 Kody: Where are we going to draw inspiration for the user experience? Which
+competitors should we study directly?
 
-💼 Brett: Yes. Inspiration is normal. Those products prove the core interaction.
-But we still need our own product because we want a completion-first experience
-and better orchestration with AI agents through MCP.
+💼 Brett: Start with when2meet.com, whenavailable.com, and Doodle. Those are the
+closest references for how people already think about sharing availability.
 
-👤 Una: Right. I do not need a brand-new interaction language. I need familiar
-patterns that are faster and clearer, especially on mobile.
+🐨 Kody: Great. Una, what do those experiences feel like in real use?
+
+👤 Una: They are familiar enough to get people started quickly, which is good.
+But they also feel clunky when chats are messy and the final plan is still
+unclear.
+
+👤 Una: On phones, the biggest issue is interaction friction. If selecting slots
+is awkward, people stop midway and go back to chat.
+
+💼 Brett: That is why we should build our own instead of just adopting one tool.
+We can keep familiar interaction patterns, but improve completion and integrate
+cleanly with AI agents via MCP.
 
 🐨 Kody: Una, from your perspective, what is the most painful part of coordinating a
 plan today?
@@ -51,7 +60,7 @@ plan today?
 👤 Una: My pain is that group chats get noisy, people miss messages, and nobody knows
 if a plan is actually confirmed.
 
-🐨 Kody: For objective, should we optimize for poll creation or finalized plans?
+🐨 Kody: What should the MVP optimize for first?
 
 💼 Brett: Honestly, my instinct is we should make it feel complete from day one.
 I am thinking polished invites, reminders, some level of calendar connection,
@@ -145,20 +154,24 @@ people will go back to chat.
 👤 Una: Also, most people in my groups will respond on their phones, not desktop.
 If the mobile experience is clunky, they simply will not finish availability.
 
-🐨 Kody: For desktop, should selecting time slots feel like selecting cells in a
-spreadsheet?
+🐨 Kody: Mobile usage is core for this audience. I want to design that interaction
+intentionally.
 
-👤 Una: Yes. It should feel like Excel: click a cell, drag to select a block, and
-immediately see the selected range.
+👤 Una: Agreed. If mobile feels awkward, people will not finish.
 
 🐨 Kody: Great call. So mobile-first UX is not optional; it is part of core
 viability.
 
-🐨 Kody: For mobile, does this match your expectation: tap a cell, then drag a
-corner handle to expand the selection, similar to Google Sheets mobile?
+🐨 Kody: One direction I would propose is a spreadsheet-like model: select time
+slots like Excel cells on desktop, then on mobile tap a cell and drag a corner
+handle like Google Sheets to expand the range.
 
-👤 Una: Exactly. And if I drag near the edge, it should auto-scroll so I can keep
-selecting without constantly lifting my finger.
+🐨 Kody: If the drag reaches near the edge, we should auto-scroll so people can
+continue selecting without lifting their finger. Does that match what would feel
+natural?
+
+👤 Una: Yes, that would feel natural. The key is that it stays obvious and easy to
+control.
 
 🐨 Kody: Is a native mobile app on the table for this MVP?
 

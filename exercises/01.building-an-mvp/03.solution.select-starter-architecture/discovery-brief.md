@@ -14,9 +14,10 @@ This document now captures clarified answers and decisions before implementation
 
 - 💼 Brett the Business Owner (business goals, viability, scope pressure)
   - Meeting input: prioritize fast learning and completed-plan outcomes
+  - Meeting input: reference competitor UX patterns from when2meet.com, whenavailable.com, and Doodle, then differentiate via completion-first flow and MCP-enabled agent orchestration
 - 👤 Una the User (workflow pain, trust, usability expectations)
   - Meeting input: group chat coordination is fragmented, and most availability responses happen on phones
-  - Meeting input: UX should borrow familiar patterns from when2meet.com, whenavailable.com, and Doodle while feeling faster and clearer on mobile
+  - Meeting input: competitor tools are familiar but can feel clunky in mobile usage and ambiguous around final plan confidence
 
 ## Clarity resolved before implementation
 
@@ -44,6 +45,7 @@ This document now captures clarified answers and decisions before implementation
   - Many polls created, but few result in a confirmed plan
 - What UX quality bar should support the success metric?
   - Availability selection should feel spreadsheet-fast: like selecting time-slot cells in Excel on desktop, with clear visual state and low interaction friction
+  - Proposed implementation direction from product/developer facilitation: on mobile, tap-to-select plus draggable corner handle expansion with edge auto-scroll
 
 ### Constraint clarity
 
@@ -91,6 +93,8 @@ This document now captures clarified answers and decisions before implementation
   - Issue a private host dashboard link on event creation
 - If existing scheduling tools already work, why build this?
   - We need a differentiated UX for reliable plan completion plus AI-agent orchestration via MCP, not just another availability poll
+- Where are we drawing UX inspiration and which competitors should guide baseline expectations?
+  - when2meet.com, whenavailable.com, and Doodle
 
 ### For 👤 Una the User
 
@@ -105,9 +109,11 @@ This document now captures clarified answers and decisions before implementation
 - Should participants be required to create accounts?
   - No. Account creation adds too much friction for an infrequent-use flow
 - Which existing tools and interaction patterns feel familiar enough to borrow?
-  - when2meet.com, whenavailable.com, and Doodle are familiar references; we should reuse their strongest affordances while modernizing clarity and responsiveness
+  - when2meet.com, whenavailable.com, and Doodle are familiar references
+- How do those competitor experiences feel in real use?
+  - Familiar enough to start quickly, but clunky on phones and still weak on clear finalization confidence
 - What should mobile time-slot selection feel like?
-  - Similar to Google Sheets mobile selection: tap a start cell, drag a corner handle to expand selected slots, and auto-scroll when dragging near view edges
+  - Kody's proposed direction validated by user feedback: similar to Google Sheets mobile selection (tap a start cell, drag a corner handle to expand selected slots, auto-scroll near view edges)
 
 ## Assumptions to test
 
