@@ -177,11 +177,13 @@ spreadsheet instead of poking at a form. I want slot selection to feel
 Excel-like.
 
 💼 Brett: On mobile, I do not expect literal desktop behavior, but I do expect the
-same confidence. Tap to select should be obvious, and expansion should feel like
-what people already know from mobile spreadsheet apps.
+same confidence. I want it to feel like Google Docs and Google Sheets on mobile:
+tap a cell, get the drag handle, then drag to expand or shrink the current
+selection.
 
 👤 Una: That maps to how people in my groups behave. If I can tap a start slot and
-expand naturally, I will finish. If selection feels fiddly, I will stop.
+use a handle to expand or shrink naturally, I will finish. If selection feels
+fiddly, I will stop.
 
 🐨 Kody: That helps. On temporal scope, where do you want the MVP boundary: only
 business hours, or full-day support?

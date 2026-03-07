@@ -46,6 +46,9 @@ maintenance noise.
   - dense, table-like slot layout
   - drag-to-select / drag-to-expand interactions
   - strong selected-state visibility
+- Brett's mobile interaction requirement: mimic Google Docs/Google Sheets mobile
+  behavior where selecting a cell reveals a drag handle that can expand or
+  shrink the current selection.
 - Host must be able to choose availability from any time in the day (full-day
   coverage), not only business hours.
 - Host must be able to set slot increment to one of:

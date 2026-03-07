@@ -57,7 +57,7 @@ This document now captures clarified answers and decisions before implementation
 - What UX quality bar should support the success metric?
   - Availability selection should feel spreadsheet-fast: like selecting time-slot cells in Excel on desktop, with clear visual state and low interaction friction
   - Selected state must be visually obvious at a glance (high-contrast fill/border and clear active-range affordance)
-  - Proposed implementation direction from product/developer facilitation: on mobile, tap-to-select plus draggable corner handle expansion with edge auto-scroll
+  - Brett's mobile direction: match Google Docs/Google Sheets touch behavior where selecting a cell reveals a drag handle that can expand or shrink the current selection (with edge auto-scroll when dragging near viewport boundaries)
   - Overall product aesthetics should feel friendly and colorful (primarily blues/greens) without losing a minimalistic, clean interface
   - Route transitions should be direct and explicit: create on `/`, manage on `/s/{scheduleKey}/{hostKey}`, collect attendee availability on `/s/{scheduleKey}`
 
@@ -92,7 +92,7 @@ This document now captures clarified answers and decisions before implementation
   - Frictionless response flow with clearer status tracking
   - Avoid mandatory account creation in MVP; use private host link access for management
   - Limit v1 to a narrow set of social planning flows
-  - Adopt proven interaction patterns: desktop cell selection inspired by spreadsheet tools, and mobile selection behavior similar to Google Sheets (tap cell, drag corner dot to expand, edge-drag auto-scroll)
+  - Adopt proven interaction patterns: desktop cell selection inspired by spreadsheet tools, and mobile selection behavior modeled after Google Docs/Google Sheets (select cell, drag handle to expand or shrink selection, edge-drag auto-scroll)
   - Make route purpose explicit in UI copy and provide clear copy/share controls for both schedule and host links
 
 ## Questions asked in the meeting
@@ -139,7 +139,7 @@ This document now captures clarified answers and decisions before implementation
 - How do those competitor experiences feel in real use?
   - Familiar enough to start quickly, but clunky on phones and still weak on clear finalization confidence
 - What should mobile time-slot selection feel like?
-  - Brett's preferred direction, reinforced by user feedback: similar to Google Sheets mobile selection (tap a start cell, drag a corner handle to expand selected slots, auto-scroll near view edges)
+  - Brett's preferred direction, reinforced by user feedback: similar to Google Docs/Google Sheets mobile selection (tap a start cell, drag a corner handle to expand or shrink selected slots, auto-scroll near view edges)
 - Which route is most sensitive to mobile usability quality?
   - `/s/{scheduleKey}` attendee submission flow, because most invitees respond on phones
 
@@ -165,7 +165,7 @@ This document now captures clarified answers and decisions before implementation
 
 - Assumption:
   - Why we believe this:
-    - Familiar spreadsheet-like slot selection (desktop) and Google Sheets-like touch selection (mobile) will reduce cognitive load and improve completion rates
+    - Familiar spreadsheet-like slot selection (desktop) and Google Docs/Google Sheets-style touch selection with drag-handle expand/shrink behavior (mobile) will reduce cognitive load and improve completion rates
   - How we will validate it:
     - Track response-completion and error-correction rates across desktop and mobile cohorts, and compare against baseline interaction prototypes
 

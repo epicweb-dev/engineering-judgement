@@ -123,6 +123,10 @@ reusable UI components early in `client/components/*`.
 🧝‍♀️ Kellie: Make the grid feel spreadsheet-like on desktop: dense slots, clear
 selection state, and drag interactions that feel close to Excel behavior.
 
+🧝‍♀️ Kellie: And to reflect Brett's product direction, mobile selection should
+explicitly match the Google Docs/Google Sheets mobile pattern: selecting a cell
+reveals a drag handle that can expand or shrink the active range.
+
 🧝‍♀️ Kellie: Also avoid business-hour-only assumptions. The host should be able to
 select from any time in the day and choose 15-minute, 30-minute, or 60-minute
 slot increments.
