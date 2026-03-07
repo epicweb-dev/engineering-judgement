@@ -120,6 +120,21 @@ reusable UI components early in `client/components/*`.
 - `selection-drag-handle` behavior in the grid for mobile expansion + edge auto-scroll
 - Standard web date inputs (`<input type="date">`) for start/end date fields on `/` and `/s/{scheduleKey}/{hostKey}` instead of a custom date picker
 
+🧝‍♀️ Kellie: Make the grid feel spreadsheet-like on desktop: dense slots, clear
+selection state, and drag interactions that feel close to Excel behavior.
+
+🧝‍♀️ Kellie: And to reflect Brett's product direction, mobile selection should
+explicitly match the Google Docs/Google Sheets mobile pattern: selecting a cell
+reveals a drag handle that can expand or shrink the active range.
+
+🧝‍♀️ Kellie: Also avoid business-hour-only assumptions. The host should be able to
+select from any time in the day and choose 15-minute, 30-minute, or 60-minute
+slot increments.
+
+🧝‍♀️ Kellie: Timezone correctness is non-negotiable. Store canonical slot times in
+UTC, store host timezone metadata, and always render with explicit timezone
+context so attendee and host views stay trustworthy.
+
 🧝‍♀️ Kellie: And we should use the existing design system foundation instead of
 rebuilding styling from scratch. Adjust its tokens/theme values to match Brett's
 direction (friendly, colorful, blue/green, minimal, clean).
@@ -139,8 +154,11 @@ handlers in `server/handlers/*`, and keep client route modules thin by composing
 these reusable components.
 
 🧝‍♀️ Kellie: I am also already familiar with it, which reduces execution risk for
-this workshop. And if everyone uses the same starter, instruction and support
+this project. And if everyone uses the same starter, collaboration and support
 stay much cleaner.
+
+🧝‍♀️ Kellie: Final implementation note: keep the product experience in-world. Do
+not ship meta language that sounds like internal training material.
 
 🐨 Kody: So we are not overbuilding now, but we are also not locking ourselves
 into a dead-end starter.

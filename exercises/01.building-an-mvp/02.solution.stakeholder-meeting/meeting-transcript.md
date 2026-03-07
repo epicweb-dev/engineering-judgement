@@ -168,24 +168,38 @@ people will go back to chat.
 👤 Una: Also, most people in my groups will respond on their phones, not desktop.
 If the mobile experience is clunky, they simply will not finish availability.
 
-🐨 Kody: Mobile usage is core for this audience. I want to design that interaction
-intentionally.
+🐨 Kody: Mobile usage is core for this audience. Before we lock implementation
+details, I want to hear the product bar from your side. Brett, what should this
+feel like in real use on desktop and mobile?
 
-👤 Una: Agreed. If mobile feels awkward, people will not finish.
+💼 Brett: Desktop should feel fast and deliberate, like people are working in a
+spreadsheet instead of poking at a form. I want slot selection to feel
+Excel-like.
 
-🐨 Kody: Great call. So mobile-first UX is not optional; it is part of core
-viability.
+💼 Brett: On mobile, I do not expect literal desktop behavior, but I do expect the
+same confidence. I want it to feel like Google Docs and Google Sheets on mobile:
+tap a cell, get the drag handle, then drag to expand or shrink the current
+selection.
 
-🐨 Kody: One direction I would propose is a spreadsheet-like model: select time
-slots like Excel cells on desktop, then on mobile tap a cell and drag a corner
-handle like Google Sheets to expand the range.
+👤 Una: That maps to how people in my groups behave. If I can tap a start slot and
+use a handle to expand or shrink naturally, I will finish. If selection feels
+fiddly, I will stop.
 
-🐨 Kody: If the drag reaches near the edge, we should auto-scroll so people can
-continue selecting without lifting their finger. Does that match what would feel
-natural?
+🐨 Kody: That helps. On temporal scope, where do you want the MVP boundary: only
+business hours, or full-day support?
 
-👤 Una: Yes, that would feel natural. The key is that it stays obvious and easy to
-control.
+💼 Brett: Full-day support. Social plans are not 9-to-5. Also, hosts need control
+over precision: 15-minute, 30-minute, or 60-minute increments depending on the
+event.
+
+🐨 Kody: Great. What should we treat as non-negotiable for timezone behavior?
+
+💼 Brett: Timezone clarity is a trust issue, not a polish issue. I want canonical
+UTC storage under the hood, host timezone metadata persisted with the schedule,
+and explicit timezone context in host and attendee views.
+
+👤 Una: Yes. If timezone display is ambiguous, people will blame the product even
+if selection was easy.
 
 🐨 Kody: Is a native mobile app on the table for this MVP?
 
@@ -200,34 +214,32 @@ required account is friction that will kill response rates.
 
 💼 Brett: Agreed. We can add accounts later, but for MVP we need low friction.
 
-🐨 Kody: Then we can have anyone create a schedule and issue a private host link
-to manage event details and view results.
+🐨 Kody: For ownership and access, what is your preferred MVP behavior?
+
+💼 Brett: Keep it no-account for participation, and issue a private host link on
+create. That keeps response friction low while still giving the host control.
 
 👤 Una: That works. As long as the host link is clear and easy to find again.
 
-🐨 Kody: Let’s make routes explicit so implementation and UX stay aligned. On the
-home page (`/`), the host should pick start/end dates using standard date
-inputs, select the time slots they want in the schedule, then tap a "Create
-schedule" button. Does that match the expected first step?
+🐨 Kody: I want to confirm route responsibilities so implementation stays clean.
+How do you want each route to behave?
 
-💼 Brett: Yes, that is exactly the creation flow we need.
+💼 Brett: Home (`/`) is creation: date range, slot selection, create action.
+After create, route to `/s/{scheduleKey}/{hostKey}` for host management.
 
-🐨 Kody: After create, we should route to the host dashboard at
-`/s/{scheduleKey}/{hostKey}`.
+💼 Brett: Host dashboard must support easy copy/share for both links, schedule
+editing (including increment and full-day availability controls), and clear
+response review.
 
-💼 Brett: Correct. That page must make it easy to copy/share both links: the
-public attendee schedule link and the private host dashboard link.
-
-🐨 Kody: And on that same host dashboard, hosts need clear controls to edit the
-date range and available slot times, plus a live view of attendee responses.
-
-💼 Brett: Yes. If host edits are awkward, coordination falls apart.
-
-🐨 Kody: The attendee route should be `/s/{scheduleKey}`, which is the link hosts
-send out.
+💼 Brett: Public attendee participation should stay at `/s/{scheduleKey}`.
 
 👤 Una: Perfect. On that page, attendees should enter their name and mark the
 time slots they can do. That flow has to be very mobile friendly.
+
+🐨 Kody: Any language/style guardrails we should enforce in the product copy?
+
+💼 Brett: Keep everything in-world and product-real. No internal process language
+in the user-facing flow.
 
 🐨 Kody: What constraints should shape scope immediately?
 
@@ -239,26 +251,27 @@ constraint, but it is where my head goes first.
 💼 Brett: Hard constraints are two-week window and no extra headcount. If we
 overreach with this release, we will miss the timeline.
 
-🐨 Kody: Given those constraints, I recommend no heavy integrations in v1 and a
-focus on the core planning loop first.
+🐨 Kody: Given those constraints, how do you want to handle integrations for v1?
 
-💼 Brett: That makes sense. I do not love deferring integrations, but with this
-timeline I agree.
+💼 Brett: Keep the core loop first and defer heavy integrations. We can still
+design for future integration points, but we should not build them now.
 
-🐨 Kody: What can we defer without invalidating learning?
+🐨 Kody: Which items are the right first deferrals without hurting the learning
+goal?
 
-🐨 Kody: If we keep adding "nice-to-have" scope now, we reduce our chance of
-actually validating the core loop in this release.
+💼 Brett: Calendar sync and advanced recurring events are first to defer. They are
+valuable, but they are not required to validate whether people can actually
+finalize plans through this flow.
 
-💼 Brett: Calendar sync and advanced recurring events are what I would defer
-first, even though I keep wanting them in the product.
+🐨 Kody: From your perspectives, what is the highest-likelihood technical failure
+mode in this release?
 
-🐨 Kody: Highest-likelihood technical failure mode?
+👤 Una: Poor mobile UX, easily. If participation is clunky on phones, completion
+drops immediately. Timezone clarity still matters, but mobile friction is the
+first thing that will break adoption.
 
-🐨 Kody: Given Una's point, poor mobile UX is the biggest technical risk.
-
-👤 Una: I agree. If the mobile flow is clunky, people will not complete
-availability. Timezone clarity still matters, but it is not the top risk.
+💼 Brett: From the business side I agree. If mobile completion is weak, the funnel
+falls apart before we can learn anything meaningful about finalization rates.
 
 🐨 Kody: Biggest product risks?
 
@@ -273,7 +286,7 @@ If we can stay disciplined there, we should learn fast.
 
 👤 Una: Please make sure key actions are thumb-friendly and obvious on mobile.
 
-🐨 Kody: I want to record assumptions so we can test them:
+🐨 Kody: Can I record these as assumptions for validation?
 1) people will use this if it beats chat coordination,
 2) no-calendar-sync is acceptable in v1,
 3) a narrow set of social planning flows is enough to validate viability.
