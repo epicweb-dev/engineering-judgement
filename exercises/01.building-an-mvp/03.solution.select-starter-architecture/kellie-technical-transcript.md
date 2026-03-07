@@ -82,8 +82,8 @@ requirements with more than one option.
 startup, supports mobile-first web iteration, and has architecture patterns
 that scale into the subtle long-term requirements Brett raised.
 
-🐨 Kody: Since step four starts from this scaffold, what implementation details
-should we lock in now so we do not duplicate UI work across pages?
+🐨 Kody: Given this scaffold, what implementation details should we lock in now so
+we do not duplicate UI work across pages?
 
 🧝‍♀️ Kellie: Great question. The starter already gives us good primitives:
 - route mapping in `server/routes.ts`
@@ -96,23 +96,18 @@ should we lock in now so we do not duplicate UI work across pages?
 reusable UI components early in `client/components/*`.
 
 🧝‍♀️ Kellie: Components I would create first:
-- `page-shell` and `section-header` for consistent page framing/copy
-- `card-panel` for the boxed surfaces used across creation, host, and attendee flows
 - `form-field` (label + input wrapper) and `primary-button` so form/button styling is not duplicated
-- `date-range-picker` used on home (`/`) and host dashboard (`/s/:scheduleKey/:hostKey`)
-- `schedule-grid` plus `time-slot-cell` used by all scheduling routes
+- `schedule-grid` plus `time-slot-cell` used across `/`, `/s/{scheduleKey}`, and `/s/{scheduleKey}/{hostKey}`
 - `selection-drag-handle` behavior in the grid for mobile expansion + edge auto-scroll
-- `link-share-panel` on host dashboard for both attendee link (`/s/:scheduleKey`) and host link (`/s/:scheduleKey/:hostKey`)
-- `responses-panel` and `response-row` for attendee availability visibility on host dashboard
-- `name-capture-form` for attendee identity input on `/s/:scheduleKey`
+- Standard web date inputs (`<input type="date">`) for start/end date fields on `/` and `/s/{scheduleKey}/{hostKey}` instead of a custom date picker
 
 🐨 Kody: That should also reduce risk when we change interaction details, because
 the grid logic lives in one place.
 
 🧝‍♀️ Kellie: Exactly. We get one interaction model with route-specific modes:
 - create mode on `/` (host sets initial range/slots)
-- edit mode on `/s/:scheduleKey/:hostKey` (host updates range/slots + reviews responses)
-- respond mode on `/s/:scheduleKey` (attendee enters name + marks availability)
+- edit mode on `/s/{scheduleKey}/{hostKey}` (host updates range/slots + reviews responses)
+- respond mode on `/s/{scheduleKey}` (attendee enters name + marks availability)
 
 🐨 Kody: Should we also reflect those routes explicitly in starter wiring?
 

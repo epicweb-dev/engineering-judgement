@@ -33,9 +33,9 @@ This document now captures clarified answers and decisions before implementation
 - What is the MVP access model for participation and hosting?
   - No required accounts in MVP; anyone can create a schedule and receive a private host link to manage details and view results
 - What are the explicit MVP routes and responsibilities?
-  - Home route (`/`): host selects date range and initial available schedule slots, then clicks "Create schedule"
-  - Host dashboard route (`/s/scheduleKey/hostKey`): host can copy/share both links (public schedule link and private host dashboard link), edit schedule details/date range/slot availability, and review attendee responses
-  - Attendee schedule route (`/s/scheduleKey`): attendees enter name and select available slots; this route must be especially mobile friendly
+  - Home route (`/`): host selects start/end dates with standard date inputs and initial available schedule slots, then clicks "Create schedule"
+  - Host dashboard route (`/s/{scheduleKey}/{hostKey}`): host can copy/share both links (public schedule link and private host dashboard link), edit schedule details/date/slot availability, and review attendee responses
+  - Attendee schedule route (`/s/{scheduleKey}`): attendees enter name and select available slots; this route must be especially mobile friendly
 - Why build instead of just adopting existing tools?
   - Existing tools like when2meet.com, whenavailable.com, and Doodle validate demand, but we still need a tighter completion-first UX and agent-native workflows (AI agents using MCP to create, update, and finalize plans with users)
 
@@ -52,7 +52,7 @@ This document now captures clarified answers and decisions before implementation
   - Availability selection should feel spreadsheet-fast: like selecting time-slot cells in Excel on desktop, with clear visual state and low interaction friction
   - Proposed implementation direction from product/developer facilitation: on mobile, tap-to-select plus draggable corner handle expansion with edge auto-scroll
   - Overall product aesthetics should feel friendly and colorful (primarily blues/greens) without losing a minimalistic, clean interface
-  - Route transitions should be direct and explicit: create on `/`, manage on `/s/scheduleKey/hostKey`, collect attendee availability on `/s/scheduleKey`
+  - Route transitions should be direct and explicit: create on `/`, manage on `/s/{scheduleKey}/{hostKey}`, collect attendee availability on `/s/{scheduleKey}`
 
 ### Constraint clarity
 
@@ -102,7 +102,7 @@ This document now captures clarified answers and decisions before implementation
 - How should hosts manage events in MVP without accounts?
   - Issue a private host dashboard link on event creation
 - What should the core route map be for MVP?
-  - `/` for schedule creation, `/s/scheduleKey/hostKey` for host management, `/s/scheduleKey` for attendee responses
+  - `/` for schedule creation, `/s/{scheduleKey}/{hostKey}` for host management, `/s/{scheduleKey}` for attendee responses
 - What capabilities must the host dashboard include on first release?
   - Easy copy/share for both links, schedule/date/slot editing controls, and attendee response visibility
 - If existing scheduling tools already work, why build this?
@@ -125,7 +125,7 @@ This document now captures clarified answers and decisions before implementation
 - Should participants be required to create accounts?
   - No. Account creation adds too much friction for an infrequent-use flow
 - What should attendees do on the schedule page?
-  - Enter a name and select available slots on `/s/scheduleKey`
+  - Enter a name and select available slots on `/s/{scheduleKey}`
 - Which existing tools and interaction patterns feel familiar enough to borrow?
   - when2meet.com, whenavailable.com, and Doodle are familiar references
 - How do those competitor experiences feel in real use?
@@ -133,7 +133,7 @@ This document now captures clarified answers and decisions before implementation
 - What should mobile time-slot selection feel like?
   - Kody's proposed direction validated by user feedback: similar to Google Sheets mobile selection (tap a start cell, drag a corner handle to expand selected slots, auto-scroll near view edges)
 - Which route is most sensitive to mobile usability quality?
-  - `/s/scheduleKey` attendee submission flow, because most invitees respond on phones
+  - `/s/{scheduleKey}` attendee submission flow, because most invitees respond on phones
 
 ## Assumptions to test
 
@@ -163,13 +163,13 @@ This document now captures clarified answers and decisions before implementation
 
 - Assumption:
   - Why we believe this:
-    - Explicit route separation (`/`, `/s/scheduleKey/hostKey`, `/s/scheduleKey`) will reduce user confusion while preserving fast sharing
+    - Explicit route separation (`/`, `/s/{scheduleKey}/{hostKey}`, `/s/{scheduleKey}`) will reduce user confusion while preserving fast sharing
   - How we will validate it:
     - Track host-link misuse rates, attendee completion rates, and support friction signals related to link-sharing mistakes
 
 ## Technical implementation notes (Kellie conversation)
 
-- What starter primitives do we get in step four that should shape implementation?
+- What starter primitives should shape implementation?
   - `server/routes.ts` for route definitions and param patterns
   - `server/handlers/*` for focused per-route server actions
   - `client/routes/*` for per-route UI entry points
@@ -177,19 +177,15 @@ This document now captures clarified answers and decisions before implementation
   - `client/styles/tokens.ts` for shared design tokens and consistent styling
 
 - Which reusable components should we create first?
-  - `page-shell`, `section-header`, and `card-panel` for shared page structure
   - `form-field` and `primary-button` for repeated form/action controls
-  - `date-range-picker` reused by `/` and `/s/scheduleKey/hostKey`
-  - `schedule-grid` + `time-slot-cell` reused by `/`, `/s/scheduleKey`, and `/s/scheduleKey/hostKey`
+  - `schedule-grid` + `time-slot-cell` reused by `/`, `/s/{scheduleKey}`, and `/s/{scheduleKey}/{hostKey}`
   - `selection-drag-handle` behavior in the grid for mobile drag expansion + edge auto-scroll
-  - `link-share-panel` on `/s/scheduleKey/hostKey` for attendee and host links
-  - `responses-panel` + `response-row` for attendee response visibility on host dashboard
-  - `name-capture-form` for attendee identification on `/s/scheduleKey`
+  - Use standard web date inputs (`<input type="date">`) for start/end dates on `/` and `/s/{scheduleKey}/{hostKey}` (no custom date picker)
 
 - How should route modes map to shared components?
   - Create mode on `/`: date range + initial slot setup + create action
-  - Edit mode on `/s/scheduleKey/hostKey`: schedule edits + link sharing + response review
-  - Respond mode on `/s/scheduleKey`: attendee name entry + availability selection
+  - Edit mode on `/s/{scheduleKey}/{hostKey}`: schedule edits + link sharing + response review
+  - Respond mode on `/s/{scheduleKey}`: attendee name entry + availability selection
 
 - What architecture discipline should we follow while implementing?
   - Add explicit route entries first, pair with dedicated server handlers, and keep route modules thin by composing shared components instead of duplicating interaction logic
