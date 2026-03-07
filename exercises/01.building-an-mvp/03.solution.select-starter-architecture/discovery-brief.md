@@ -166,3 +166,30 @@ This document now captures clarified answers and decisions before implementation
     - Explicit route separation (`/`, `/s/scheduleKey/hostKey`, `/s/scheduleKey`) will reduce user confusion while preserving fast sharing
   - How we will validate it:
     - Track host-link misuse rates, attendee completion rates, and support friction signals related to link-sharing mistakes
+
+## Technical implementation notes (Kellie conversation)
+
+- What starter primitives do we get in step four that should shape implementation?
+  - `server/routes.ts` for route definitions and param patterns
+  - `server/handlers/*` for focused per-route server actions
+  - `client/routes/*` for per-route UI entry points
+  - `client/app.tsx` for shared app shell/navigation
+  - `client/styles/tokens.ts` for shared design tokens and consistent styling
+
+- Which reusable components should we create first?
+  - `page-shell`, `section-header`, and `card-panel` for shared page structure
+  - `form-field` and `primary-button` for repeated form/action controls
+  - `date-range-picker` reused by `/` and `/s/scheduleKey/hostKey`
+  - `schedule-grid` + `time-slot-cell` reused by `/`, `/s/scheduleKey`, and `/s/scheduleKey/hostKey`
+  - `selection-drag-handle` behavior in the grid for mobile drag expansion + edge auto-scroll
+  - `link-share-panel` on `/s/scheduleKey/hostKey` for attendee and host links
+  - `responses-panel` + `response-row` for attendee response visibility on host dashboard
+  - `name-capture-form` for attendee identification on `/s/scheduleKey`
+
+- How should route modes map to shared components?
+  - Create mode on `/`: date range + initial slot setup + create action
+  - Edit mode on `/s/scheduleKey/hostKey`: schedule edits + link sharing + response review
+  - Respond mode on `/s/scheduleKey`: attendee name entry + availability selection
+
+- What architecture discipline should we follow while implementing?
+  - Add explicit route entries first, pair with dedicated server handlers, and keep route modules thin by composing shared components instead of duplicating interaction logic

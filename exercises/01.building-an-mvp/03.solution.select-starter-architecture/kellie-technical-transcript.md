@@ -82,6 +82,44 @@ requirements with more than one option.
 startup, supports mobile-first web iteration, and has architecture patterns
 that scale into the subtle long-term requirements Brett raised.
 
+🐨 Kody: Since step four starts from this scaffold, what implementation details
+should we lock in now so we do not duplicate UI work across pages?
+
+🧝‍♀️ Kellie: Great question. The starter already gives us good primitives:
+- route mapping in `server/routes.ts`
+- server handlers under `server/handlers/*`
+- client route components under `client/routes/*`
+- shared design tokens in `client/styles/tokens.ts`
+- app-level shell/navigation in `client/app.tsx`
+
+🧝‍♀️ Kellie: So instead of building each page in isolation, we should add
+reusable UI components early in `client/components/*`.
+
+🧝‍♀️ Kellie: Components I would create first:
+- `page-shell` and `section-header` for consistent page framing/copy
+- `card-panel` for the boxed surfaces used across creation, host, and attendee flows
+- `form-field` (label + input wrapper) and `primary-button` so form/button styling is not duplicated
+- `date-range-picker` used on home (`/`) and host dashboard (`/s/:scheduleKey/:hostKey`)
+- `schedule-grid` plus `time-slot-cell` used by all scheduling routes
+- `selection-drag-handle` behavior in the grid for mobile expansion + edge auto-scroll
+- `link-share-panel` on host dashboard for both attendee link (`/s/:scheduleKey`) and host link (`/s/:scheduleKey/:hostKey`)
+- `responses-panel` and `response-row` for attendee availability visibility on host dashboard
+- `name-capture-form` for attendee identity input on `/s/:scheduleKey`
+
+🐨 Kody: That should also reduce risk when we change interaction details, because
+the grid logic lives in one place.
+
+🧝‍♀️ Kellie: Exactly. We get one interaction model with route-specific modes:
+- create mode on `/` (host sets initial range/slots)
+- edit mode on `/s/:scheduleKey/:hostKey` (host updates range/slots + reviews responses)
+- respond mode on `/s/:scheduleKey` (attendee enters name + marks availability)
+
+🐨 Kody: Should we also reflect those routes explicitly in starter wiring?
+
+🧝‍♀️ Kellie: Yes. Add route entries in `server/routes.ts`, pair each with focused
+handlers in `server/handlers/*`, and keep client route modules thin by composing
+these reusable components.
+
 🧝‍♀️ Kellie: I am also already familiar with it, which reduces execution risk for
 this workshop. And if everyone uses the same starter, instruction and support
 stay much cleaner.
