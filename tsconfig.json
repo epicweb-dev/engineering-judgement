@@ -6,6 +6,9 @@
   "references": [
     {
       "path": "exercises/01.building-an-mvp/04.problem.implementation"
+    },
+    {
+      "path": "exercises/01.building-an-mvp/04.solution.implementation"
     }
   ]
 }
