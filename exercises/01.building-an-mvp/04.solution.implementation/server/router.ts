@@ -11,6 +11,15 @@ import {
 	createPasswordResetConfirmHandler,
 	createPasswordResetRequestHandler,
 } from './handlers/password-reset.ts'
+import {
+	createCreateEventHandler,
+	createEventDataHandler,
+	createFinalizeEventHandler,
+	createHostDataHandler,
+	createSubmitAvailabilityHandler,
+	eventPage,
+	hostPage,
+} from './handlers/scheduling.ts'
 import { session } from './handlers/session.ts'
 import { signup } from './handlers/signup.ts'
 import { Layout } from './layout.ts'
@@ -26,6 +35,13 @@ export function createAppRouter(appEnv: AppEnv) {
 	})
 
 	router.map(routes.home, home)
+	router.map(routes.createEvent, createCreateEventHandler(appEnv))
+	router.map(routes.eventPage, eventPage)
+	router.map(routes.eventData, createEventDataHandler(appEnv))
+	router.map(routes.submitAvailability, createSubmitAvailabilityHandler(appEnv))
+	router.map(routes.hostPage, hostPage)
+	router.map(routes.hostData, createHostDataHandler(appEnv))
+	router.map(routes.finalizeEvent, createFinalizeEventHandler(appEnv))
 	router.map(routes.chat, chat)
 	router.map(routes.health, createHealthHandler(appEnv))
 	router.map(routes.login, login)

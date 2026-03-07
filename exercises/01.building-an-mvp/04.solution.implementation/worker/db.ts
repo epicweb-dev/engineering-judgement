@@ -42,6 +42,45 @@ export const mockResendMessagesTable = createTable({
 	primaryKey: 'id',
 })
 
+export const eventsTable = createTable({
+	name: 'events',
+	columns: {
+		id: number(),
+		title: string(),
+		host_key: string(),
+		finalized_slot_id: number(),
+		created_at: string(),
+		updated_at: string(),
+	},
+	primaryKey: 'id',
+})
+
+export const eventSlotsTable = createTable({
+	name: 'event_slots',
+	columns: {
+		id: number(),
+		event_id: number(),
+		label: string(),
+		sort_order: number(),
+		created_at: string(),
+	},
+	primaryKey: 'id',
+})
+
+export const eventResponsesTable = createTable({
+	name: 'event_responses',
+	columns: {
+		id: number(),
+		event_id: number(),
+		slot_id: number(),
+		participant_name: string(),
+		participant_key: string(),
+		created_at: string(),
+		updated_at: string(),
+	},
+	primaryKey: 'id',
+})
+
 export function createDb(db: D1Database) {
 	return createDatabase(createD1DataTableAdapter(db))
 }
