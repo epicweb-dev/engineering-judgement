@@ -65,6 +65,9 @@ optimistic, and trustworthy for coordination.
 💼 Brett: At the same time, I do not want visual noise. It should stay minimal and
 clean so the schedule grid and final decision stand out.
 
+🐨 Kody: Good direction. We can tune the existing design system/theme foundation to
+that style instead of inventing a brand-new visual system.
+
 🐨 Kody: Una, from your perspective, what is the most painful part of coordinating a
 plan today?
 

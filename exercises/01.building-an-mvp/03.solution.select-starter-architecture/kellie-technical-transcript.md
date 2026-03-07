@@ -92,6 +92,25 @@ we do not duplicate UI work across pages?
 - shared design tokens in `client/styles/tokens.ts`
 - app-level shell/navigation in `client/app.tsx`
 
+🐨 Kody: The starter also has a lot we do not need for this MVP. Should we remove
+that now instead of carrying dead weight?
+
+🧝‍♀️ Kellie: Yes. We should explicitly strip unused starter features:
+- authentication/account flows (`/login`, `/signup`, `/account`, `/auth`, `/session`, `/logout`)
+- password reset flow and related email/reset plumbing
+- OAuth authorize/callback route flow and related worker OAuth handlers
+- chat demo route/handler
+- calculator MCP demo tools/resources/widget host code
+
+🧝‍♀️ Kellie: Keep only what supports the scheduling loop and host-link workflow.
+Everything else adds maintenance cost and noise for this implementation.
+
+🐨 Kody: So we stay no-account for now, and if we later need auth, we reintroduce
+it deliberately instead of dragging unused auth code through MVP.
+
+🧝‍♀️ Kellie: Exactly. Deleting unused starter surface is risk reduction, not
+throwaway work.
+
 🧝‍♀️ Kellie: So instead of building each page in isolation, we should add
 reusable UI components early in `client/components/*`.
 
@@ -100,6 +119,10 @@ reusable UI components early in `client/components/*`.
 - `schedule-grid` plus `time-slot-cell` used across `/`, `/s/{scheduleKey}`, and `/s/{scheduleKey}/{hostKey}`
 - `selection-drag-handle` behavior in the grid for mobile expansion + edge auto-scroll
 - Standard web date inputs (`<input type="date">`) for start/end date fields on `/` and `/s/{scheduleKey}/{hostKey}` instead of a custom date picker
+
+🧝‍♀️ Kellie: And we should use the existing design system foundation instead of
+rebuilding styling from scratch. Adjust its tokens/theme values to match Brett's
+direction (friendly, colorful, blue/green, minimal, clean).
 
 🐨 Kody: That should also reduce risk when we change interaction details, because
 the grid logic lives in one place.

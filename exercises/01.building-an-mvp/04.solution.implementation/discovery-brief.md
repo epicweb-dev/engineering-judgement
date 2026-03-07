@@ -176,11 +176,20 @@ This document now captures clarified answers and decisions before implementation
   - `client/app.tsx` for shared app shell/navigation
   - `client/styles/tokens.ts` for shared design tokens and consistent styling
 
+- What starter surface should we remove for this MVP?
+  - Authentication/account flows and related routes/endpoints (`/login`, `/signup`, `/account`, `/auth`, `/session`, `/logout`)
+  - Password reset flow and related email reset plumbing
+  - OAuth authorize/callback routes and related worker OAuth handlers
+  - Chat demo route/handler
+  - Calculator MCP demo tools/resources/widget host code not required by the scheduling MVP
+  - Principle: keep only scheduling + host-link workflow surface to reduce maintenance noise
+
 - Which reusable components should we create first?
   - `form-field` and `primary-button` for repeated form/action controls
   - `schedule-grid` + `time-slot-cell` reused by `/`, `/s/{scheduleKey}`, and `/s/{scheduleKey}/{hostKey}`
   - `selection-drag-handle` behavior in the grid for mobile drag expansion + edge auto-scroll
   - Use standard web date inputs (`<input type="date">`) for start/end dates on `/` and `/s/{scheduleKey}/{hostKey}` (no custom date picker)
+  - Reuse the existing design system implementation and adjust tokens/theme values to match Brett's visual direction (friendly, colorful, blue/green, minimal, clean)
 
 - How should route modes map to shared components?
   - Create mode on `/`: date range + initial slot setup + create action
