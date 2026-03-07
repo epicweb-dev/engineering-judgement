@@ -139,7 +139,7 @@ This document now captures clarified answers and decisions before implementation
 - How do those competitor experiences feel in real use?
   - Familiar enough to start quickly, but clunky on phones and still weak on clear finalization confidence
 - What should mobile time-slot selection feel like?
-  - Kody's proposed direction validated by user feedback: similar to Google Sheets mobile selection (tap a start cell, drag a corner handle to expand selected slots, auto-scroll near view edges)
+  - Brett's preferred direction, reinforced by user feedback: similar to Google Sheets mobile selection (tap a start cell, drag a corner handle to expand selected slots, auto-scroll near view edges)
 - Which route is most sensitive to mobile usability quality?
   - `/s/{scheduleKey}` attendee submission flow, because most invitees respond on phones
 
