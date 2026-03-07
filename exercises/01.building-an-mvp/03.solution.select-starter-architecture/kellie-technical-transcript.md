@@ -74,10 +74,17 @@ choosing "future-capable."
 
 🐨 Kody: If we compare candidate starters against this rubric, what wins?
 
-🧝‍♀️ Kellie: The strongest fit is
-[epicflare](https://github.com/epicweb-dev/epicflare). It gives us quick
-MVP startup, supports mobile-first web iteration, and has architecture patterns
+🧝‍♀️ Kellie: A few starters score similarly on paper. We can satisfy the core
+requirements with more than one option.
+
+🧝‍♀️ Kellie: I still recommend
+[epicflare](https://github.com/epicweb-dev/epicflare). It gives us quick MVP
+startup, supports mobile-first web iteration, and has architecture patterns
 that scale into the subtle long-term requirements Brett raised.
+
+🧝‍♀️ Kellie: I am also already familiar with it, which reduces execution risk for
+this workshop. And if everyone uses the same starter, instruction and support
+stay much cleaner.
 
 🐨 Kody: So we are not overbuilding now, but we are also not locking ourselves
 into a dead-end starter.

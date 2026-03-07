@@ -17,6 +17,24 @@ not need.
 🐨 Kody: Exactly. We want the smallest version that proves value and tells us what to
 do next.
 
+🐨 Kody: Before we optimize MVP scope, should we build this at all? Could we buy,
+adopt, or defer instead?
+
+💼 Brett: Fair challenge. Existing polling and scheduling tools are fine for simple
+availability collection, but they break down for our target flow:
+cross-organization friend groups coordinating in messy chat threads with no
+clear owner and no reliable "final plan" moment.
+
+💼 Brett: Our advantage is not "another poll." It is a completion-first coordination
+loop: low-friction participation, explicit finalization, and host controls that
+work without forcing everyone into account creation.
+
+🐨 Kody: So the justification for building is that we are targeting a specific gap
+existing tools do not solve well, and we can define success against that gap.
+
+💼 Brett: Exactly. If we cannot outperform the default chat-plus-poll behavior on
+finalized plans, we should stop and not keep investing.
+
 🐨 Kody: Una, from your perspective, what is the most painful part of coordinating a
 plan today?
 

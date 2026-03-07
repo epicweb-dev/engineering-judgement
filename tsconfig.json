@@ -3,5 +3,9 @@
   "exclude": [
     "node_modules"
   ],
-  "references": []
+  "references": [
+    {
+      "path": "exercises/01.building-an-mvp/04.problem.implementation"
+    }
+  ]
 }

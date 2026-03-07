@@ -29,3 +29,7 @@ data.db
 *.local/
 
 saved-playgrounds
+
+.wrangler/
+**/public/client-entry.js
+**/public/mcp-apps/
