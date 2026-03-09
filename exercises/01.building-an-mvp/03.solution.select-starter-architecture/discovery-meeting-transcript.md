@@ -1,7 +1,7 @@
-# Stakeholder Meeting Transcript
+# Discovery Meeting Transcript
 
-This transcript shows one realistic path from the prepared `discovery-brief.md`
-to the filled-out solution version.
+This is a transcript of a realistic stakeholder meeting between Kody, Brett, and
+Una. This is the basis of the `discovery-brief.md` file.
 
 🐨 Kody: Thanks for meeting. I want to confirm who this MVP is for and what
 success looks like.
