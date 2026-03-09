@@ -53,8 +53,8 @@
     "prettier": "^3.8.1",
     "set-cookie-parser": "^3.0.1",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4",
-    "wrangler": "^4.70.0"
+    "vitest": "^4.0.18",
+    "wrangler": "^4.71.0"
   },
   "prettier": "@epic-web/config/prettier",
   "overrides": {
@@ -64,9 +64,9 @@
     "@cloudflare/workers-oauth-provider": "^0.3.0",
     "@epic-web/invariant": "^1.0.0",
     "@mcp-ui/server": "6.1.0",
-    "@modelcontextprotocol/ext-apps": "^1.1.2",
+    "@modelcontextprotocol/ext-apps": "^1.2.0",
     "@modelcontextprotocol/sdk": "1.26.0",
-    "agents": "^0.7.4",
+    "agents": "^0.7.5",
     "ai": "^6.0.116",
     "get-port": "^7.1.0",
     "remix": "3.0.0-alpha.3",
