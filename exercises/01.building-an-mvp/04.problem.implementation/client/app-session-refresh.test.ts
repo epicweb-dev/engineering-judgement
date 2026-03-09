@@ -1,4 +1,3 @@
-import { inspect } from 'node:util'
 import { expect, test, vi } from 'vitest'
 import { type Handle } from 'remix/component'
 
@@ -27,6 +26,10 @@ vi.mock('./session.ts', () => ({
 }))
 
 const { App } = await import('./app.tsx')
+
+function inspect(value: unknown) {
+	return JSON.stringify(value)
+}
 
 async function runNextTask(tasks: Array<QueueTask>, aborted: boolean) {
 	const task = tasks.shift()
