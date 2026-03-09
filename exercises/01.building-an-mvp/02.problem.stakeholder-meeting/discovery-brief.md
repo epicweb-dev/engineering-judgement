@@ -1,7 +1,7 @@
 # Discovery Brief
 
-Use this document to prepare for the stakeholder meeting in the next step.
-List what needs clarification before implementation begins.
+Use this document to prepare for the stakeholder meeting in the next step. List
+what needs clarification before implementation begins.
 
 ## Objective to validate
 

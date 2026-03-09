@@ -3,6 +3,59 @@
 This brief captures technical decisions from the Kody + Kellie implementation
 planning conversation.
 
+## Starter requirements and risks
+
+### MVP delivery requirements
+
+- Ship the first usable version quickly with small team capacity.
+- Keep complexity low so the team can iterate based on real feedback.
+- Support a mobile-first web experience for availability response.
+- Support no-account participation and no-account host onboarding for MVP.
+- Issue a private host management link on event creation.
+- Enable straightforward instrumentation for core funnel metrics.
+
+### Likely near-term requirements
+
+- Authentication and user identity refinement as usage grows.
+- Smooth migration from private host links to optional/required account
+  ownership.
+- More robust scheduling workflows and notifications.
+- Better data modeling for growth in event and participant volume.
+- Incremental integration needs without rewriting core architecture.
+
+### Architecture risks
+
+- Choosing a starter that is quick now but rigid when features expand.
+- Over-optimizing for enterprise concerns before product fit is proven.
+- Introducing too many dependencies before core loop validation.
+- Implementing host-link access in a way that makes future auth migration
+  painful.
+
+## Starter decision
+
+### Decision
+
+Use [epicflare](https://github.com/epicweb-dev/epicflare) as the project
+starter.
+
+### Alternatives considered
+
+We evaluated other plausible starters against the same rubric (MVP speed,
+host-link support, auth evolution path, and long-term flexibility).
+
+Conclusion: multiple options could satisfy the requirements at a similar level.
+
+### Why this starter
+
+- It provides a simple path to start MVP implementation quickly.
+- It supports the no-account MVP model with private host-link management.
+- It supports a sound architecture that can evolve with product needs.
+- It reduces risk of painting the team into a corner as requirements expand.
+- Kellie is already familiar with it, which lowers execution risk in this
+  context.
+- Standardizing on one starter across the workshop improves consistency for
+  instruction, discussion, and support.
+
 ## Starter primitives to use
 
 - `server/routes.ts` for route definitions and dynamic segment patterns
