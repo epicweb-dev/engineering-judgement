@@ -1,5 +1,11 @@
 # Engineering Judgment Workshop Plan
 
+## Core Thesis
+
+> As AI increasingly performs implementation, the scarce engineering skill becomes judgment — defining problems clearly, surfacing constraints, articulating tradeoffs, protecting user experience, and evaluating systems under ambiguity.
+
+**Design principle:** Avoid teaching tools, frameworks, or AI workflows. Focus entirely on durable reasoning skills.
+
 ## Goal
 
 Build and run a workshop that trains engineering judgment under ambiguity: clarifying requirements, surfacing assumptions, defining success criteria, anticipating risks, and evaluating outcomes against intent.
@@ -21,31 +27,28 @@ Build and run a workshop that trains engineering judgment under ambiguity: clari
 
 ## Workshop Structure
 
-### Exercise Flow (repeated per exercise)
+### Exercise Flow: The Critique Cycle (repeated per exercise)
 
-1. **Problem framing**
-   - Learners get starter app context, role sheet, and stakeholder objective.
-   - They ask clarifying questions and extract constraints.
-2. **Planning**
-   - Learners document assumptions, success criteria, and implementation plan.
-3. **Implementation**
-   - Learners build using any workflow (manual coding, AI, etc.).
-4. **Evaluation**
-   - Compare what they declared vs what they built.
-   - Analyze misses, tradeoffs, and hidden constraints.
+Each exercise targets a different judgment dimension. Avoid repeated stakeholder-interview feel.
 
-### Proposed Exercise Arc
+1. Ambiguous scenario
+2. Participant clarification questions
+3. Written problem definition + plan
+4. AI implementation
+5. Structured critique
+6. Gap analysis
+7. Extracted heuristics
 
-1. **Scheduling app MVP**
-   - Baseline ambiguity and criteria-setting practice.
-2. **Expanded features with hidden UX regressions**
-   - Forces prioritization and explicit tradeoff language.
-3. **Migration or scaling constraint**
-   - Introduces architectural pressure and risk planning.
-4. **Performance tradeoff with UX cost**
-   - Makes latency/cost/experience tensions visible.
-5. **Dependency-team constraint scenario**
-   - Trains re-scoping, mitigation, and escalation judgment.
+### Proposed Exercise Arc (Four Judgment Muscles)
+
+1. **Exercise 1 — Ambiguous Product: Build the MVP**
+   - Problem definition: convert vague goals into concrete system definition.
+2. **Exercise 2 — Protect the User Experience**
+   - Protecting UX invariants: identify what must not degrade when a system evolves.
+3. **Exercise 3 — Conflicting Constraints**
+   - Articulating tradeoffs: make competing constraints legible and justify decisions.
+4. **Exercise 4 — System Migration Risk**
+   - Risk modeling & system continuity: manage large change while preserving user trust.
 
 ## What to Build First (Implementation Priority)
 
@@ -84,7 +87,7 @@ Build and run a workshop that trains engineering judgment under ambiguity: clari
 
 1. **Intro (15 min)**
    - Set expectations: judging reasoning quality, not coding speed.
-2. **Exercise cycle x 3-5 (35-45 min each)**
+2. **Exercise cycle x 4 (35-45 min each)**
    - Framing + questions + build + evaluation.
 3. **Debrief after each cycle (10-15 min)**
    - Capture decision patterns and failure modes.
@@ -100,7 +103,7 @@ Build and run a workshop that trains engineering judgment under ambiguity: clari
 - **Risk:** Reflection becomes subjective.
   - **Mitigation:** Tie critique to declared criteria and observable outcomes.
 - **Risk:** Scope creep in first run.
-  - **Mitigation:** Finish Exercise 1 fully before polishing Exercises 2-5.
+  - **Mitigation:** Finish Exercise 1 fully before polishing Exercises 2–4.
 
 ## Definition of Done for V1
 
@@ -117,3 +120,9 @@ Build and run a workshop that trains engineering judgment under ambiguity: clari
 3. Write Exercise 1 problem and solution `README.mdx` files.
 4. Build Exercise 1 problem app and minimal solution app.
 5. Run one dry-run and revise rubric before adding Exercise 2.
+
+## Consistent Vocabulary
+
+Use throughout: constraint, invariant, degradation signal, risk surface, tradeoff articulation, rollback boundary, success criteria, assumption labeling.
+
+Avoid: tool-specific discussion, framework comparisons, prompt engineering, coding tutorials.
