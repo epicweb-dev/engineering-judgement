@@ -1,13 +1,12 @@
-# Framing the Change
+# Planning the Implementation
 
-👨‍💼 Nice work. Before jumping into implementation, you translated a vague
-product request into a narrower change with explicit UX protections.
+👨‍💼 Nice work. Instead of treating login as an obvious next step, you turned it
+into a narrow implementation plan with explicit UX guardrails.
 
-🦉 This step matters because "add something helpful" is exactly how products
-quietly get slower, noisier, and harder to trust. A strong engineer frames the
-change in terms of user problem, affected flows, protected invariants, and
-visible degradation signals before building.
+🦉 This step matters because even a justified feature can still damage the
+product if it is implemented carelessly. Strong engineers use invariants to
+choose rollout shape, auth boundaries, and migration paths that protect the
+experience while the product evolves.
 
-You now have a concrete baseline for evaluating whether the eventual
-implementation actually improves the host workflow without degrading the rest of
-the experience.
+You now have an implementation brief that explains how to add host login while
+protecting finalized-plan rate, create-flow speed, and attendee completion.

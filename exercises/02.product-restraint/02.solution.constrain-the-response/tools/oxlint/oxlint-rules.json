@@ -1,6 +1,0 @@
-{
-	"jsPlugins": ["./local-plugin.js"],
-	"rules": {
-		"epic-scheduler-custom/no-example-identifier": "error"
-	}
-}

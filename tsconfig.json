@@ -5,34 +5,13 @@
   ],
   "references": [
     {
-      "path": "exercises/01.building-an-mvp/04.problem.implementation"
+      "path": "extra/01.starter"
     },
     {
-      "path": "exercises/01.building-an-mvp/04.solution.implementation"
+      "path": "extra/02.mvp-implementation"
     },
     {
-      "path": "exercises/02.product-restraint/01.problem.qualify-the-request"
-    },
-    {
-      "path": "exercises/02.product-restraint/01.solution.qualify-the-request"
-    },
-    {
-      "path": "exercises/02.product-restraint/02.problem.constrain-the-response"
-    },
-    {
-      "path": "exercises/02.product-restraint/02.solution.constrain-the-response"
-    },
-    {
-      "path": "exercises/03.protect-the-user-experience/01.problem.define-ux-invariants"
-    },
-    {
-      "path": "exercises/03.protect-the-user-experience/01.solution.define-ux-invariants"
-    },
-    {
-      "path": "exercises/03.protect-the-user-experience/02.problem.frame-the-change"
-    },
-    {
-      "path": "exercises/03.protect-the-user-experience/02.solution.frame-the-change"
+      "path": "extra/03.improved-implementation"
     }
   ]
 }

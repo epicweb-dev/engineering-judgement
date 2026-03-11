@@ -1,37 +1,42 @@
-# Framing the Change
+# Planning the Implementation
 
-👨‍💼 Product pressure is starting to show up in a more concrete way now. Hosts are
-having to scan the full response grid manually to figure out the strongest
-candidate times, and the team wants to improve that decision step without
-making the rest of the product heavier.
+👨‍💼 Enough time has passed since the decision in Exercise 2 that the team now has
+enough evidence to justify a narrow host-login implementation. The question is
+no longer "should we ever do login?" It is "how do we implement it without
+hurting the experience that made the product work in the first place?"
 
 🧝‍♀️ You already defined the UX constraints that matter in
-<InlineFile file="docs/planning/ux-invariants.md" />. Use those constraints to frame
-the change before anyone starts building.
+<InlineFile file="docs/planning/ux-invariants.md" />. Use those constraints to
+shape an implementation plan before anyone starts building.
 
 🐨 Create a dedicated
-<InlineFile file="docs/planning/change-brief.md" /> artifact for this request:
+<InlineFile file="docs/planning/implementation-brief.md" /> artifact for this
+request:
 
-> "Help hosts identify the best candidate meeting times faster on the host
-> dashboard."
+> "Add a narrow host-login system so returning hosts can re-find and manage
+> their schedules more reliably, without hurting finalized-plan rate,
+> create-flow speed, or attendee completion."
 
 Your brief should cover:
 
-1. The user problem behind the request
-2. Which existing flows and routes the change touches
-3. Which UX invariants are most at risk
-4. The narrowest first release that still improves the experience
+1. The narrow scope of login we are actually implementing first
+2. Which existing flows and routes the plan touches
+3. Which UX invariants drive the implementation choices
+4. The rollout shape most likely to avoid regression
 5. What should stay explicitly out of scope for now
-6. The degradation signals you would watch for during implementation and review
+6. The validation and regression signals you would watch during implementation
+   and review
 
 Requirements:
 
-- Keep the change centered on the host decision-making flow.
+- Keep login host-focused and narrow.
 - Protect the simplicity of the attendee response flow.
-- Preserve clear separation between public and host-only routes.
-- Keep timezone clarity explicit anywhere the change surfaces times.
-- Assume you still do not have large-scale metrics to rely on.
+- Do not turn schedule creation into a mandatory setup-heavy flow.
+- Preserve clear separation between public, host-link, and authenticated host
+  routes.
+- Explain how the plan reduces risk to the key indicators you identified in
+  3.1.
 
-💰 This is not an implementation plan yet. Frame the change in product and UX
-terms so the team can decide what a safe first version looks like before code
-starts moving.
+💰 This is an implementation-planning step, not a broad product ideation step.
+Make concrete choices that help the team ship a careful first version of login
+without regressing the most important UX.

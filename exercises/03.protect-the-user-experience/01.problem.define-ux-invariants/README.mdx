@@ -1,34 +1,38 @@
 # Define UX Invariants
 
-👨‍💼 The scheduling MVP now exists, and the next round of product ideas is going
-to put pressure on the experience. Before we add anything new, we need to be
-explicit about what must not get worse for users.
+👨‍💼 Time has passed since the restraint decision in Exercise 2. The team now has
+enough product evidence to justify a narrow login implementation for returning
+hosts, but that does not mean we can afford to regress the product's core UX.
 
-🧝‍♀️ This app continues from the MVP you finished in Exercise 1. The planning
-artifacts are already in place in `docs/planning`.
+🧝‍♀️ This app continues from the constrained response you ended Exercise 2 with.
+The planning artifacts are already in place in `docs/planning`.
 
-🐨 In this step, do not implement a new feature yet. First, inspect the existing
-product and create a dedicated <InlineFile file="docs/planning/ux-invariants.md" /> planning
-artifact for the UX constraints you want to protect.
+🐨 In this step, do not implement login yet. First, inspect the existing product
+and create a dedicated <InlineFile file="docs/planning/ux-invariants.md" /> planning
+artifact for the UX constraints that a narrow host-login implementation must
+protect.
 
 Your notes should cover:
 
-1. The critical user flows that matter most right now.
-2. The invariants that must not degrade if the product evolves.
-3. The degradation signals you would watch for when judging a future change.
+1. The critical user flows that matter most before login is added.
+2. The invariants that must not degrade as host login is introduced.
+3. The degradation signals you would watch for when judging whether login hurt
+   the experience.
 
 Requirements:
 
 - Include the core flow for creating a schedule.
+- Include the core flow for a returning host getting back to manage/finalize a
+  schedule.
 - Include the core flow for submitting availability.
-- Include the core flow for selecting the final time.
 - Name the parts of the experience that must stay fast, simple, and clear.
-- Assume you do not have large-scale product metrics yet.
+- Call out the key signals that login would be hurting finalized-plan rate,
+  create-flow speed, or attendee completion.
 
-💰 Keep this grounded in observable UX, not abstract architecture. Think in terms
-of steps, screens, decisions, ambiguity, and how quickly a user can complete the
-job they came to do.
+💰 Keep this grounded in observable UX, not abstract architecture. Think in
+terms of steps, screens, decisions, ambiguity, and how quickly a user can
+complete the job they came to do.
 
 📝 By the end of this step, `docs/planning/ux-invariants.md` should give the
-team a short, concrete artifact that makes future regressions easier to spot
-before anyone starts building.
+team a short, concrete artifact that makes future login-related regressions
+easier to spot before anyone starts building.
