@@ -1,5 +1,6 @@
 import { type Handle } from 'remix/component'
 import { getBrowserTimeZone } from '#client/browser-time-zone.ts'
+import { navigate } from '#client/client-router.tsx'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
 import { renderScheduleGrid } from '#client/components/schedule-grid.tsx'
 import { createPointerDragSelectionController } from '#client/pointer-drag-selection.ts'
@@ -101,25 +102,61 @@ function measureNamePillWidthPx(text: string) {
 	return Math.ceil(element.getBoundingClientRect().width)
 }
 
-function parseHostRouteParams(pathname: string) {
+type HostRouteAccess =
+	| {
+			mode: 'host-link'
+			shareToken: string
+			hostAccessToken: string
+	  }
+	| {
+			mode: 'account'
+			shareToken: string
+			hostAccessToken: ''
+	  }
+
+type AuthSession = {
+	id: string
+	email: string
+}
+
+function parseHostRouteParams(pathname: string): HostRouteAccess | null {
 	const segments = pathname.split('/').filter(Boolean)
-	if (segments.length !== 3) return null
-	if (segments[0] !== 's') return null
-	let shareToken = ''
-	let hostAccessToken = ''
-	try {
-		shareToken = decodeURIComponent(segments[1] ?? '').trim()
-		hostAccessToken = decodeURIComponent(segments[2] ?? '').trim()
-	} catch {
-		return null
+	if (segments[0] === 's' && segments.length === 3) {
+		let shareToken = ''
+		let hostAccessToken = ''
+		try {
+			shareToken = decodeURIComponent(segments[1] ?? '').trim()
+			hostAccessToken = decodeURIComponent(segments[2] ?? '').trim()
+		} catch {
+			return null
+		}
+		if (!shareToken || !hostAccessToken) return null
+		return { mode: 'host-link', shareToken, hostAccessToken }
 	}
-	if (!shareToken || !hostAccessToken) return null
-	return { shareToken, hostAccessToken }
+	if (
+		segments[0] === 'account' &&
+		segments[1] === 'schedules' &&
+		segments.length === 3
+	) {
+		try {
+			const shareToken = decodeURIComponent(segments[2] ?? '').trim()
+			if (!shareToken) return null
+			return { mode: 'account', shareToken, hostAccessToken: '' }
+		} catch {
+			return null
+		}
+	}
+	return null
 }
 
 function getPathname() {
 	if (typeof window === 'undefined') return '/'
 	return window.location.pathname
+}
+
+function getPathWithSearch() {
+	if (typeof window === 'undefined') return '/'
+	return `${window.location.pathname}${window.location.search}`
 }
 
 function isMobileViewport() {
@@ -430,8 +467,14 @@ function focusSubmissionEditButton(attendeeId: string) {
 
 export function ScheduleHostRoute(handle: Handle) {
 	const browserTimeZone = getBrowserTimeZone()
+	let accessMode: HostRouteAccess['mode'] = 'host-link'
 	let shareToken = ''
 	let hostAccessToken = ''
+	let authSession: AuthSession | null = null
+	let authSessionLoaded = false
+	let isClaimingSchedule = false
+	let claimMessage: string | null = null
+	let claimMessageIsError = false
 	let snapshot: ScheduleSnapshot | null = null
 	let hostNameDraft = ''
 	let titleDraft = ''
@@ -927,14 +970,98 @@ export function ScheduleHostRoute(handle: Handle) {
 		handle.update()
 	}
 
-	async function loadSnapshot() {
+	function createHostAuthHeaders(init: HeadersInit = {}) {
+		const headers = new Headers(init)
+		if (hostAccessToken) {
+			headers.set('X-Host-Token', hostAccessToken)
+		}
+		return headers
+	}
+
+	async function loadAuthSession() {
+		const requestShareToken = shareToken
+		try {
+			const response = await fetch('/api/session', {
+				headers: { Accept: 'application/json' },
+			})
+			const payload = (await response.json().catch(() => null)) as {
+				ok?: boolean
+				authenticated?: boolean
+				session?: AuthSession | null
+			} | null
+			if (requestShareToken !== shareToken || handle.signal.aborted) return
+			authSession =
+				response.ok && payload?.ok && payload.authenticated && payload.session
+					? payload.session
+					: null
+		} catch {
+			if (requestShareToken !== shareToken || handle.signal.aborted) return
+			authSession = null
+		}
+		authSessionLoaded = true
+		if (accessMode === 'account' && !authSession) {
+			navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+			return
+		}
+		handle.update()
+	}
+
+	async function claimSchedule() {
 		const requestShareToken = shareToken
 		const requestHostAccessToken = hostAccessToken
-		if (
-			!requestShareToken ||
-			!requestHostAccessToken ||
-			handle.signal.aborted
-		) {
+		if (!requestShareToken || !requestHostAccessToken || isClaimingSchedule) return
+		isClaimingSchedule = true
+		claimMessage = null
+		claimMessageIsError = false
+		handle.update()
+		try {
+			const response = await fetch(`/api/schedules/${requestShareToken}/claim`, {
+				method: 'POST',
+				headers: createHostAuthHeaders({
+					'Content-Type': 'application/json',
+				}),
+			})
+			const payload = (await response.json().catch(() => null)) as {
+				ok?: boolean
+				snapshot?: ScheduleSnapshot
+				error?: string
+			} | null
+			if (requestShareToken !== shareToken || handle.signal.aborted) return
+			if (!response.ok || !payload?.ok || !payload.snapshot) {
+				claimMessage =
+					typeof payload?.error === 'string'
+						? payload.error
+						: response.status === 401
+							? 'Sign in to save this schedule to your account.'
+							: 'Unable to save this schedule to your account.'
+				claimMessageIsError = true
+				if (response.status === 401) {
+					navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+					return
+				}
+				handle.update()
+				return
+			}
+			applySnapshot(payload.snapshot)
+			claimMessage = 'Saved to your account. You can reopen it from Your schedules.'
+			claimMessageIsError = false
+			handle.update()
+		} catch {
+			if (requestShareToken !== shareToken || handle.signal.aborted) return
+			claimMessage = 'Network error while saving this schedule to your account.'
+			claimMessageIsError = true
+			handle.update()
+		} finally {
+			if (requestShareToken === shareToken && !handle.signal.aborted) {
+				isClaimingSchedule = false
+				handle.update()
+			}
+		}
+	}
+
+	async function loadSnapshot() {
+		const requestShareToken = shareToken
+		if (!requestShareToken || handle.signal.aborted) {
 			return
 		}
 		const requestId = ++snapshotRequestId
@@ -942,10 +1069,9 @@ export function ScheduleHostRoute(handle: Handle) {
 			const response = await fetch(
 				`/api/schedules/${requestShareToken}/host-snapshot`,
 				{
-					headers: {
+					headers: createHostAuthHeaders({
 						Accept: 'application/json',
-						'X-Host-Token': requestHostAccessToken,
-					},
+					}),
 				},
 			)
 			const payload = (await response.json().catch(() => null)) as {
@@ -961,10 +1087,15 @@ export function ScheduleHostRoute(handle: Handle) {
 				return
 			}
 			if (!response.ok || !payload?.ok || !payload.snapshot) {
+				if (accessMode === 'account' && response.status === 401) {
+					navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+					return
+				}
 				const errorText =
 					typeof payload?.error === 'string'
 						? payload.error
-						: response.status === 401 || response.status === 403
+						: accessMode === 'host-link' &&
+							  (response.status === 401 || response.status === 403)
 							? 'Invalid host dashboard link.'
 							: 'Unable to load host dashboard.'
 				setStatus(errorText, true)
@@ -1038,11 +1169,6 @@ export function ScheduleHostRoute(handle: Handle) {
 			pendingSave = true
 			return
 		}
-		const requestHostAccessToken = hostAccessToken
-		if (!requestHostAccessToken) {
-			setStatus('Host access token missing.', true)
-			return
-		}
 		const hostName = normalizeName(hostNameDraft)
 		if (!hostName) {
 			setStatus('Host name is required.', true)
@@ -1095,10 +1221,9 @@ export function ScheduleHostRoute(handle: Handle) {
 			}
 			const response = await fetch(`/api/schedules/${requestShareToken}/host`, {
 				method: 'POST',
-				headers: {
+				headers: createHostAuthHeaders({
 					'Content-Type': 'application/json',
-					'X-Host-Token': requestHostAccessToken,
-				},
+				}),
 				body: JSON.stringify(body),
 			})
 			const payload = (await response.json().catch(() => null)) as {
@@ -1152,14 +1277,6 @@ export function ScheduleHostRoute(handle: Handle) {
 	) {
 		const requestShareToken = shareToken
 		if (!requestShareToken || handle.signal.aborted) return
-		const requestHostAccessToken = hostAccessToken
-		if (!requestHostAccessToken) {
-			const errorText = 'Host access token missing.'
-			submissionErrorById.set(attendeeId, errorText)
-			setStatus(errorText, true)
-			handle.update()
-			return
-		}
 		if (!normalizeName(nextSubmissionName)) {
 			submissionErrorById.set(attendeeId, 'Submission name is required.')
 			handle.update()
@@ -1172,10 +1289,9 @@ export function ScheduleHostRoute(handle: Handle) {
 		try {
 			const response = await fetch(`/api/schedules/${requestShareToken}/host`, {
 				method: 'POST',
-				headers: {
+				headers: createHostAuthHeaders({
 					'Content-Type': 'application/json',
-					'X-Host-Token': requestHostAccessToken,
-				},
+				}),
 				body: JSON.stringify({
 					submissionId: attendeeId,
 					submissionName: nextSubmissionName,
@@ -1219,14 +1335,6 @@ export function ScheduleHostRoute(handle: Handle) {
 	async function deleteSubmission(attendeeId: string) {
 		const requestShareToken = shareToken
 		if (!requestShareToken || handle.signal.aborted) return
-		const requestHostAccessToken = hostAccessToken
-		if (!requestHostAccessToken) {
-			const errorText = 'Host access token missing.'
-			submissionErrorById.set(attendeeId, errorText)
-			setStatus(errorText, true)
-			handle.update()
-			return
-		}
 		if (submissionActionById.has(attendeeId)) return
 		submissionErrorById.delete(attendeeId)
 		submissionActionById.set(attendeeId, 'delete')
@@ -1234,10 +1342,9 @@ export function ScheduleHostRoute(handle: Handle) {
 		try {
 			const response = await fetch(`/api/schedules/${requestShareToken}/host`, {
 				method: 'POST',
-				headers: {
+				headers: createHostAuthHeaders({
 					'Content-Type': 'application/json',
-					'X-Host-Token': requestHostAccessToken,
-				},
+				}),
 				body: JSON.stringify({
 					submissionId: attendeeId,
 					deleteSubmission: true,
@@ -1663,8 +1770,14 @@ export function ScheduleHostRoute(handle: Handle) {
 		clearSocketResources()
 		clearRefreshTimer()
 		const routeParams = parseHostRouteParams(nextPathname)
+		accessMode = routeParams?.mode ?? 'host-link'
 		shareToken = routeParams?.shareToken ?? ''
 		hostAccessToken = routeParams?.hostAccessToken ?? ''
+		authSession = null
+		authSessionLoaded = false
+		isClaimingSchedule = false
+		claimMessage = null
+		claimMessageIsError = false
 		snapshot = null
 		hostNameDraft = ''
 		titleDraft = ''
@@ -1699,14 +1812,15 @@ export function ScheduleHostRoute(handle: Handle) {
 		pendingSave = false
 		connectionState = 'offline'
 		setStatus(null, false)
+		void loadAuthSession()
 		await loadSnapshot()
-		if (shareToken && hostAccessToken) {
+		if (shareToken) {
 			connectSocket()
 		}
 	})
 
 	return () => {
-		if (!shareToken || !hostAccessToken) {
+		if (!shareToken) {
 			setDocumentTitle(toAppTitle('Host dashboard not found'))
 			return (
 				<section css={{ display: 'grid', gap: spacing.md }}>
@@ -1900,10 +2014,18 @@ export function ScheduleHostRoute(handle: Handle) {
 		const appOrigin =
 			typeof window === 'undefined' ? '' : window.location.origin
 		const attendeePath = `/s/${encodeURIComponent(shareToken)}`
-		const hostPath = `${attendeePath}/${encodeURIComponent(hostAccessToken)}`
+		const hostPath = hostAccessToken
+			? `${attendeePath}/${encodeURIComponent(hostAccessToken)}`
+			: null
 		const attendeeUrl = appOrigin ? `${appOrigin}${attendeePath}` : attendeePath
-		const hostUrl = appOrigin ? `${appOrigin}${hostPath}` : hostPath
+		const hostUrl = hostPath ? (appOrigin ? `${appOrigin}${hostPath}` : hostPath) : null
 		const scheduleTitle = currentSnapshot?.schedule.title.trim() ?? ''
+		const ownerUserId = currentSnapshot?.schedule.ownerUserId ?? null
+		const isOwnedByCurrentSession =
+			ownerUserId !== null && authSession?.id === ownerUserId
+		const isClaimedByAnotherAccount =
+			ownerUserId !== null && authSession !== null && authSession.id !== ownerUserId
+		const loginRedirectPath = `/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`
 
 		if (isLoading && !currentSnapshot) {
 			setDocumentTitle(toAppTitle('Loading host dashboard'))
@@ -2017,56 +2139,167 @@ export function ScheduleHostRoute(handle: Handle) {
 							</div>
 						</div>
 
-						<div css={{ display: 'grid', gap: spacing.xs }}>
-							<p css={{ margin: 0, color: colors.textMuted }}>
-								Host dashboard link
-							</p>
-							<div
-								css={{
-									display: 'grid',
-									gap: spacing.xs,
-									gridTemplateColumns: 'minmax(0, 1fr) auto',
-									alignItems: 'center',
-								}}
-							>
-								<code
+						{hostUrl ? (
+							<div css={{ display: 'grid', gap: spacing.xs }}>
+								<p css={{ margin: 0, color: colors.textMuted }}>
+									Host dashboard link
+								</p>
+								<div
 									css={{
-										display: 'block',
-										padding: `${spacing.xs} ${spacing.sm}`,
-										borderRadius: radius.sm,
-										border: `1px solid ${colors.border}`,
-										backgroundColor: colors.background,
-										color: colors.text,
-										overflowWrap: 'anywhere',
-									}}
-								>
-									{hostUrl}
-								</code>
-								<button
-									type="button"
-									aria-label="Copy host dashboard link"
-									on={{
-										click: () =>
-											void copyValueToClipboard('Host link', hostUrl),
-									}}
-									css={{
-										display: 'inline-flex',
+										display: 'grid',
+										gap: spacing.xs,
+										gridTemplateColumns: 'minmax(0, 1fr) auto',
 										alignItems: 'center',
-										justifyContent: 'center',
-										width: 34,
-										height: 34,
-										padding: 0,
-										borderRadius: radius.sm,
-										border: `1px solid ${colors.border}`,
-										backgroundColor: colors.surface,
-										color: colors.text,
-										cursor: 'pointer',
 									}}
 								>
-									{renderCopyIcon()}
-								</button>
+									<code
+										css={{
+											display: 'block',
+											padding: `${spacing.xs} ${spacing.sm}`,
+											borderRadius: radius.sm,
+											border: `1px solid ${colors.border}`,
+											backgroundColor: colors.background,
+											color: colors.text,
+											overflowWrap: 'anywhere',
+										}}
+									>
+										{hostUrl}
+									</code>
+									<button
+										type="button"
+										aria-label="Copy host dashboard link"
+										on={{
+											click: () =>
+												void copyValueToClipboard('Host link', hostUrl),
+										}}
+										css={{
+											display: 'inline-flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											width: 34,
+											height: 34,
+											padding: 0,
+											borderRadius: radius.sm,
+											border: `1px solid ${colors.border}`,
+											backgroundColor: colors.surface,
+											color: colors.text,
+											cursor: 'pointer',
+										}}
+									>
+										{renderCopyIcon()}
+									</button>
+								</div>
 							</div>
-						</div>
+						) : (
+							<div css={{ display: 'grid', gap: spacing.xs }}>
+								<p css={{ margin: 0, color: colors.textMuted }}>
+									Private host-link fallback
+								</p>
+								<p css={{ margin: 0, color: colors.text }}>
+									You are using logged-in host access. Your original private
+									host link still works if you saved it.
+								</p>
+							</div>
+						)}
+					</div>
+					<div
+						css={{
+							display: 'grid',
+							gap: spacing.sm,
+							padding: spacing.md,
+							borderRadius: radius.md,
+							border: `1px solid ${colors.border}`,
+							backgroundColor:
+								'color-mix(in srgb, var(--color-surface) 78%, transparent)',
+						}}
+					>
+						<p
+							css={{
+								margin: 0,
+								fontWeight: typography.fontWeight.medium,
+								color: colors.text,
+							}}
+						>
+							Returning host access
+						</p>
+						{accessMode === 'account' ? (
+							<p css={{ margin: 0, color: colors.textMuted }}>
+								You are managing this schedule from your account
+								{authSession ? ` (${authSession.email})` : ''}. The private host
+								link still works as a fallback.
+							</p>
+						) : isOwnedByCurrentSession ? (
+							<p css={{ margin: 0, color: colors.textMuted }}>
+								This schedule is already saved to your account. Open it any time
+								from <a href="/account/schedules">Your schedules</a> or keep
+								using the private host link.
+							</p>
+						) : isClaimedByAnotherAccount ? (
+							<p css={{ margin: 0, color: colors.textMuted }}>
+								This private host link already belongs to a different account.
+								You can still use the link directly.
+							</p>
+						) : authSession ? (
+							<div css={{ display: 'grid', gap: spacing.sm }}>
+								<p css={{ margin: 0, color: colors.textMuted }}>
+									Signed in as {authSession.email}. Save this schedule so you can
+									reopen it from Your schedules.
+								</p>
+								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+									<button
+										type="button"
+										on={{ click: () => void claimSchedule() }}
+										disabled={isClaimingSchedule}
+										css={{
+											padding: `${spacing.xs} ${spacing.md}`,
+											borderRadius: radius.sm,
+											border: `1px solid ${colors.border}`,
+											backgroundColor: colors.surface,
+											color: colors.text,
+											cursor: isClaimingSchedule ? 'wait' : 'pointer',
+										}}
+									>
+										{isClaimingSchedule
+											? 'Saving to account…'
+											: 'Save this schedule to your account'}
+									</button>
+									<a href="/account/schedules">Your schedules</a>
+								</div>
+							</div>
+						) : authSessionLoaded ? (
+							<div css={{ display: 'grid', gap: spacing.sm }}>
+								<p css={{ margin: 0, color: colors.textMuted }}>
+									Want an easier return path? Sign in, then save this schedule to
+									your account without changing attendee access.
+								</p>
+								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+									<a href={loginRedirectPath}>Sign in to save this schedule</a>
+									<a href="/account/schedules">Your schedules</a>
+								</div>
+							</div>
+						) : (
+							<p css={{ margin: 0, color: colors.textMuted }}>
+								Checking whether you are already signed in…
+							</p>
+						)}
+						<p
+							role={
+								claimMessage
+									? claimMessageIsError
+										? 'alert'
+										: 'status'
+									: undefined
+							}
+							aria-live="polite"
+							aria-hidden={claimMessage ? undefined : true}
+							css={{
+								margin: 0,
+								minHeight: '1.5rem',
+								color: claimMessageIsError ? colors.error : colors.textMuted,
+							}}
+						>
+							{claimMessage ?? '\u00a0'}
+						</p>
 					</div>
 					<p
 						role={

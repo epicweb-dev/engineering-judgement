@@ -45,6 +45,8 @@ Local development uses `.env`, which Wrangler loads automatically:
   so sandbox-hosted widget requests target your real app domain.
 - `APP_COMMIT_SHA` (optional; set automatically by deploy workflows for
   version-aware `/health` checks)
+- `COOKIE_SECRET` (required; used to sign browser session cookies for claimed
+  host schedules)
 
 Tests run with `CLOUDFLARE_ENV=test` (set by Playwright) and still read local
 secrets from `.env`.

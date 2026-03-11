@@ -8,6 +8,8 @@ export type ScheduleRecord = {
 	rangeStartUtc: string
 	rangeEndUtc: string
 	createdAt: string
+	ownerUserId: string | null
+	claimedAt: string | null
 }
 
 export type AttendeeRecord = {
@@ -93,6 +95,8 @@ type ScheduleRow = {
 	range_start_utc: string
 	range_end_utc: string
 	created_at: string
+	owner_user_id: string | null
+	claimed_at: string | null
 }
 
 type AttendeeRow = {
@@ -119,6 +123,13 @@ type BlockedSlotRow = {
 
 type ScheduleHostAccessTokenRow = {
 	host_access_token_hash: string | null
+}
+
+export type HostScheduleSummary = {
+	shareToken: string
+	title: string
+	createdAt: string
+	claimedAt: string | null
 }
 
 export function createShareToken() {
@@ -232,6 +243,8 @@ function toScheduleRecord(row: ScheduleRow): ScheduleRecord {
 		rangeStartUtc: row.range_start_utc,
 		rangeEndUtc: row.range_end_utc,
 		createdAt: row.created_at,
+		ownerUserId: row.owner_user_id ?? null,
+		claimedAt: row.claimed_at ?? null,
 	}
 }
 
@@ -331,7 +344,9 @@ export async function getScheduleByShareToken(
 				interval_minutes,
 				range_start_utc,
 				range_end_utc,
-				created_at
+				created_at,
+				owner_user_id,
+				claimed_at
 			FROM schedules
 			WHERE share_token = ?1
 			LIMIT 1`,
@@ -364,6 +379,84 @@ export async function verifyScheduleHostAccessToken(
 	const providedTokenHash = await hashHostAccessToken(normalizedHostAccessToken)
 	if (!row.host_access_token_hash) return 'invalid'
 	return row.host_access_token_hash === providedTokenHash ? 'valid' : 'invalid'
+}
+
+export async function verifyScheduleOwnerAccess(
+	db: D1DatabaseLike,
+	shareToken: string,
+	ownerUserId: string,
+) {
+	const schedule = await getScheduleByShareToken(db, shareToken)
+	if (!schedule) return 'not-found' as const
+	return schedule.ownerUserId === ownerUserId ? ('valid' as const) : ('invalid' as const)
+}
+
+export async function claimScheduleOwnership(
+	db: D1DatabaseLike,
+	input: { shareToken: string; ownerUserId: string },
+) {
+	const schedule = await getScheduleByShareToken(db, input.shareToken)
+	if (!schedule) {
+		throw new Error('Schedule not found.')
+	}
+	if (schedule.ownerUserId && schedule.ownerUserId !== input.ownerUserId) {
+		throw new Error('Schedule already claimed by another account.')
+	}
+	if (schedule.ownerUserId === input.ownerUserId) {
+		return {
+			scheduleId: schedule.id,
+			claimed: false,
+			claimedAt: schedule.claimedAt,
+		}
+	}
+
+	const claimedAt = new Date().toISOString()
+	await db
+		.prepare(
+			`UPDATE schedules
+			SET owner_user_id = ?2,
+				claimed_at = ?3
+			WHERE id = ?1`,
+		)
+		.bind(schedule.id, input.ownerUserId, claimedAt)
+		.run()
+
+	return {
+		scheduleId: schedule.id,
+		claimed: true,
+		claimedAt,
+	}
+}
+
+export async function listSchedulesOwnedByUser(
+	db: D1DatabaseLike,
+	ownerUserId: string,
+) {
+	const rows = await db
+		.prepare(
+			`SELECT
+				share_token,
+				title,
+				created_at,
+				claimed_at
+			FROM schedules
+			WHERE owner_user_id = ?1
+			ORDER BY COALESCE(claimed_at, created_at) DESC, created_at DESC`,
+		)
+		.bind(ownerUserId)
+		.all<{
+			share_token: string
+			title: string
+			created_at: string
+			claimed_at: string | null
+		}>()
+
+	return rows.results.map((row) => ({
+		shareToken: row.share_token,
+		title: row.title,
+		createdAt: row.created_at,
+		claimedAt: row.claimed_at ?? null,
+	})) satisfies Array<HostScheduleSummary>
 }
 
 export async function createSchedule(

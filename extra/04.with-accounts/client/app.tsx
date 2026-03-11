@@ -7,6 +7,12 @@ import { visuallyHiddenCss } from './styles/visually-hidden.ts'
 function getRouteAnnouncement(pathname: string) {
 	const segments = pathname.split('/').filter(Boolean)
 	if (segments.length === 0) return 'Create schedule page loaded.'
+	if (segments[0] === 'login') return 'Host login page loaded.'
+	if (segments[0] === 'account' && segments[1] === 'schedules') {
+		return segments.length >= 3
+			? 'Saved host dashboard loaded.'
+			: 'Your schedules page loaded.'
+	}
 	if (segments[0] === 's' && segments.length >= 3)
 		return 'Host dashboard loaded.'
 	if (segments[0] === 's' && segments.length >= 2) {
@@ -149,6 +155,9 @@ export function App(handle: Handle) {
 						<div css={{ display: 'inline-flex', gap: spacing.md }}>
 							<a href="/" css={navLinkCss}>
 								New schedule
+							</a>
+							<a href="/account/schedules" css={navLinkCss}>
+								Your schedules
 							</a>
 							<a href="/how-it-works" css={navLinkCss} data-router-reload>
 								How it works

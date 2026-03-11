@@ -20,6 +20,7 @@ types, runtime validation, and documentation in sync.
    	APP_DB: d1DatabaseSchema,
    	APP_BASE_URL: optionalUrlStringSchema,
    	APP_COMMIT_SHA: optionalCommitShaSchema,
+   	COOKIE_SECRET: requiredSecretStringSchema,
    })
    ```
 

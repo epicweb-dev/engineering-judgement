@@ -55,11 +55,19 @@ const optionalCommitShaSchema = createSchema<unknown, string | undefined>(
 	},
 )
 
+const requiredSecretStringSchema = createSchema<unknown, string>((value, context) => {
+	if (typeof value !== 'string') return fail('Expected string', context.path)
+	const trimmed = value.trim()
+	if (!trimmed) return fail('Expected non-empty string', context.path)
+	return { value: trimmed }
+})
+
 export const EnvSchema = object({
 	APP_DB: d1DatabaseSchema,
 	SCHEDULE_ROOM: durableObjectNamespaceSchema,
 	APP_BASE_URL: optionalUrlStringSchema,
 	APP_COMMIT_SHA: optionalCommitShaSchema,
+	COOKIE_SECRET: requiredSecretStringSchema,
 })
 
 export type AppEnv = InferOutput<typeof EnvSchema>

@@ -1,11 +1,9 @@
 import { type BuildAction } from 'remix/fetch-router'
-import {
-	getScheduleSnapshot,
-	verifyScheduleHostAccessToken,
-} from '#shared/schedule-store.ts'
+import { getScheduleSnapshot } from '#shared/schedule-store.ts'
 import { type AppEnv } from '#types/env-schema.ts'
 import { type routes } from '#server/routes.ts'
 import { getShareToken } from './schedule-handler-utils.ts'
+import { authorizeHostScheduleRequest } from './schedule-host-auth.ts'
 
 export function createScheduleHostReadHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 	return {
@@ -19,31 +17,12 @@ export function createScheduleHostReadHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 				)
 			}
 
-			const providedHostToken = request.headers.get('X-Host-Token')?.trim()
-			if (!providedHostToken) {
-				return Response.json(
-					{ ok: false, error: 'Missing host access token.' },
-					{ status: 401 },
-				)
-			}
-
-			const hostAccessVerification = await verifyScheduleHostAccessToken(
-				appEnv.APP_DB,
+			const authorization = await authorizeHostScheduleRequest({
+				db: appEnv.APP_DB,
+				request,
 				shareToken,
-				providedHostToken,
-			)
-			if (hostAccessVerification === 'not-found') {
-				return Response.json(
-					{ ok: false, error: 'Schedule not found.' },
-					{ status: 404 },
-				)
-			}
-			if (hostAccessVerification !== 'valid') {
-				return Response.json(
-					{ ok: false, error: 'Invalid host access token.' },
-					{ status: 403 },
-				)
-			}
+			})
+			if (!authorization.ok) return authorization.response
 
 			const snapshot = await getScheduleSnapshot(appEnv.APP_DB, shareToken)
 			if (!snapshot) {
