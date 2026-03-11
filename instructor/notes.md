@@ -39,15 +39,19 @@ Each exercise targets a different judgment dimension. Avoid repeated stakeholder
 6. Gap analysis
 7. Extracted heuristics
 
-### Proposed Exercise Arc (Four Judgment Muscles)
+### Proposed Exercise Arc (Five Judgment Muscles)
 
 1. **Exercise 1 — Ambiguous Product: Build the MVP**
    - Problem definition: convert vague goals into concrete system definition.
 2. **Exercise 2 — Protect the User Experience**
    - Protecting UX invariants: identify what must not degrade when a system evolves.
-3. **Exercise 3 — Conflicting Constraints**
+3. **Exercise 3 — Feature Framing and Product Thinking**
+   - Feature judgment: decide whether a feature is worth building, clarify the underlying problem, and raise the bar for what should ship before implementation begins.
+   - Reference: [@thdxr on delaying gratification in product development](https://x.com/thdxr/status/2031377117007454421)
+   - Summary: LLMs make it too easy to ship features into existence, which lowers the bar for product thinking, encourages hacky iteration, and pulls teams away from refactoring and cleanup. This exercise should train learners to slow down, define why a feature matters, and reject work that is not clearly worth its cost.
+4. **Exercise 4 — Conflicting Constraints**
    - Articulating tradeoffs: make competing constraints legible and justify decisions.
-4. **Exercise 4 — System Migration Risk**
+5. **Exercise 5 — System Migration Risk**
    - Risk modeling & system continuity: manage large change while preserving user trust.
 
 ## What to Build First (Implementation Priority)
@@ -87,7 +91,7 @@ Each exercise targets a different judgment dimension. Avoid repeated stakeholder
 
 1. **Intro (15 min)**
    - Set expectations: judging reasoning quality, not coding speed.
-2. **Exercise cycle x 4 (35-45 min each)**
+2. **Exercise cycle x 5 (35-45 min each)**
    - Framing + questions + build + evaluation.
 3. **Debrief after each cycle (10-15 min)**
    - Capture decision patterns and failure modes.
@@ -113,6 +117,39 @@ Each exercise targets a different judgment dimension. Avoid repeated stakeholder
 - Diff between problem and solution is focused and teachable.
 - Instructor notes include timing, prompts, and debrief cues.
 
+## Exercise 3 Detailed Plan (Feature Framing and Product Thinking)
+
+### Purpose
+
+Teach learners that good engineering judgment starts before tradeoffs and implementation. They should be able to slow down, inspect whether a request is actually worth shipping, and improve the feature definition before any code is written.
+
+### Scenario Shape
+
+- The MVP exists and stakeholders want "just one more feature."
+- The request sounds plausible, but the motivation, user value, and success criteria are underdefined.
+- Learners must determine whether the feature should be shipped now, reframed, narrowed, deferred, or rejected.
+
+### Prompting Themes
+
+- What user problem is this feature actually solving?
+- Why now?
+- What evidence do we have that this matters?
+- What simpler alternative could solve the same problem?
+- What cleanup or refactoring should happen before adding more surface area?
+- What would make this feature not worth shipping?
+
+### Required Learner Artifacts
+
+- A written feature framing brief.
+- A list of assumptions and open questions.
+- A recommendation: ship, narrow, defer, or reject.
+- A minimal success definition if the feature proceeds.
+- A short note on what existing system quality must be improved first, if any.
+
+### Key Takeaway
+
+Senior engineers do not treat every plausible feature request as implementation work. They raise the quality bar by clarifying the problem, testing whether the work is worth doing, and protecting the codebase from avoidable feature sprawl.
+
 ## Next Actions
 
 1. Author Exercise 1 stakeholder sheet.
@@ -120,6 +157,7 @@ Each exercise targets a different judgment dimension. Avoid repeated stakeholder
 3. Write Exercise 1 problem and solution `README.mdx` files.
 4. Build Exercise 1 problem app and minimal solution app.
 5. Run one dry-run and revise rubric before adding Exercise 2.
+6. Design Exercise 3 around feature framing before implementation.
 
 ## Consistent Vocabulary
 

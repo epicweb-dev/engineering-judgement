@@ -44,14 +44,15 @@ Each exercise follows the same loop. The exercises should **not** feel like repe
 
 ---
 
-## **4. Exercise Progression: Four Judgment Muscles**
+## **4. Exercise Progression: Five Judgment Muscles**
 
 | Exercise | Skill | Purpose |
 |----------|-------|---------|
 | 1 | Problem definition | Convert vague goals into concrete system definition |
 | 2 | Protecting UX invariants | Identify what must not degrade when a system evolves |
-| 3 | Articulating tradeoffs | Make competing constraints legible and justify decisions |
-| 4 | Risk modeling & system continuity | Manage large change while preserving user trust |
+| 3 | Feature framing and product thinking | Decide whether a feature is worth building and define why before implementation starts |
+| 4 | Articulating tradeoffs | Make competing constraints legible and justify decisions |
+| 5 | Risk modeling & system continuity | Manage large change while preserving user trust |
 
 The workshop should feel like **layers of engineering judgment**, not repeated planning exercises.
 
@@ -113,7 +114,36 @@ Implementation occurs after these protections are defined.
 
 ---
 
-## **7. Exercise 3 — Conflicting Constraints**
+## **7. Exercise 3 — Feature Framing and Product Thinking**
+
+**Purpose:** Train engineers to slow down and determine whether a feature is worth shipping before they move into implementation mode.
+
+**Scenario:** The MVP exists and a plausible new feature request arrives, but the request is underdefined and the team is at risk of shipping motion instead of value.
+
+**Reference inspiration:** [@thdxr on delaying gratification in product development](https://x.com/thdxr/status/2031377117007454421)
+
+**Summary of the post:** LLMs make it too easy to ship features into existence, which lowers the bar for what deserves to ship, encourages hacky iteration instead of thoughtful design, and crowds out cleanup/refactoring work that would improve the product more.
+
+**Example scenarios** for the scheduling app:
+- Add recurring meetings because "power users will want it"
+- Add participant accounts because "it feels more professional"
+- Add AI-generated meeting suggestions because "we should have something intelligent"
+
+**Participants must:**
+1. Clarify the user problem behind the request
+2. Separate real evidence from assumption and momentum
+3. Define what would make the feature worth shipping
+4. Consider smaller alternatives or deferral paths
+5. Identify cleanup/refactoring that should happen before adding new complexity
+6. Recommend: ship, narrow, defer, or reject
+
+**Key concept:** Engineering judgment is not only about executing features well. It is also about deciding whether the feature should exist in its current form at all.
+
+**Learning outcome:** Participants practice raising the quality bar before implementation begins.
+
+---
+
+## **8. Exercise 4 — Conflicting Constraints**
 
 **Purpose:** Train engineers to articulate and justify tradeoffs.
 
@@ -137,7 +167,7 @@ Implementation occurs after these protections are defined.
 
 ---
 
-## **8. Exercise 4 — System Migration Risk**
+## **9. Exercise 5 — System Migration Risk**
 
 **Purpose:** Teach engineers to manage large system change while preserving user trust.
 
@@ -178,7 +208,7 @@ Participants must propose:
 
 ---
 
-## **9. Consistent Vocabulary**
+## **10. Consistent Vocabulary**
 
 Use throughout the workshop:
 
@@ -199,12 +229,13 @@ The workshop trains thinking, not implementation.
 
 ---
 
-## **10. Design Goals: Participant Capabilities**
+## **11. Design Goals: Participant Capabilities**
 
 Participants should leave with the ability to:
 
 - Define problems clearly
 - Identify hidden constraints
+- Decide whether a proposed feature is worth building
 - Articulate tradeoffs before implementation
 - Detect silent UX degradation
 - Model system risk
@@ -214,7 +245,7 @@ This capability should remain valuable even as implementation becomes increasing
 
 ---
 
-## **11. Structural Model of Each Exercise (Detail)**
+## **12. Structural Model of Each Exercise (Detail)**
 
 ### **A. Problem Phase**
 
@@ -268,7 +299,7 @@ Failure is allowed — but must be explained through reasoning.
 
 ---
 
-## **12. Stakeholder Design Model**
+## **13. Stakeholder Design Model**
 
 Create a **Stakeholder Sheet** containing:
 - Business goals
@@ -284,7 +315,7 @@ Create a **Stakeholder Sheet** containing:
 
 ---
 
-## **13. Dungeon Master Analogy (Refined)**
+## **14. Dungeon Master Analogy (Refined)**
 
 Useful metaphor:
 - You have hidden system knowledge.
@@ -302,7 +333,7 @@ You reveal information when:
 
 ---
 
-## **14. Key Design Decisions**
+## **15. Key Design Decisions**
 
 ### **Decision 1 — No Implementation Rubric**
 You are not evaluating their coding workflow.
@@ -315,7 +346,7 @@ If they miss a key constraint: let them implement, let it fail, then analyze why
 
 ---
 
-## **15. Philosophy Alignment**
+## **16. Philosophy Alignment**
 
 The workshop is valuable because:
 - It compresses ambiguity into a controlled learning loop.
@@ -330,7 +361,7 @@ It is not valuable because:
 
 ---
 
-## **16. Open Design Question (Still Unresolved)**
+## **17. Open Design Question (Still Unresolved)**
 
 How to formalize evaluation in scalable/self-paced form.
 
@@ -342,11 +373,11 @@ Not solved yet — intentionally deferred until after first live run.
 
 ---
 
-## **17. Immediate Next Planning Steps**
+## **18. Immediate Next Planning Steps**
 
 Before implementation, define:
 1. The stakeholder sheet for each exercise
 2. The participant role sheet
 3. The explicit evaluation reflection questions
 4. The hidden constraints for each exercise
-5. Exercise 2–4 content (currently only Exercise 1 is implemented)
+5. Exercise 2–5 content (currently only Exercise 1 is implemented)
