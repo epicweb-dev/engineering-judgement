@@ -1,0 +1,48 @@
+# Map the Tradeoffs
+
+👨‍💼 The narrow host-login plan from Exercise 3 solved one problem: returning
+hosts can get back to schedules more reliably. But the broader pressure has not
+gone away.
+
+Some people now want a wider accounts system because it sounds more
+trustworthy, more professional, and more scalable for repeat usage. Others want
+to preserve the product's low-friction advantage and avoid dragging account
+complexity into flows that currently work.
+
+🧝‍♀️ Set the playground to `extra/03.improved-implementation`. Use the planning
+artifacts you have already produced as context:
+
+- <InlineFile file="docs/planning/feature-framing-brief.md" />
+- <InlineFile file="docs/planning/response-constraint-brief.md" />
+- <InlineFile file="docs/planning/ux-invariants.md" />
+- <InlineFile file="docs/planning/implementation-brief.md" />
+
+🐨 Create a dedicated <InlineFile file="docs/planning/tradeoff-map.md" />
+artifact that compares the competing directions in front of the team.
+
+At minimum, compare:
+
+1. The narrow host-focused path
+2. A broader account/login expansion for repeat users
+
+Your map should cover:
+
+1. The priorities each path is trying to optimize
+2. The success criteria each path would claim as justification
+3. The likely harms or regression risks each path creates
+4. The assumptions or evidence gaps hidden inside each argument
+5. The mitigations that could reduce downside, if that path were chosen
+
+Requirements:
+
+- Keep the comparison grounded in the app's real flows on `/`,
+  `/s/{scheduleKey}`, and `/s/{scheduleKey}/{hostKey}`.
+- Include finalized-plan rate, create-flow speed, attendee completion, trust,
+  and implementation/support cost somewhere in your analysis.
+- Be explicit about which constraints are truly competing rather than merely
+  inconvenient.
+- Do not collapse everything into one "balanced" answer yet. Surface the
+  tension first.
+
+💰 Good tradeoff work starts by making the conflict legible. If both options
+sound equally good in your document, you have probably hidden the real cost.
