@@ -17,6 +17,12 @@
       "path": "exercises/02.product-restraint/01.solution.qualify-the-request"
     },
     {
+      "path": "exercises/02.product-restraint/02.problem.constrain-the-response"
+    },
+    {
+      "path": "exercises/02.product-restraint/02.solution.constrain-the-response"
+    },
+    {
       "path": "exercises/03.protect-the-user-experience/01.problem.define-ux-invariants"
     },
     {
