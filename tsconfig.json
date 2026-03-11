@@ -11,16 +11,22 @@
       "path": "exercises/01.building-an-mvp/04.solution.implementation"
     },
     {
-      "path": "exercises/02.protect-the-user-experience/01.problem.define-ux-invariants"
+      "path": "exercises/02.product-restraint/01.problem.qualify-the-request"
     },
     {
-      "path": "exercises/02.protect-the-user-experience/01.solution.define-ux-invariants"
+      "path": "exercises/02.product-restraint/01.solution.qualify-the-request"
     },
     {
-      "path": "exercises/02.protect-the-user-experience/02.problem.frame-the-change"
+      "path": "exercises/03.protect-the-user-experience/01.problem.define-ux-invariants"
     },
     {
-      "path": "exercises/02.protect-the-user-experience/02.solution.frame-the-change"
+      "path": "exercises/03.protect-the-user-experience/01.solution.define-ux-invariants"
+    },
+    {
+      "path": "exercises/03.protect-the-user-experience/02.problem.frame-the-change"
+    },
+    {
+      "path": "exercises/03.protect-the-user-experience/02.solution.frame-the-change"
     }
   ]
 }

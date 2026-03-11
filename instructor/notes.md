@@ -43,12 +43,12 @@ Each exercise targets a different judgment dimension. Avoid repeated stakeholder
 
 1. **Exercise 1 — Ambiguous Product: Build the MVP**
    - Problem definition: convert vague goals into concrete system definition.
-2. **Exercise 2 — Protect the User Experience**
-   - Protecting UX invariants: identify what must not degrade when a system evolves.
-3. **Exercise 3 — Feature Framing and Product Thinking**
+2. **Exercise 2 — Product Restraint**
    - Feature judgment: decide whether a feature is worth building, clarify the underlying problem, and raise the bar for what should ship before implementation begins.
    - Reference: [@thdxr on delaying gratification in product development](https://x.com/thdxr/status/2031377117007454421)
    - Summary: LLMs make it too easy to ship features into existence, which lowers the bar for product thinking, encourages hacky iteration, and pulls teams away from refactoring and cleanup. This exercise should train learners to slow down, define why a feature matters, and reject work that is not clearly worth its cost.
+3. **Exercise 3 — Protect the User Experience**
+   - Protecting UX invariants: identify what must not degrade when a system evolves.
 4. **Exercise 4 — Conflicting Constraints**
    - Articulating tradeoffs: make competing constraints legible and justify decisions.
 5. **Exercise 5 — System Migration Risk**
@@ -117,7 +117,7 @@ Each exercise targets a different judgment dimension. Avoid repeated stakeholder
 - Diff between problem and solution is focused and teachable.
 - Instructor notes include timing, prompts, and debrief cues.
 
-## Exercise 3 Detailed Plan (Feature Framing and Product Thinking)
+## Exercise 2 Detailed Plan (Product Restraint)
 
 ### Purpose
 
@@ -157,7 +157,8 @@ Senior engineers do not treat every plausible feature request as implementation 
 3. Write Exercise 1 problem and solution `README.mdx` files.
 4. Build Exercise 1 problem app and minimal solution app.
 5. Run one dry-run and revise rubric before adding Exercise 2.
-6. Design Exercise 3 around feature framing before implementation.
+6. Design Exercise 2 around feature framing before implementation.
+7. Define Exercise 3 UX invariants before implementation work begins.
 
 ## Consistent Vocabulary
 

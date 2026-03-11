@@ -49,8 +49,8 @@ Each exercise follows the same loop. The exercises should **not** feel like repe
 | Exercise | Skill | Purpose |
 |----------|-------|---------|
 | 1 | Problem definition | Convert vague goals into concrete system definition |
-| 2 | Protecting UX invariants | Identify what must not degrade when a system evolves |
-| 3 | Feature framing and product thinking | Decide whether a feature is worth building and define why before implementation starts |
+| 2 | Product restraint | Decide whether a feature is worth building and define why before implementation starts |
+| 3 | Protecting UX invariants | Identify what must not degrade when a system evolves |
 | 4 | Articulating tradeoffs | Make competing constraints legible and justify decisions |
 | 5 | Risk modeling & system continuity | Manage large change while preserving user trust |
 
@@ -77,7 +77,36 @@ The workshop should feel like **layers of engineering judgment**, not repeated p
 
 ---
 
-## **6. Exercise 2 — Protect the User Experience**
+## **6. Exercise 2 — Product Restraint**
+
+**Purpose:** Train engineers to slow down and determine whether a feature is worth shipping before they move into implementation mode.
+
+**Scenario:** The MVP exists and a plausible new feature request arrives, but the request is underdefined and the team is at risk of shipping motion instead of value.
+
+**Reference inspiration:** [@thdxr on delaying gratification in product development](https://x.com/thdxr/status/2031377117007454421)
+
+**Summary of the post:** LLMs make it too easy to ship features into existence, which lowers the bar for what deserves to ship, encourages hacky iteration instead of thoughtful design, and crowds out cleanup/refactoring work that would improve the product more.
+
+**Example scenarios** for the scheduling app:
+- Add recurring meetings because "power users will want it"
+- Add participant accounts because "it feels more professional"
+- Add AI-generated meeting suggestions because "we should have something intelligent"
+
+**Participants must:**
+1. Clarify the user problem behind the request
+2. Separate real evidence from assumption and momentum
+3. Define what would make the feature worth shipping
+4. Consider smaller alternatives or deferral paths
+5. Identify cleanup/refactoring that should happen before adding new complexity
+6. Recommend: ship, narrow, defer, or reject
+
+**Key concept:** Engineering judgment is not only about executing features well. It is also about deciding whether the feature should exist in its current form at all.
+
+**Learning outcome:** Participants practice raising the quality bar before implementation begins.
+
+---
+
+## **7. Exercise 3 — Protect the User Experience**
 
 **Purpose:** Teach engineers to identify what must not degrade when a system evolves.
 
@@ -111,35 +140,6 @@ Define how regression would be detected:
 Implementation occurs after these protections are defined.
 
 **Learning outcome:** Senior engineers proactively define what cannot break before they ship changes.
-
----
-
-## **7. Exercise 3 — Feature Framing and Product Thinking**
-
-**Purpose:** Train engineers to slow down and determine whether a feature is worth shipping before they move into implementation mode.
-
-**Scenario:** The MVP exists and a plausible new feature request arrives, but the request is underdefined and the team is at risk of shipping motion instead of value.
-
-**Reference inspiration:** [@thdxr on delaying gratification in product development](https://x.com/thdxr/status/2031377117007454421)
-
-**Summary of the post:** LLMs make it too easy to ship features into existence, which lowers the bar for what deserves to ship, encourages hacky iteration instead of thoughtful design, and crowds out cleanup/refactoring work that would improve the product more.
-
-**Example scenarios** for the scheduling app:
-- Add recurring meetings because "power users will want it"
-- Add participant accounts because "it feels more professional"
-- Add AI-generated meeting suggestions because "we should have something intelligent"
-
-**Participants must:**
-1. Clarify the user problem behind the request
-2. Separate real evidence from assumption and momentum
-3. Define what would make the feature worth shipping
-4. Consider smaller alternatives or deferral paths
-5. Identify cleanup/refactoring that should happen before adding new complexity
-6. Recommend: ship, narrow, defer, or reject
-
-**Key concept:** Engineering judgment is not only about executing features well. It is also about deciding whether the feature should exist in its current form at all.
-
-**Learning outcome:** Participants practice raising the quality bar before implementation begins.
 
 ---
 

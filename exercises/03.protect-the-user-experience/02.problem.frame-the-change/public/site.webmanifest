@@ -1,0 +1,26 @@
+{
+	"name": "Epic Scheduler",
+	"short_name": "Scheduler",
+	"icons": [
+		{
+			"src": "/epic-scheduler-favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml"
+		},
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"theme_color": "#5b3df5",
+	"background_color": "#f5f7ff",
+	"display": "standalone",
+	"start_url": "/",
+	"description": "Link-based meeting scheduler with realtime overlap heatmaps."
+}
