@@ -1,0 +1,82 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 760 180"
+	role="img"
+	aria-label="Epic Scheduler logo"
+>
+	<defs>
+		<linearGradient id="logo-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" stop-color="#7b6aff" />
+			<stop offset="100%" stop-color="#5b3df5" />
+		</linearGradient>
+		<linearGradient id="logo-slot" x1="0%" y1="0%" x2="100%" y2="0%">
+			<stop offset="0%" stop-color="#ffffff" />
+			<stop offset="100%" stop-color="#e4e9ff" />
+		</linearGradient>
+	</defs>
+	<style>
+		.logo-wordmark-primary {
+			fill: #111827;
+		}
+		.logo-wordmark-secondary {
+			fill: #475569;
+		}
+		@media (prefers-color-scheme: dark) {
+			.logo-wordmark-primary {
+				fill: #e8ecff;
+			}
+			.logo-wordmark-secondary {
+				fill: #a5b0d1;
+			}
+		}
+	</style>
+
+	<g transform="translate(16 16)">
+		<rect width="148" height="148" rx="34" fill="url(#logo-bg)" />
+		<g
+			transform="translate(31 38)"
+			fill="none"
+			stroke="url(#logo-slot)"
+			stroke-width="8"
+			stroke-linecap="round"
+		>
+			<path d="M0 0h84" />
+			<path d="M0 28h84" opacity="0.9" />
+			<path d="M0 56h56" opacity="0.86" />
+		</g>
+		<circle cx="104" cy="95" r="19" fill="#f8fbff" />
+		<path
+			d="M95.6 95.2l5.6 5.8 11.3-11.7"
+			fill="none"
+			stroke="#3f2dd4"
+			stroke-width="6.4"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</g>
+
+	<g transform="translate(196 46)">
+		<text
+			x="0"
+			y="52"
+			font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+			font-size="66"
+			font-weight="780"
+			letter-spacing="-1.1"
+			class="logo-wordmark-primary"
+		>
+			Epic Scheduler
+		</text>
+		<text
+			x="2"
+			y="103"
+			font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+			font-size="30"
+			font-weight="560"
+			letter-spacing="0.12"
+			class="logo-wordmark-secondary"
+		>
+			Fast overlap, fewer messages.
+		</text>
+	</g>
+</svg>

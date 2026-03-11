@@ -12,7 +12,7 @@ it can also be deployed alongside the main app.
    mirrors the third-party API (for example, `POST /resource`).
 3. Add `mock-servers/acme/wrangler.jsonc` with the Worker config and any
    bindings (D1/KV/etc).
-4. In `cli.ts`, start the mock Worker during `bun run dev` (via `wrangler dev`)
+4. In `cli.ts`, start the mock Worker during `npm run dev` (via `wrangler dev`)
    and set `ACME_API_BASE_URL` to the mock Worker origin.
 
 ### Tips

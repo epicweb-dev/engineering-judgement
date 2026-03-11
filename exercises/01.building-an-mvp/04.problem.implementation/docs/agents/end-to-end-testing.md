@@ -72,8 +72,8 @@ handled by the static asset fetcher in `worker/index.ts`.
 
 Common commands:
 
-- `bun run test:e2e`
-- `bun run test:e2e e2e/login.spec.ts`
+- `npm run test:e2e`
+- `npm run test:e2e e2e/login.spec.ts`
 
 If `.env` is missing, `test:e2e` copies `.env.example` to `.env` before running
 Playwright.

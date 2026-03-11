@@ -16,7 +16,7 @@ Production CI deploys now ensure these resources exist and create them when
 missing. The post-download script does not create Cloudflare resources and does
 not rewrite `wrangler.jsonc` resource IDs. Cloudflare deploys do not auto-create
 these resources from bindings alone, so the deploy workflow runs
-`bun tools/ci/production-resources.ts ensure` first.
+`node ./tools/ci/production-resources.ts ensure` first.
 
 ## Optional Cloudflare offerings
 

@@ -25,17 +25,18 @@ magic.
 ### `Symbol.dispose` with `using`
 
 ```ts
-import { test, expect } from 'bun:test'
+import { readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { test, expect } from 'vitest'
 
 const createTempFile = () => {
 	const path = `/tmp/test-${crypto.randomUUID()}.txt`
-	Bun.write(path, 'hello')
+	writeFileSync(path, 'hello')
 
 	return {
 		path,
 		[Symbol.dispose]: () => {
 			try {
-				Bun.file(path).delete()
+				rmSync(path, { force: true })
 			} catch {
 				// Cleanup should never fail the test.
 			}
@@ -45,26 +46,36 @@ const createTempFile = () => {
 
 test('reads a temp file', () => {
 	using tempFile = createTempFile()
-	const contents = Bun.file(tempFile.path).text()
-	return contents.then((text) => expect(text).toBe('hello'))
+	const contents = readFileSync(tempFile.path, 'utf8')
+	expect(contents).toBe('hello')
 })
 ```
 
 ### `Symbol.asyncDispose` with `await using`
 
 ```ts
-import { test, expect } from 'bun:test'
+import { createServer } from 'node:http'
+import { test, expect } from 'vitest'
 
 const createDisposableServer = async () => {
-	const server = Bun.serve({
-		port: 0,
-		fetch: () => new Response('ok'),
+	const server = createServer((_request, response) => {
+		response.end('ok')
 	})
+	await new Promise<void>((resolve) => server.listen(0, resolve))
+	const address = server.address()
+	if (!address || typeof address === 'string') {
+		throw new Error('Expected an ephemeral TCP port')
+	}
 
 	return {
-		url: `http://localhost:${server.port}`,
+		url: `http://localhost:${address.port}`,
 		[Symbol.asyncDispose]: async () => {
-			await server.stop()
+			await new Promise<void>((resolve, reject) => {
+				server.close((error) => {
+					if (error) reject(error)
+					else resolve()
+				})
+			})
 		},
 	}
 }

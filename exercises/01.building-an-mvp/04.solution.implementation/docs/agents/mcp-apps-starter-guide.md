@@ -144,9 +144,9 @@ token values into widget CSS. If you do this in an MCP App resource, set
 
 ## Quality checklist before merge
 
-- `bun run format`
-- `bun run test:mcp`
-- `bun run validate`
+- `npm run format`
+- `npm run test:mcp`
+- `npm run validate`
 - Confirm docs in `docs/agents` reflect any new workflow or constraints.
 
 ## Replacing starter examples safely

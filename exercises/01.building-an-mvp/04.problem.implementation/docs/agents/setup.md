@@ -76,11 +76,11 @@ For a full local reset before seeding:
 For preview environments, we do a full resource reset:
 
 1. Delete preview resources:
-   - `bun tools/ci/preview-resources.ts cleanup --worker-name <preview-worker-name>`
+   - `node ./tools/ci/preview-resources.ts cleanup --worker-name <preview-worker-name>`
 2. Recreate preview resources and config:
-   - `bun tools/ci/preview-resources.ts ensure --worker-name <preview-worker-name> --out-config wrangler-preview.generated.json`
+   - `node ./tools/ci/preview-resources.ts ensure --worker-name <preview-worker-name> --out-config wrangler-preview.generated.json`
 3. Re-apply remote migrations:
-   - `CLOUDFLARE_ENV=preview bun ./wrangler-env.ts d1 migrations apply APP_DB --remote --config wrangler-preview.generated.json`
+   - `CLOUDFLARE_ENV=preview node ./wrangler-env.ts d1 migrations apply APP_DB --remote --config wrangler-preview.generated.json`
 4. Seed test account:
    - `node ./tools/seed-test-data.ts --remote --config wrangler-preview.generated.json`
 
@@ -118,9 +118,9 @@ verify the shared test account credentials listed above.
 
 If you ever need to do the same operations manually, use:
 
-- `bun tools/ci/preview-resources.ts ensure --worker-name <name> --out-config <path>`
-- `bun tools/ci/preview-resources.ts cleanup --worker-name <name>`
-- `bun tools/ci/production-resources.ts ensure --out-config <path>`
+- `node ./tools/ci/preview-resources.ts ensure --worker-name <name> --out-config <path>`
+- `node ./tools/ci/preview-resources.ts cleanup --worker-name <name>`
+- `node ./tools/ci/production-resources.ts ensure --out-config <path>`
 
 ## Remix package docs
 

@@ -1,0 +1,38 @@
+# Define UX Invariants
+
+👨‍💼 The scheduling MVP now exists, and the next round of product ideas is going
+to put pressure on the experience. Before we add anything new, we need to be
+explicit about what must not get worse for users.
+
+🧝‍♀️ This app continues from the MVP you finished in Exercise 1. The planning
+artifacts are already in place:
+
+- <InlineFile file="docs/planning/discovery-brief.md" />
+- <InlineFile file="docs/planning/discovery-meeting-transcript.md" />
+- <InlineFile file="docs/planning/implementation-brief.md" />
+- <InlineFile file="docs/planning/implementation-meeting-transcript.md" />
+
+🐨 In this step, do not implement a new feature yet. First, inspect the existing
+product and add a new `UX invariants` section to
+<InlineFile file="docs/planning/implementation-brief.md" />.
+
+Your notes should cover:
+
+1. The critical user flows that matter most right now.
+2. The invariants that must not degrade if the product evolves.
+3. The degradation signals you would watch for when judging a future change.
+
+Requirements:
+
+- Include the core flow for creating a poll.
+- Include the core flow for voting availability.
+- Include the core flow for selecting the final time.
+- Name the parts of the experience that must stay fast, simple, and clear.
+- Assume you do not have large-scale product metrics yet.
+
+💰 Keep this grounded in observable UX, not abstract architecture. Think in terms
+of steps, screens, decisions, ambiguity, and how quickly a user can complete the
+job they came to do.
+
+📝 By the end of this step, you should have a short planning artifact that makes
+future regressions easier to spot before anyone starts building.

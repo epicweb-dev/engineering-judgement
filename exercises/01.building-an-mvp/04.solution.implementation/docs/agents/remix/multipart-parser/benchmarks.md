@@ -8,8 +8,6 @@ The
 [`demos` directory](https://github.com/remix-run/remix/tree/main/packages/multipart-parser/demos)
 contains working demos:
 
-- [`demos/bun`](https://github.com/remix-run/remix/tree/main/packages/multipart-parser/demos/bun) -
-  using multipart-parser in Bun
 - [`demos/cf-workers`](https://github.com/remix-run/remix/tree/main/packages/multipart-parser/demos/cf-workers) -
   using multipart-parser in a Cloudflare Worker and storing file uploads in R2
 - [`demos/deno`](https://github.com/remix-run/remix/tree/main/packages/multipart-parser/demos/deno) -
@@ -39,19 +37,6 @@ multipart-parser | '0.01 ms +/- 0.03' | '1.08 ms +/- 0.08' | '0.04 ms +/- 0.01' 
 multipasta | '0.02 ms +/- 0.06' | '1.07 ms +/- 0.02' | '0.15 ms +/- 0.02' | '10.46 ms +/- 0.11'
 busboy | '0.06 ms +/- 0.17' | '3.07 ms +/- 0.24' | '0.24 ms +/- 0.05' | '29.85 ms +/- 0.18'
 @fastify/busboy | '0.05 ms +/- 0.13' | '1.23 ms +/- 0.09' | '0.45 ms +/- 0.22' | '11.81 ms +/- 0.11'
-
-> @remix-run/multipart-parser@0.10.1 bench:bun /Users/michael/Projects/remix-the-web/packages/multipart-parser
-> bun run ./bench/runner.ts
-
-Platform: Darwin (24.5.0)
-CPU: Apple M1 Pro
-Date: 6/13/2025, 12:27:31 PM
-Bun 1.2.13
-(index) | 1 small file | 1 large file | 100 small files | 5 large files
-multipart-parser | 0.01 ms +/- 0.04 | 0.86 ms +/- 0.09 | 0.04 ms +/- 0.01 | 8.32 ms +/- 0.26
-multipasta | 0.02 ms +/- 0.07 | 0.87 ms +/- 0.03 | 0.25 ms +/- 0.21 | 8.27 ms +/- 0.09
-busboy | 0.05 ms +/- 0.17 | 3.54 ms +/- 0.10 | 0.30 ms +/- 0.03 | 34.79 ms +/- 0.38
-@fastify/busboy | 0.06 ms +/- 0.18 | 4.04 ms +/- 0.08 | 0.48 ms +/- 0.06 | 39.91 ms +/- 0.37
 
 > @remix-run/multipart-parser@0.10.1 bench:deno /Users/michael/Projects/remix-the-web/packages/multipart-parser
 > deno run --allow-sys ./bench/runner.ts

@@ -1,4 +1,9 @@
 node_modules
+**/logs
+**/*.log
+**/test-results
+**/dist-ssr
+**/mock-data
 
 # non-npm JavaScript lockfiles
 yarn.lock
