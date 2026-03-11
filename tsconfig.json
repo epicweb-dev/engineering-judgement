@@ -12,6 +12,9 @@
     },
     {
       "path": "extra/03.improved-implementation"
+    },
+    {
+      "path": "extra/04.with-accounts"
     }
   ]
 }
