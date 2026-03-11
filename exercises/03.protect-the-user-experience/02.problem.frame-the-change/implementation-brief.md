@@ -1,7 +1,7 @@
 # Implementation Brief
 
-This brief should turn the UX invariants into a concrete implementation plan for
-a narrow host-login rollout.
+This brief should frame the already-justified login change and turn the UX
+invariants into a concrete implementation plan for a narrow host-login rollout.
 
 ## Goal and boundaries
 

@@ -1,0 +1,28 @@
+# Implementation
+
+👨‍💼 Now evaluate whether the implementation actually protected the user
+experience you said mattered most.
+
+🦉 This is the core judgment move in this exercise: not "did login work?" but
+"did login improve host continuity without making the core product heavier or
+more confusing?"
+
+Use these references:
+
+- <InlineFile file="docs/planning/ux-invariants.md" />
+- <InlineFile file="docs/planning/implementation-brief.md" />
+
+Review the implementation against these questions:
+
+1. Does schedule creation still feel fast, obvious, and account-free?
+2. Does `/s/{scheduleKey}` still feel like a focused attendee response flow?
+3. Can a returning host recover the right schedule more reliably without auth
+   confusion?
+4. Are host-link and authenticated access paths still understandable and safely
+   separated?
+5. What degradation signals would make you narrow, revise, or roll back this
+   rollout?
+
+💰 A successful implementation is not one that merely adds login. It is one
+that preserves the product's most important UX while solving a real host-return
+problem.

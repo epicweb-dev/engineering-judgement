@@ -1,0 +1,56 @@
+# Implementation
+
+👨‍💼 You now have a narrow host-login plan with explicit UX guardrails. It is
+time to test whether the change can be implemented without weakening the
+product.
+
+🧝‍♀️ Set the playground to `extra/03.improved-implementation`. This is the
+current app state you have been planning around, before host login is added.
+
+🐨 Use these planning artifacts as the source of truth:
+
+- <InlineFile file="docs/planning/ux-invariants.md" />
+- <InlineFile file="docs/planning/implementation-brief.md" />
+
+🧝‍♀️ Remember, the original starter already had broader auth/account
+flows before they were removed for the MVP. You may use that earlier shape as
+inspiration for route boundaries, session handling, and data modeling, but only
+reintroduce the narrow pieces that your UX invariants and implementation brief
+actually justify.
+
+Implement the narrow first release described in your brief:
+
+> Add optional host-only login so returning hosts can re-find and manage
+> schedules more reliably, without hurting finalized-plan rate, create-flow
+> speed, or attendee completion.
+
+Focus on these questions while building:
+
+1. How do you improve returning-host reliability without making schedule
+   creation feel heavier?
+2. How do you keep attendee participation completely out of account/login
+   complexity?
+3. How do host-link access and authenticated access coexist during the first
+   rollout?
+4. Which implementation shortcuts would quietly violate the UX invariants you
+   just wrote down?
+
+Requirements:
+
+- Start from `extra/03.improved-implementation`. Do not rebuild the app from
+  scratch.
+- Keep login host-focused and narrow.
+- Do not require login before schedule creation.
+- Do not require login for attendee participation.
+- Preserve clear route purpose on `/`, `/s/{scheduleKey}`, and
+  `/s/{scheduleKey}/{hostKey}`.
+- Keep the host-link path working as a fallback while the logged-in path proves
+  itself.
+- Use the starter's old auth patterns only as inspiration, not as a reason to
+  restore broader account UX that your brief kept out of scope.
+- Notice where implementation pressure creates risk for finalized-plan rate,
+  create-flow speed, or attendee completion.
+
+💰 The goal is not to add broad "accounts" as a product expansion. The goal is
+to see whether careful implementation can protect the experience while the
+product evolves.

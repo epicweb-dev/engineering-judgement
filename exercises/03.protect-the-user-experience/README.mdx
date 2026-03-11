@@ -1,0 +1,36 @@
+# Protect the User Experience
+
+In this exercise, you're the engineer helping a product evolve without losing
+the experience that made it work in the first place. The scheduling app already
+exists, and the team now has enough evidence to justify a narrow host-login
+improvement for returning hosts.
+
+That does not make the implementation safe by default. The risk is that a
+reasonable feature quietly makes the product heavier: schedule creation gets
+more complex, attendee participation picks up account confusion, or returning
+hosts end up with multiple competing ways to get back in.
+
+Your job is to make the critical user experience explicit before implementation,
+then use those guardrails to judge whether the product actually improved.
+
+You'll move through a practical decision sequence:
+
+1. Define the UX invariants that must not degrade
+2. Frame the change in a single implementation brief that keeps the rollout
+   narrow
+3. Implement the plan, then evaluate whether the result protected the product's
+   core experience
+
+By the end, you should be able to explain:
+
+- which user flows mattered most before the change
+- which UX constraints were non-negotiable during implementation
+- which rollout choices reduced risk to create, respond, and finalize flows
+- which degradation signals would tell you the change helped or harmed the
+  product
+
+<callout-info>
+	This exercise is about protecting trust in an existing product. A strong result
+	is not "we added login." It is "we improved host continuity without making the
+	core experience slower, heavier, or more confusing."
+</callout-info>
