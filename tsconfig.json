@@ -15,6 +15,12 @@
     },
     {
       "path": "exercises/02.protect-the-user-experience/01.solution.define-ux-invariants"
+    },
+    {
+      "path": "exercises/02.protect-the-user-experience/02.problem.frame-the-change"
+    },
+    {
+      "path": "exercises/02.protect-the-user-experience/02.solution.frame-the-change"
     }
   ]
 }

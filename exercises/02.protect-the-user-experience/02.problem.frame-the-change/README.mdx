@@ -1,0 +1,37 @@
+# Framing the Change
+
+👨‍💼 Product pressure is starting to show up in a more concrete way now. Hosts are
+having to scan the full response grid manually to figure out the strongest
+candidate times, and the team wants to improve that decision step without
+making the rest of the product heavier.
+
+🧝‍♀️ You already defined the UX constraints that matter in
+<InlineFile file="docs/planning/ux-invariants.md" />. Use those constraints to frame
+the change before anyone starts building.
+
+🐨 Create a dedicated
+<InlineFile file="docs/planning/change-brief.md" /> artifact for this request:
+
+> "Help hosts identify the best candidate meeting times faster on the host
+> dashboard."
+
+Your brief should cover:
+
+1. The user problem behind the request
+2. Which existing flows and routes the change touches
+3. Which UX invariants are most at risk
+4. The narrowest first release that still improves the experience
+5. What should stay explicitly out of scope for now
+6. The degradation signals you would watch for during implementation and review
+
+Requirements:
+
+- Keep the change centered on the host decision-making flow.
+- Protect the simplicity of the attendee response flow.
+- Preserve clear separation between public and host-only routes.
+- Keep timezone clarity explicit anywhere the change surfaces times.
+- Assume you still do not have large-scale metrics to rely on.
+
+💰 This is not an implementation plan yet. Frame the change in product and UX
+terms so the team can decide what a safe first version looks like before code
+starts moving.
