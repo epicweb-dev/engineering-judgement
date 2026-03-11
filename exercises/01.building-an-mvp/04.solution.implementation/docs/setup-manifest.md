@@ -8,9 +8,6 @@ This project uses the following resources:
 
 - D1 database
   - `database_name`: `<app-name>`
-- KV namespace for OAuth/session storage
-  - `binding`: `OAUTH_KV`
-  - `title`: `<app-name>-oauth`
 
 Production CI deploys now ensure these resources exist and create them when
 missing. The post-download script does not create Cloudflare resources and does
@@ -33,9 +30,9 @@ Use Cloudflare's built-in rate limiting rules instead of custom Worker logic.
 1. Open the Cloudflare dashboard for the zone that routes to your Worker.
 2. Go to `Security` → `WAF` → `Rate limiting rules` (or `Rules` →
    `Rate limiting rules`).
-3. Create a rule that targets auth endpoints, for example:
+3. Create a rule that targets the write endpoints, for example:
    - Expression:
-     `(http.request.method eq "POST" and http.request.uri.path in {"/auth" "/oauth/authorize" "/oauth/token" "/oauth/register"})`
+     `(http.request.method eq "POST" and starts_with(http.request.uri.path, "/api/schedules"))`
    - Threshold: `10` requests per `1 minute` per IP (tune as needed).
    - Action: `Block` or `Managed Challenge`.
 
@@ -43,14 +40,10 @@ Use Cloudflare's built-in rate limiting rules instead of custom Worker logic.
 
 Local development uses `.env`, which Wrangler loads automatically:
 
-- `COOKIE_SECRET` (generate with `openssl rand -hex 32`)
 - `APP_BASE_URL` (optional; defaults to request origin, example
   `https://app.example.com`)
 - `APP_COMMIT_SHA` (optional; set automatically by deploy workflows for
   version-aware `/health` checks)
-- `RESEND_API_BASE_URL` (optional, defaults to `https://api.resend.com`)
-- `RESEND_API_KEY` (optional, required to send via Resend)
-- `RESEND_FROM_EMAIL` (optional, required to send via Resend)
 
 Tests run with `CLOUDFLARE_ENV=test` (set by Playwright) and still read local
 secrets from `.env`.
@@ -61,11 +54,7 @@ Configure these secrets for GitHub Actions workflows:
 
 - `CLOUDFLARE_API_TOKEN` (Workers deploy + D1 edit access on the correct
   account)
-- `COOKIE_SECRET` (same format as local)
 - `APP_BASE_URL` (optional, used by the production deploy)
-- `RESEND_API_KEY` (optional, required to send via Resend in non-mock
-  environments)
-- `RESEND_FROM_EMAIL` (optional, required to send via Resend)
 
 How to get/set each secret:
 
@@ -74,19 +63,10 @@ How to get/set each secret:
     Workers and edit D1 on the target account.
   - In GitHub: `Settings` → `Secrets and variables` → `Actions` →
     `New repository secret`.
-- `COOKIE_SECRET`
-  - Generate locally: `openssl rand -hex 32`
-  - Store the exact value as a repository secret in GitHub Actions.
 - `APP_BASE_URL` (optional)
   - Use your production app URL (for example `https://app.example.com`).
   - Add only if you want deploy-time health/version checks to use a fixed URL.
-- `RESEND_API_KEY` (optional)
-  - Create in Resend Dashboard (API keys), then store in GitHub Actions secrets.
-- `RESEND_FROM_EMAIL` (optional)
-  - Use your verified sender/from address in Resend (for example
-    `noreply@example.com`), then store it as a secret.
 
 Preview deploys for pull requests create a separate Worker per PR named
-`<app-name>-pr-<number>` (for epic-scheduler: `epic-scheduler-pr-123`) plus one Worker per
-mock service named `<app-name>-pr-<number>-mock-<service>`. The same
+`<app-name>-pr-<number>` (for epic-scheduler: `epic-scheduler-pr-123`). The same
 `CLOUDFLARE_API_TOKEN` must be able to create/update and delete those Workers.

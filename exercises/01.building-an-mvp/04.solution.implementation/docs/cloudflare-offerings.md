@@ -3,16 +3,13 @@
 epic-scheduler ships with:
 
 - D1 (`APP_DB`) for relational storage
-- KV (`OAUTH_KV`) for OAuth/session state (owned by
-  `@cloudflare/workers-oauth-provider`)
-- Durable Objects (`MCP_OBJECT`) for MCP server state
 
 This guide covers how to add common Cloudflare offerings on top of the starter:
 
 - R2 (object storage)
 - Workers AI
 - AI Gateway
-- An additional KV namespace for app data (separate from `OAUTH_KV`)
+- KV for app-managed key/value data
 
 All examples assume you are using the template's `wrangler.jsonc` and that you
 run commands from the repo root.
@@ -37,10 +34,9 @@ Cloudflare's API token UI changes over time, but the shape is stable:
 - You grant **Read**/**Edit** per product area
 - Wrangler deploys, creates resources, and sets secrets via the API token
 
-Recommended baseline permissions for this template (deploy + existing D1/KV):
+Recommended baseline permissions for this template (deploy + existing D1):
 
 - `Workers Scripts:Edit` (deploy, update, delete preview Workers)
-- `Workers KV Storage:Edit` (OAuth/session KV)
 - `D1:Edit` (migrations, database operations)
 
 Add these permissions when you add the corresponding offering:
@@ -185,20 +181,17 @@ Most provider SDKs support overriding the base URL:
 - Keep the provider API key as a Worker secret (for example `OPENAI_API_KEY`)
 - Point the SDK's base URL at the gateway URL
 
-## KV (app KV, separate from `OAUTH_KV`)
+## KV (app KV)
 
-This template already binds `OAUTH_KV` for OAuth/session state. Treat `OAUTH_KV`
-as "owned" by `@cloudflare/workers-oauth-provider`:
-
-- Avoid mixing app data into `OAUTH_KV`
-- Avoid key prefix collisions with the OAuth library
-- Keep quotas/evictions isolated from auth state
+This template does not bind KV by default. Add it only when you have a real
+key/value use case such as caching, lightweight feature flags, or per-region
+derived data.
 
 ### Token permissions
 
 - `Workers KV Storage:Edit`
 
-### Commands to create a second namespace
+### Commands to create a namespace
 
 Create a dedicated namespace for app data, for example `APP_KV`:
 
@@ -210,15 +203,10 @@ If you are not using `--update-config`, record the namespace IDs and add them to
 
 ### Bind the namespace in `wrangler.jsonc`
 
-Add a second entry in `kv_namespaces` alongside `OAUTH_KV`:
+Add a `kv_namespaces` entry for the new binding:
 
 ```jsonc
 "kv_namespaces": [
-  {
-    "binding": "OAUTH_KV",
-    "id": "<oauth-kv-id>",
-    "preview_id": "<oauth-kv-preview-id>"
-  },
   {
     "binding": "APP_KV",
     "id": "<app-kv-id>",

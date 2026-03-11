@@ -15,9 +15,7 @@ Quick notes for getting a local epic-scheduler environment running.
 
 - Copy `.env.example` to `.env` before starting any work, then update secrets as
   needed.
-- `npm run dev` (starts mock API servers automatically and sets
-  `RESEND_API_BASE_URL` to the local mock Worker).
-- Add new mock API servers by following `docs/agents/mock-api-servers.md`.
+- `npm run dev`
 - If you only need the client bundle or worker, use:
   - `npm run dev:client`
   - `npm run dev:worker`
@@ -27,11 +25,10 @@ Quick notes for getting a local epic-scheduler environment running.
 ## Checks
 
 - `npm run validate` runs format check, lint fix, build, typecheck, Playwright
-  tests, and MCP E2E tests.
+  tests.
 - `npm run format` applies formatting updates.
 - `npm run test:e2e:install` to install Playwright browsers.
 - `npm run test:e2e` to run Playwright specs.
-- `npm run test:mcp` to run MCP server E2E tests.
 
 ## Documentation maintenance
 
@@ -42,36 +39,13 @@ Quick notes for getting a local epic-scheduler environment running.
 - When failures repeat, promote lessons from docs into tests, lint rules, or
   scripts.
 
-## Seed test account
+## Reset local state
 
-Use this script to ensure a known test login exists in any deployed environment:
+For a full local reset:
 
-- Local D1 (default):
-  - `npm run migrate:local`
-  - `node ./tools/seed-test-data.ts --local`
-- Local D1 with custom persisted state:
-  - `node ./tools/seed-test-data.ts --local --persist-to .wrangler/state/e2e`
-- Remote D1:
-  - `node ./tools/seed-test-data.ts --remote --config <wrangler-config-path>`
-- Default credentials:
-  - email: `kody@kcd.dev`
-  - password: `kodylovesyou`
-- Override credentials when needed:
-  - `node ./tools/seed-test-data.ts --email <email> --password <password>`
-- When changing DB schema/model definitions or migrations, review
-  `tools/seed-test-data.ts` and update it so seeded data still matches the new
-  model and remains useful for local and preview verification.
-
-### Reset, re-migrate, then seed
-
-For a full local reset before seeding:
-
-1. Drop app tables:
-   - `node ./wrangler-env.ts d1 execute APP_DB --local --command "PRAGMA foreign_keys=OFF; DROP TABLE IF EXISTS password_resets; DROP TABLE IF EXISTS mock_resend_messages; DROP TABLE IF EXISTS users; PRAGMA foreign_keys=ON;"`
+1. Delete local Wrangler state if you want a completely fresh database.
 2. Re-apply migrations:
    - `npm run migrate:local`
-3. Seed test account:
-   - `node ./tools/seed-test-data.ts`
 
 For preview environments, we do a full resource reset:
 
@@ -81,8 +55,6 @@ For preview environments, we do a full resource reset:
    - `node ./tools/ci/preview-resources.ts ensure --worker-name <preview-worker-name> --out-config wrangler-preview.generated.json`
 3. Re-apply remote migrations:
    - `CLOUDFLARE_ENV=preview node ./wrangler-env.ts d1 migrations apply APP_DB --remote --config wrangler-preview.generated.json`
-4. Seed test account:
-   - `node ./tools/seed-test-data.ts --remote --config wrangler-preview.generated.json`
 
 ## PR preview deployments
 
@@ -90,31 +62,22 @@ The GitHub Actions preview workflow creates per-preview Cloudflare resources so
 each PR preview is isolated:
 
 - D1 database: `<preview-worker-name>-db`
-- KV namespace (OAuth state): `<preview-worker-name>-oauth-kv`
 
 When a PR is closed, the cleanup job deletes the preview Worker(s) and these
 resources as well.
 
-Cloudflare Workers supports version `preview_urls`, but those preview URLs are
-not currently available for Workers that use Durable Objects. The main app
-Worker binds `MCP_OBJECT`, so app previews continue to use per-PR Worker names.
-Mock Workers do not use Durable Objects, so their Wrangler configs opt into
-`preview_urls = true` and the workflow includes mock version preview links when
-Cloudflare returns them.
+Cloudflare Workers supports version `preview_urls`, but this project continues
+to use per-PR Worker names for predictable preview environments.
 
 Production deploys also ensure required Cloudflare resources exist before
 migrations/deploy:
 
 - D1 database: from `env.production.d1_databases` binding `APP_DB`
-- KV namespace: `OAUTH_KV` (defaults to `<worker-name>-oauth` when creating)
 
 Both the preview and production deploy workflows run a post-deploy healthcheck
 against `<deploy-url>/health` and fail the job if it does not return
 `{ ok: true, commitSha }` with `commitSha` matching the commit SHA deployed by
 that workflow.
-
-Preview deploys also run `node ./tools/seed-test-data.ts` after deploy to create or
-verify the shared test account credentials listed above.
 
 If you ever need to do the same operations manually, use:
 

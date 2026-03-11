@@ -17,12 +17,7 @@ types, runtime validation, and documentation in sync.
 
    ```ts
    const EnvSchema = z.object({
-   	COOKIE_SECRET: z
-   		.string()
-   		.min(
-   			32,
-   			'COOKIE_SECRET must be at least 32 characters for session signing.',
-   		),
+   	APP_BASE_URL: z.string().url().optional(),
    	THIRD_PARTY_API_KEY: z
    		.string()
    		.min(

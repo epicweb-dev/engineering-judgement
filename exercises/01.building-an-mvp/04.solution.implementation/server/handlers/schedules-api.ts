@@ -1,149 +1,15 @@
 import { type BuildAction } from 'remix/fetch-router'
 import {
-	normalizeIanaTimeZone,
-	slotIncrementOptions,
-	type SlotIncrement,
-} from '#shared/scheduling-time.ts'
-import {
-	createSchedule,
-	listAttendeeAvailability,
-	listAttendeeSummary,
-	listResponseCountsBySlot,
-	listScheduleSlotsUtc,
-	readScheduleByHostAccess,
-	readScheduleByKey,
-	updateScheduleByHostAccess,
-	upsertAttendeeAvailability,
-} from '#server/scheduling-repository.ts'
+	createScheduleWithUrls,
+	parseSlotList,
+	readScheduleForAttendee,
+	readScheduleForHost,
+	updateScheduleForHost,
+	validateSchedulePayload,
+	saveAttendeeAvailability,
+} from '#server/schedule-service.ts'
 import { type routes } from '#server/routes.ts'
 import { type AppEnv } from '#types/env-schema.ts'
-
-type ScheduleView = {
-	scheduleKey: string
-	title: string
-	startDate: string
-	endDate: string
-	slotMinutes: SlotIncrement
-	timezone: string
-	slotsUtc: Array<string>
-	responseCounts: Record<string, number>
-	totalResponders: number
-	bestSlotUtc: string | null
-}
-
-function isIsoDate(value: string) {
-	return /^\d{4}-\d{2}-\d{2}$/.test(value)
-}
-
-function parseSlotIncrement(value: unknown): SlotIncrement | null {
-	const numeric =
-		typeof value === 'number'
-			? value
-			: typeof value === 'string'
-				? Number(value)
-				: NaN
-	if (!Number.isInteger(numeric)) return null
-	return slotIncrementOptions.includes(numeric as SlotIncrement)
-		? (numeric as SlotIncrement)
-		: null
-}
-
-function parseSlotList(value: unknown) {
-	if (!Array.isArray(value)) return []
-	return value.filter((item): item is string => typeof item === 'string')
-}
-
-function validateSchedulePayload(body: unknown) {
-	if (!body || typeof body !== 'object') return null
-
-	const raw = body as Record<string, unknown>
-	const title =
-		typeof raw.title === 'string' && raw.title.trim()
-			? raw.title.trim()
-			: 'New plan'
-	const startDate =
-		typeof raw.startDate === 'string' ? raw.startDate.trim() : ''
-	const endDate = typeof raw.endDate === 'string' ? raw.endDate.trim() : ''
-	const slotMinutes = parseSlotIncrement(raw.slotMinutes)
-	const timezone = normalizeIanaTimeZone(
-		typeof raw.timezone === 'string' ? raw.timezone : '',
-	)
-	const selectedSlotUtc = parseSlotList(raw.selectedSlotsUtc)
-
-	if (!isIsoDate(startDate) || !isIsoDate(endDate) || !slotMinutes) {
-		return null
-	}
-
-	return {
-		title,
-		startDate,
-		endDate,
-		slotMinutes,
-		timezone,
-		selectedSlotUtc,
-	}
-}
-
-function mapResponseCountsToRecord(counts: Map<string, number>) {
-	const responseCounts: Record<string, number> = {}
-	for (const [slot, count] of counts.entries()) {
-		responseCounts[slot] = count
-	}
-	return responseCounts
-}
-
-function computeBestSlot(counts: Map<string, number>) {
-	let bestSlotUtc: string | null = null
-	let bestCount = -1
-	for (const [slotUtc, count] of counts.entries()) {
-		if (count > bestCount) {
-			bestSlotUtc = slotUtc
-			bestCount = count
-			continue
-		}
-		if (count === bestCount && bestSlotUtc && slotUtc.localeCompare(bestSlotUtc) < 0) {
-			bestSlotUtc = slotUtc
-		}
-	}
-	return bestSlotUtc
-}
-
-async function buildScheduleView(
-	db: D1Database,
-	scheduleId: number,
-	schedule: {
-		scheduleKey: string
-		title: string
-		startDate: string
-		endDate: string
-		slotMinutes: SlotIncrement
-		timezone: string
-	},
-) {
-	const slotsUtc = await listScheduleSlotsUtc(db, scheduleId)
-	const responseCountsMap = await listResponseCountsBySlot(db, scheduleId)
-	const responseCounts = mapResponseCountsToRecord(responseCountsMap)
-	const bestSlotUtc = computeBestSlot(responseCountsMap)
-	const totalRespondersRows = await db
-		.prepare(
-			'select count(distinct attendee_name_key) as total from attendee_availability where schedule_id = ?',
-		)
-		.bind(scheduleId)
-		.first<{ total: number }>()
-
-	return {
-		scheduleKey: schedule.scheduleKey,
-		title: schedule.title,
-		startDate: schedule.startDate,
-		endDate: schedule.endDate,
-		slotMinutes: schedule.slotMinutes,
-		timezone: schedule.timezone,
-		slotsUtc,
-		responseCounts,
-		totalResponders: Number(totalRespondersRows?.total ?? 0),
-		bestSlotUtc,
-	} satisfies ScheduleView
-}
 
 export function createCreateScheduleHandler(appEnv: AppEnv) {
 	return {
@@ -162,21 +28,13 @@ export function createCreateScheduleHandler(appEnv: AppEnv) {
 			}
 
 			try {
-				const schedule = await createSchedule(appEnv.APP_DB, payload)
-				const attendeeUrl = `/s/${schedule.scheduleKey}`
-				const hostUrl = `/s/${schedule.scheduleKey}/${schedule.hostKey}`
+				const created = await createScheduleWithUrls(appEnv, payload)
 				return Response.json(
-					{
-						ok: true,
-						scheduleKey: schedule.scheduleKey,
-						hostKey: schedule.hostKey,
-						attendeeUrl,
-						hostUrl,
-					},
+					created,
 					{
 						status: 201,
 						headers: {
-							Location: new URL(hostUrl, url.origin).toString(),
+							Location: new URL(created.hostUrl, url.origin).toString(),
 						},
 					},
 				)
@@ -196,24 +54,15 @@ export function createReadScheduleHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
 		async action({ params, url }) {
-			const scheduleKey = params.scheduleKey
-			const schedule = await readScheduleByKey(appEnv.APP_DB, scheduleKey)
-			if (!schedule) {
+			const result = await readScheduleForAttendee(
+				appEnv,
+				params.scheduleKey,
+				url.searchParams.get('attendeeName')?.trim() ?? '',
+			)
+			if (!result) {
 				return Response.json({ error: 'Schedule not found.' }, { status: 404 })
 			}
-
-			const view = await buildScheduleView(appEnv.APP_DB, schedule.id, schedule)
-			const attendeeName = url.searchParams.get('attendeeName')?.trim() ?? ''
-			const attendeeSelection = attendeeName
-				? await listAttendeeAvailability(appEnv.APP_DB, schedule.id, attendeeName)
-				: []
-
-			return Response.json({
-				ok: true,
-				mode: 'respond',
-				schedule: view,
-				attendeeSelection,
-			})
+			return Response.json(result)
 		},
 	} satisfies BuildAction<
 		typeof routes.apiSchedule.method,
@@ -225,7 +74,7 @@ export function createSubmitResponseHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
 		async action({ request, params }) {
-			const schedule = await readScheduleByKey(appEnv.APP_DB, params.scheduleKey)
+			const schedule = await readScheduleForAttendee(appEnv, params.scheduleKey)
 			if (!schedule) {
 				return Response.json({ error: 'Schedule not found.' }, { status: 404 })
 			}
@@ -247,10 +96,15 @@ export function createSubmitResponseHandler(appEnv: AppEnv) {
 			const selectedSlotUtc = parseSlotList(raw.selectedSlotsUtc)
 
 			try {
-				const result = await upsertAttendeeAvailability(appEnv.APP_DB, schedule.id, {
+				const result = await saveAttendeeAvailability(
+					appEnv,
+					params.scheduleKey,
 					attendeeName,
 					selectedSlotUtc,
-				})
+				)
+				if (!result) {
+					return Response.json({ error: 'Schedule not found.' }, { status: 404 })
+				}
 				return Response.json({ ok: true, attendeeName: result.attendeeName })
 			} catch (error) {
 				const message =
@@ -268,24 +122,15 @@ export function createReadHostScheduleHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
 		async action({ params }) {
-			const schedule = await readScheduleByHostAccess(
-				appEnv.APP_DB,
+			const result = await readScheduleForHost(
+				appEnv,
 				params.scheduleKey,
 				params.hostKey,
 			)
-			if (!schedule) {
+			if (!result) {
 				return Response.json({ error: 'Host schedule not found.' }, { status: 404 })
 			}
-
-			const view = await buildScheduleView(appEnv.APP_DB, schedule.id, schedule)
-			const attendeeSummary = await listAttendeeSummary(appEnv.APP_DB, schedule.id)
-			return Response.json({
-				ok: true,
-				mode: 'host',
-				schedule: view,
-				hostKey: schedule.hostKey,
-				attendeeSummary,
-			})
+			return Response.json(result)
 		},
 	} satisfies BuildAction<
 		typeof routes.apiHostSchedule.method,
@@ -310,25 +155,16 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 			}
 
 			try {
-				const schedule = await updateScheduleByHostAccess(
-					appEnv.APP_DB,
+				const result = await updateScheduleForHost(
+					appEnv,
 					params.scheduleKey,
 					params.hostKey,
 					payload,
 				)
-				if (!schedule) {
+				if (!result) {
 					return Response.json({ error: 'Host schedule not found.' }, { status: 404 })
 				}
-
-				const view = await buildScheduleView(appEnv.APP_DB, schedule.id, schedule)
-				const attendeeSummary = await listAttendeeSummary(appEnv.APP_DB, schedule.id)
-				return Response.json({
-					ok: true,
-					mode: 'host',
-					schedule: view,
-					hostKey: schedule.hostKey,
-					attendeeSummary,
-				})
+				return Response.json(result)
 			} catch (error) {
 				const message =
 					error instanceof Error ? error.message : 'Unable to update schedule.'

@@ -71,7 +71,7 @@ node ./docs/post-download.ts --guided
 ```
 
 This setup step does not create Cloudflare resources or rewrite `wrangler.jsonc`
-resource IDs. The production deploy workflow creates missing D1/KV resources
+resource IDs. The production deploy workflow creates missing D1 resources
 automatically on first CI deploy. Cloudflare deploys do not auto-create those
 resources from bindings alone, so the workflow runs an explicit ensure step
 before migrations/deploy.
@@ -80,7 +80,6 @@ before migrations/deploy.
 
 - `CLOUDFLARE_API_TOKEN` (Workers deploy + D1 edit access on the correct
   account)
-- `COOKIE_SECRET` (generate with `openssl rand -hex 32` or similar)
 - See `docs/setup-manifest.md` (`GitHub Actions secrets`) for full optional
   secrets and where to get each value.
 
@@ -93,8 +92,7 @@ npm run deploy
 ## Agent/CI setup
 
 Use non-interactive flags or `--defaults`. The `--defaults` flag skips prompts
-and uses defaults based on the current directory name (app/package naming), plus
-a generated cookie secret.
+and uses defaults based on the current directory name (app/package naming).
 
 ```
 node ./docs/post-download.ts --defaults
@@ -121,7 +119,6 @@ are missing (for example `--app-name` without `--defaults`, and init choice when
 - `--github-username`: derives repository URL as
   `git+ssh://git@github.com/<username>/<package-name>.git`.
 - `--repository-url`: explicit repository URL override.
-- `--cookie-secret`: explicit `COOKIE_SECRET` value (otherwise generated).
 
 Cloudflare resources are managed during deploy. The setup script does not create
 Cloudflare resources or rewrite `wrangler.jsonc` resource IDs.
@@ -129,18 +126,6 @@ Cloudflare resources or rewrite `wrangler.jsonc` resource IDs.
 ## Local development
 
 See `docs/agents/setup.md` for local dev commands and verification steps.
-
-To create a deterministic test login in a running environment:
-
-```bash
-npm run migrate:local
-node ./tools/seed-test-data.ts --local
-```
-
-Default test credentials:
-
-- Email: `kody@kcd.dev`
-- Password: `kodylovesyou`
 
 ## Build and deploy
 

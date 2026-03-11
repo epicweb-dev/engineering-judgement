@@ -24,5 +24,4 @@ This file is intentionally brief. Detailed instructions live in focused docs:
 - Architecture references:
   - [docs/architecture/index.md](./docs/architecture/index.md)
   - [docs/architecture/request-lifecycle.md](./docs/architecture/request-lifecycle.md)
-  - [docs/architecture/authentication.md](./docs/architecture/authentication.md)
   - [docs/architecture/data-storage.md](./docs/architecture/data-storage.md)
