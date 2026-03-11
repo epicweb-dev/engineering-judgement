@@ -25,7 +25,7 @@ simple availability collection, but they break down for our target flow:
 cross-organization friend groups coordinating in messy chat threads with no
 clear owner and no reliable "final plan" moment.
 
-💼 Brett: Our advantage is not "another poll." It is a completion-first
+💼 Brett: Our advantage is not "another scheduling link." It is a completion-first
 coordination loop: low-friction participation, explicit finalization, and host
 controls that work without forcing everyone into account creation.
 
@@ -33,7 +33,7 @@ controls that work without forcing everyone into account creation.
 gap existing tools do not solve well, and we can define success against that
 gap.
 
-💼 Brett: Exactly. If we cannot outperform the default chat-plus-poll behavior
+💼 Brett: Exactly. If we cannot outperform the default chat-plus-scheduling-link behavior
 on finalized plans, we should stop and not keep investing.
 
 🐨 Kody: Where are we going to draw inspiration for the user experience? Which
@@ -92,7 +92,7 @@ first release, which one tells us this is working?
 because we can ship faster, reduce risk, and learn from real behavior sooner.
 
 💼 Brett: If I force myself to pick one, it is finalized plans. We can get
-excited about poll creation, but if people still do not lock a time, we have not
+excited about schedule creation, but if people still do not lock a time, we have not
 actually solved anything. So yes, finalized plans first.
 
 🐨 Kody: Who is the first user segment?
@@ -139,7 +139,7 @@ you are asking for workflow signals, not growth signals.
 🐨 Kody: Useful later. For this workflow specifically, what secondary signals
 help explain finalized-plan rate?
 
-💼 Brett: For workflow, poll response completion and time-to-finalized-plan.
+💼 Brett: For workflow, submission completion and time-to-finalized-plan.
 
 🐨 Kody: What failure pattern should we watch for?
 
@@ -150,7 +150,7 @@ value, even if activity looks okay. For example, if people keep abandoning the
 flow before they submit availability, that is a failure pattern.
 
 💼 Brett: The bad pattern is lots of activity that looks healthy on the surface
-but no real outcomes. In this case: lots of polls created, very few confirmed
+but no real outcomes. In this case: lots of schedules created, very few confirmed
 plans.
 
 🐨 Kody: Where does today’s workflow fail most?

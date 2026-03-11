@@ -254,6 +254,9 @@ export function RespondScheduleRoute(handle: Handle) {
 			startsAtUtc: slot,
 		}))
 		const model = createGridModel(gridSlots, attendeeTimeZone)
+		const bestSlotSubmissionCount = schedule.bestSlotUtc
+			? (schedule.responseCounts[schedule.bestSlotUtc] ?? 0)
+			: 0
 
 		return (
 			<section css={{ display: 'grid', gap: spacing.lg }}>
@@ -291,7 +294,8 @@ export function RespondScheduleRoute(handle: Handle) {
 									hour: 'numeric',
 									minute: '2-digit',
 								})}{' '}
-								({schedule.responseCounts[schedule.bestSlotUtc] ?? 0} votes)
+								({bestSlotSubmissionCount} submission
+								{bestSlotSubmissionCount === 1 ? '' : 's'})
 							</strong>
 						</p>
 					) : null}

@@ -172,7 +172,7 @@ export async function registerCreateScheduleTool(agent: MCP) {
 			title: createScheduleTool.title,
 			description: createScheduleTool.description,
 			inputSchema: {
-				title: z.string().default('Scheduling poll'),
+				title: z.string().default('New schedule'),
 				hostName: z.string(),
 				hostTimeZone: z
 					.string()

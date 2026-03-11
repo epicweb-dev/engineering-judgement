@@ -341,6 +341,9 @@ export function HostScheduleRoute(handle: Handle) {
 			startsAtUtc: localSlotKeyToUtcIso(localSlotKey, timezone),
 		}))
 		const model = createGridModel(gridSlots, timezone)
+		const bestSlotSubmissionCount = scheduleSnapshot?.bestSlotUtc
+			? (scheduleSnapshot.responseCounts[scheduleSnapshot.bestSlotUtc] ?? 0)
+			: 0
 
 		return (
 			<section css={{ display: 'grid', gap: spacing.lg }}>
@@ -642,8 +645,8 @@ export function HostScheduleRoute(handle: Handle) {
 									hour: 'numeric',
 									minute: '2-digit',
 								})}{' '}
-								({scheduleSnapshot.responseCounts[scheduleSnapshot.bestSlotUtc] ?? 0}{' '}
-								votes, {timezone})
+								({bestSlotSubmissionCount} submission
+								{bestSlotSubmissionCount === 1 ? '' : 's'}, {timezone})
 							</strong>
 						</p>
 					) : (

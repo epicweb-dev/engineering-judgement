@@ -6,7 +6,7 @@ answers and decisions before implementation begins.
 ## Objective to validate
 
 - Confirm the MVP outcome this release should optimize for
-  - Confirmed: optimize for finalized plans, not just polls created
+  - Confirmed: optimize for finalized plans, not just schedules created
 - Confirm the user workflow this MVP should improve first
   - Confirmed: reduce coordination friction for friends across different
     organizations
@@ -70,10 +70,10 @@ answers and decisions before implementation begins.
 - What primary metric defines MVP viability?
   - Finalized-plan rate
 - What secondary signals help interpret progress?
-  - Poll response completion rate
-  - Median time from poll creation to finalized time
+  - Submission completion rate
+  - Median time from schedule creation to finalized time
 - What failure signal indicates the MVP is not working?
-  - Many polls created, but few result in a confirmed plan
+  - Many schedules created, but few result in a confirmed plan
 - What UX quality bar should support the success metric?
   - Availability selection should feel spreadsheet-fast: like selecting
     time-slot cells in Excel on desktop, with clear visual state and low
@@ -119,8 +119,8 @@ answers and decisions before implementation begins.
   - Confusion between host and attendee links causing incorrect sharing or lost
     host control
 - What evidence would indicate each risk is becoming real?
-  - Polls with low completion
-  - Low response rates despite poll creation
+  - Schedules with low submission completion
+  - Low response rates despite schedule creation
   - Growing backlog of out-of-scope requests
 - What mitigation options are available if a risk materializes?
   - Mobile-first UX for response completion (thumb-friendly controls, clear
@@ -158,7 +158,7 @@ answers and decisions before implementation begins.
     attendee response visibility
 - If existing scheduling tools already work, why build this?
   - We need a differentiated UX for reliable plan completion plus AI-agent
-    orchestration via MCP, not just another availability poll
+    orchestration via MCP, not just another scheduling link
 - Where are we drawing UX inspiration and which competitors should guide
   baseline expectations?
   - when2meet.com, whenavailable.com, and Doodle

@@ -59,7 +59,7 @@ const blogPosts: Array<BlogPost> = [
 			<p>
 				Most scheduling friction comes from context switching and repeated
 				translation: "What timezone?", "Does Tuesday morning still work?", "Did
-				you fill out the poll yet?" MCP removes that repetition by letting
+				you submit your availability yet?" MCP removes that repetition by letting
 				agents call scheduling tools directly.
 			</p>
 			<ul>
@@ -240,7 +240,7 @@ const blogPosts: Array<BlogPost> = [
 				</li>
 				<li>
 					<strong>Decision time shrinks:</strong> hosts can book directly from
-					the heatmap without another poll round.
+					the heatmap without another scheduling round.
 				</li>
 			</ul>
 			<h2>Process that works in small teams</h2>
