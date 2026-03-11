@@ -2,6 +2,10 @@ import { post, route } from 'remix/fetch-router/routes'
 
 export const routes = route({
 	home: '/',
+	loginPage: '/login',
+	loginVerify: '/login/verify',
+	accountSchedulesPage: '/account/schedules',
+	accountSchedulePage: '/account/schedules/:shareToken',
 	schedulePage: '/s/:shareToken',
 	scheduleHostPage: '/s/:shareToken/:hostAccessToken',
 	howItWorks: '/how-it-works',
@@ -13,9 +17,14 @@ export const routes = route({
 	robotsTxt: '/robots.txt',
 	sitemapXml: '/sitemap.xml',
 	health: '/health',
+	session: '/api/session',
+	loginRequest: post('/api/login'),
+	logout: post('/logout'),
+	accountSchedulesRead: '/api/account/schedules',
 	scheduleCreate: post('/api/schedules'),
 	scheduleRead: '/api/schedules/:shareToken',
 	scheduleHostRead: '/api/schedules/:shareToken/host-snapshot',
+	scheduleClaim: post('/api/schedules/:shareToken/claim'),
 	scheduleSubmitAvailability: post('/api/schedules/:shareToken/availability'),
 	scheduleDeleteSubmission: post(
 		'/api/schedules/:shareToken/submission-delete',
