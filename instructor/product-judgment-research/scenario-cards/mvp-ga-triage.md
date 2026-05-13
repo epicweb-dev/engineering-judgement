@@ -2,8 +2,8 @@
 
 ## Use When
 
-You want learners to practice edge-case sizing, patch-versus-refactor sequencing,
-and risk containment right before a general availability milestone.
+You want learners to practice edge-case sizing, patch-versus-refactor
+sequencing, and risk containment right before a general availability milestone.
 
 ## Real Pain Pattern
 

@@ -58,8 +58,8 @@ revisited.
 
 ## DM Prompt for Sensitive or Business-Specific Examples
 
-> Hey [name], your example sounds useful but potentially sensitive. I do not want
-> to expose company, customer, or strategic details without permission.
+> Hey [name], your example sounds useful but potentially sensitive. I do not
+> want to expose company, customer, or strategic details without permission.
 >
 > If you are open to it, could we talk through the generalized judgment pattern?
 > I can keep it anonymized and focus on the decision shape: evidence, options,
@@ -138,5 +138,5 @@ revisited.
 
 ### Fog of War
 
-> What did you ship because it was known, and what did you intentionally treat as
-> an experiment that might be deleted?
+> What did you ship because it was known, and what did you intentionally treat
+> as an experiment that might be deleted?

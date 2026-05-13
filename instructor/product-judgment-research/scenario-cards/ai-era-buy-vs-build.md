@@ -8,8 +8,9 @@ changes what an internal engineering team can realistically create and support.
 ## Real Pain Pattern
 
 Implementation is cheaper, so "we can build it" becomes true more often. That
-does not mean "we should build it" is true. The judgment call is whether internal
-ownership creates asymmetric domain advantage or merely reduces vendor spend.
+does not mean "we should build it" is true. The judgment call is whether
+internal ownership creates asymmetric domain advantage or merely reduces vendor
+spend.
 
 ## Scenario Seed
 

@@ -8,9 +8,9 @@ competitor parity, prioritization math, and decision rights collide.
 ## Real Pain Pattern
 
 A large customer threatens to leave unless a feature is built. Competitors have
-something similar. The prioritization framework considers customer size,
-request count, and churn risk, but "no" may be unavailable because senior
-leadership can overrule the product team.
+something similar. The prioritization framework considers customer size, request
+count, and churn risk, but "no" may be unavailable because senior leadership can
+overrule the product team.
 
 ## Scenario Seed
 

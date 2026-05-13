@@ -36,7 +36,8 @@ drive, and when should product or executives override?
 
 - Quantitative evidence may be measurable but misleading.
 - Product strategy changes the right technical choice.
-- Engineering concerns are real, but may be over-optimized for the current phase.
+- Engineering concerns are real, but may be over-optimized for the current
+  phase.
 - Decision rights may be unclear or contested.
 
 ## Options to Weigh

@@ -30,17 +30,17 @@ Short noun phrase:
 
 ## Options
 
-| Option | Why consider it? | What does it risk? |
-| --- | --- | --- |
-| Option A |  |  |
-| Option B |  |  |
-| Option C |  |  |
+| Option   | Why consider it? | What does it risk? |
+| -------- | ---------------- | ------------------ |
+| Option A |                  |                    |
+| Option B |                  |                    |
+| Option C |                  |                    |
 
 ## Evidence
 
-| Evidence | Type | Confidence | Notes |
-| --- | --- | --- | --- |
-|  | Quantitative / qualitative / stakeholder / engineering / taste | Low / medium / high |  |
+| Evidence | Type                                                           | Confidence          | Notes |
+| -------- | -------------------------------------------------------------- | ------------------- | ----- |
+|          | Quantitative / qualitative / stakeholder / engineering / taste | Low / medium / high |       |
 
 ## Constraints
 
