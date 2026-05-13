@@ -10,6 +10,13 @@
 
 Build and run a workshop that trains engineering judgment under ambiguity: clarifying requirements, surfacing assumptions, defining success criteria, anticipating risks, and evaluating outcomes against intent.
 
+## Product Judgment Research Workspace
+
+Research artifacts for EpicProduct.engineer/product-judgment content live in
+`instructor/product-judgment-research/readme.md`. Use those scenario cards,
+templates, outreach prompts, and follow-up lists when grounding future exercises
+in real examples.
+
 ## Success Criteria
 
 - Learners explicitly document assumptions before implementation.
