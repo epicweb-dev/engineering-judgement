@@ -82,6 +82,10 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 	}
 
 	async execute(request: AdapterExecuteRequest): Promise<AdapterResult> {
+		if (request.transaction) {
+			this.#assertTransaction(request.transaction)
+		}
+
 		const statement = request.operation
 
 		if (statement.kind === 'insertMany' && statement.values.length === 0) {
@@ -132,11 +136,25 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 		}
 	}
 
-	async executeScript(sql: string): Promise<void> {
+	async executeScript(
+		sql: string,
+		transaction?: TransactionToken,
+	): Promise<void> {
+		if (transaction) {
+			this.#assertTransaction(transaction)
+		}
+
 		await this.#database.exec(sql)
 	}
 
-	async hasTable(table: TableRef): Promise<boolean> {
+	async hasTable(
+		table: TableRef,
+		transaction?: TransactionToken,
+	): Promise<boolean> {
+		if (transaction) {
+			this.#assertTransaction(transaction)
+		}
+
 		const result = await this.#database
 			.prepare(
 				'select 1 from sqlite_master where type = ? and name = ? limit 1',
@@ -147,7 +165,15 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 		return (result.results?.length ?? 0) > 0
 	}
 
-	async hasColumn(table: TableRef, column: string): Promise<boolean> {
+	async hasColumn(
+		table: TableRef,
+		column: string,
+		transaction?: TransactionToken,
+	): Promise<boolean> {
+		if (transaction) {
+			this.#assertTransaction(transaction)
+		}
+
 		const result = await this.#database
 			.prepare('pragma table_info(' + quoteIdentifier(table.name) + ')')
 			.all<{ name?: unknown }>()

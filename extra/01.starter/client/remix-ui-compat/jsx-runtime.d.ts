@@ -26,15 +26,23 @@ type LegacyElementProps = {
 	on?: Record<string, LegacyEventHandler | undefined | null | false>
 }
 
+type LegacySetupProps<component> = component extends (
+	handle: any,
+	setup: infer setup,
+	...args: Array<any>
+) => unknown
+	? LegacyElementProps & { setup?: setup }
+	: LegacyElementProps
+
 declare global {
 	namespace JSX {
 		type Element = RemixElement
 		type ElementType = string | ((...args: Array<any>) => unknown)
 		type ElementChildrenAttribute = { children: unknown }
-		type LibraryManagedAttributes<component, props> = LegacyElementProps
+		type LibraryManagedAttributes<component, props> =
+			LegacySetupProps<component>
 		interface IntrinsicAttributes {
 			key?: unknown
-			setup?: unknown
 		}
 		interface IntrinsicElements {
 			[elementName: string]: LegacyElementProps
