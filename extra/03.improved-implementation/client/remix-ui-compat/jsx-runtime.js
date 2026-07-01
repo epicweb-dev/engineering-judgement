@@ -34,9 +34,11 @@ function normalizeMixValue(mix) {
 function normalizeLegacyOn(on) {
 	if (!on || typeof on !== 'object') return []
 
-	return Object.entries(on).map(([type, handler]) =>
-		onMixin(type, (event, signal) => handler(event, signal)),
-	)
+	return Object.entries(on)
+		.filter(([, handler]) => typeof handler === 'function')
+		.map(([type, handler]) =>
+			onMixin(type, (event, signal) => handler(event, signal)),
+		)
 }
 
 function normalizeProps(props) {

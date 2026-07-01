@@ -1,7 +1,7 @@
 export type RemixElement = {
 	type: string | Function
-	props: Record<string, any>
-	key?: any
+	props: Record<string, unknown>
+	key?: unknown
 	$rmx: true
 }
 
@@ -14,10 +14,24 @@ export type Renderable =
 	| null
 	| undefined
 export type RemixNode = Renderable | Array<RemixNode>
-export type Handle<
-	Props = Record<string, never>,
-	ContextValue = Record<string, never>,
-> = any
+export type Task = (signal: AbortSignal) => void | Promise<void>
+
+export interface Handle<Props = Record<string, never>, ContextValue = unknown> {
+	id: string
+	props: Props
+	context: {
+		set(values: ContextValue): void
+		get(component: unknown): unknown
+	}
+	update(): Promise<AbortSignal>
+	queueTask(task: Task): void
+	frame: unknown
+	frames: {
+		readonly top: unknown
+		get(name: string): unknown
+	}
+	signal: AbortSignal
+}
 
 export declare function createRoot(
 	container: Element,
