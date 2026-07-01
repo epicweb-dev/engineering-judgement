@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { navigate } from '#client/client-router.tsx'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
 import {
@@ -171,7 +171,9 @@ export function AccountSchedulesRoute(handle: Handle) {
 										schedule.claimedAt ?? schedule.createdAt,
 									).toLocaleString()}
 								</p>
-								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+								<div
+									css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}
+								>
 									<a
 										href={`/account/schedules/${encodeURIComponent(schedule.shareToken)}`}
 									>

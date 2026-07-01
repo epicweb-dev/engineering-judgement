@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { getRequestIp, logAuditEvent } from '#server/audit-log.ts'
 import { createAuthCookie } from '#server/auth-session.ts'
 import { normalizeRedirectPath } from '#server/auth-redirect.ts'
@@ -9,9 +9,11 @@ import { type routes } from '#server/routes.ts'
 export function createLoginVerifyHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			const loginToken = url.searchParams.get('token') ?? ''
-			const redirectTo = normalizeRedirectPath(url.searchParams.get('redirectTo'))
+			const redirectTo = normalizeRedirectPath(
+				url.searchParams.get('redirectTo'),
+			)
 			const requestIp = getRequestIp(request) ?? undefined
 
 			const loginResult = await consumeHostLoginToken(appEnv.APP_DB, loginToken)

@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { type routes } from '#server/routes.ts'
 import { type AppEnv } from '#types/env-schema.ts'
 
@@ -9,7 +9,7 @@ type HealthEnv = {
 export function createHealthHandler(appEnv: HealthEnv) {
 	return {
 		middleware: [],
-		async action() {
+		async handler() {
 			const commitSha = appEnv.APP_COMMIT_SHA ?? null
 			return Response.json(
 				{ ok: true, commitSha },

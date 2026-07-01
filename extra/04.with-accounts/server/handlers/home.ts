@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { html } from 'remix/html-template'
 import { Layout } from '#server/layout.ts'
 import { render } from '#server/render.ts'
@@ -7,7 +7,7 @@ import { type routes } from '#server/routes.ts'
 
 export const home = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const canonicalUrl = toCanonicalUrl(request, '/')
 		const fallback = html`<main class="seo-page">
 			<section class="seo-section">

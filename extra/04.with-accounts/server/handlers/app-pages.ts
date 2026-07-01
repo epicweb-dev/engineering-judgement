@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { readAuthSession } from '#server/auth-session.ts'
 import { redirectToLogin } from '#server/auth-redirect.ts'
 import { Layout } from '#server/layout.ts'
@@ -7,7 +7,7 @@ import { type routes } from '#server/routes.ts'
 
 export const loginPage = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const session = await readAuthSession(request)
 		if (session) {
 			return Response.redirect(new URL('/account/schedules', request.url), 302)
@@ -20,11 +20,14 @@ export const loginPage = {
 			}),
 		)
 	},
-} satisfies BuildAction<typeof routes.loginPage.method, typeof routes.loginPage.pattern>
+} satisfies BuildAction<
+	typeof routes.loginPage.method,
+	typeof routes.loginPage.pattern
+>
 
 export const accountSchedulesPage = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const session = await readAuthSession(request)
 		if (!session) {
 			return redirectToLogin(request)
@@ -44,7 +47,7 @@ export const accountSchedulesPage = {
 
 export const accountSchedulePage = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const session = await readAuthSession(request)
 		if (!session) {
 			return redirectToLogin(request)
@@ -64,7 +67,7 @@ export const accountSchedulePage = {
 
 export const schedulePage = {
 	middleware: [],
-	async action() {
+	async handler() {
 		return render(
 			Layout({
 				title: 'Schedule availability | Epic Scheduler',
@@ -80,7 +83,7 @@ export const schedulePage = {
 
 export const scheduleHostPage = {
 	middleware: [],
-	async action() {
+	async handler() {
 		return render(
 			Layout({
 				title: 'Host dashboard | Epic Scheduler',

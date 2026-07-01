@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { getBrowserTimeZone } from '#client/browser-time-zone.ts'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
 import { renderScheduleGrid } from '#client/components/schedule-grid.tsx'
@@ -852,7 +852,7 @@ export function ScheduleRoute(handle: Handle) {
 				if (socket !== ws || handle.signal.aborted) return
 				setConnectionState('live')
 			}
-			ws.onmessage = (event) => {
+			ws.onmessage = (event: any) => {
 				if (socket !== ws || handle.signal.aborted) return
 				try {
 					const payload = JSON.parse(String(event.data)) as {
@@ -1147,7 +1147,7 @@ export function ScheduleRoute(handle: Handle) {
 									attendeeNameError ? 'attendee-name-error' : undefined
 								}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										const nextName = event.currentTarget.value
 										const previousPersistedAttendee =
 											getPersistedAttendee(attendeeName)

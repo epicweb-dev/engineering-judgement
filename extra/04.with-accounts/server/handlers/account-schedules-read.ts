@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { readAuthSession } from '#server/auth-session.ts'
 import { listSchedulesOwnedByUser } from '#shared/schedule-store.ts'
 import { type AppEnv } from '#types/env-schema.ts'
@@ -9,7 +9,7 @@ export function createAccountSchedulesReadHandler(
 ) {
 	return {
 		middleware: [],
-		async action({ request }) {
+		async handler({ request }) {
 			const session = await readAuthSession(request)
 			if (!session) {
 				return Response.json(
@@ -18,7 +18,10 @@ export function createAccountSchedulesReadHandler(
 				)
 			}
 
-			const schedules = await listSchedulesOwnedByUser(appEnv.APP_DB, session.id)
+			const schedules = await listSchedulesOwnedByUser(
+				appEnv.APP_DB,
+				session.id,
+			)
 			return Response.json({
 				ok: true,
 				email: session.email,

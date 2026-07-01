@@ -1,43 +1,42 @@
-import { createDatabase, createTable, sql } from 'remix/data-table'
-import { number, string } from 'remix/data-schema'
+import { column as c, createDatabase, sql, table } from 'remix/data-table'
 import { createD1DataTableAdapter } from './d1-data-table-adapter.ts'
 
-export const usersTable = createTable({
+export const usersTable = table({
 	name: 'users',
 	columns: {
-		id: number(),
-		username: string(),
-		email: string(),
-		password_hash: string(),
-		created_at: string(),
-		updated_at: string(),
+		id: c.integer(),
+		username: c.text(),
+		email: c.text(),
+		password_hash: c.text(),
+		created_at: c.text(),
+		updated_at: c.text(),
 	},
 	primaryKey: 'id',
 })
 
-export const passwordResetsTable = createTable({
+export const passwordResetsTable = table({
 	name: 'password_resets',
 	columns: {
-		id: number(),
-		user_id: number(),
-		token_hash: string(),
-		expires_at: number(),
-		created_at: string(),
+		id: c.integer(),
+		user_id: c.integer(),
+		token_hash: c.text(),
+		expires_at: c.integer(),
+		created_at: c.text(),
 	},
 	primaryKey: 'id',
 })
 
-export const mockResendMessagesTable = createTable({
+export const mockResendMessagesTable = table({
 	name: 'mock_resend_messages',
 	columns: {
-		id: string(),
-		token_hash: string(),
-		received_at: number(),
-		from_email: string(),
-		to_json: string(),
-		subject: string(),
-		html: string(),
-		payload_json: string(),
+		id: c.text(),
+		token_hash: c.text(),
+		received_at: c.integer(),
+		from_email: c.text(),
+		to_json: c.text(),
+		subject: c.text(),
+		html: c.text(),
+		payload_json: c.text(),
 	},
 	primaryKey: 'id',
 })

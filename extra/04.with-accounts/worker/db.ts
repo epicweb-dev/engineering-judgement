@@ -1,42 +1,41 @@
-import { createDatabase, createTable, sql } from 'remix/data-table'
-import { number, string } from 'remix/data-schema'
+import { column as c, createDatabase, sql, table } from 'remix/data-table'
 import { createD1DataTableAdapter } from './d1-data-table-adapter.ts'
 
-export const schedulesTable = createTable({
+export const schedulesTable = table({
 	name: 'schedules',
 	columns: {
-		id: string(),
-		share_token: string(),
-		title: string(),
-		interval_minutes: number(),
-		range_start_utc: string(),
-		range_end_utc: string(),
-		created_at: string(),
+		id: c.text(),
+		share_token: c.text(),
+		title: c.text(),
+		interval_minutes: c.integer(),
+		range_start_utc: c.text(),
+		range_end_utc: c.text(),
+		created_at: c.text(),
 	},
 	primaryKey: 'id',
 })
 
-export const attendeesTable = createTable({
+export const attendeesTable = table({
 	name: 'attendees',
 	columns: {
-		id: string(),
-		schedule_id: string(),
-		name: string(),
-		name_norm: string(),
-		is_host: number(),
-		time_zone: string(),
-		created_at: string(),
+		id: c.text(),
+		schedule_id: c.text(),
+		name: c.text(),
+		name_norm: c.text(),
+		is_host: c.integer(),
+		time_zone: c.text(),
+		created_at: c.text(),
 	},
 	primaryKey: 'id',
 })
 
-export const availabilityTable = createTable({
+export const availabilityTable = table({
 	name: 'availability',
 	columns: {
-		schedule_id: string(),
-		attendee_id: string(),
-		slot_start_utc: string(),
-		updated_at: string(),
+		schedule_id: c.text(),
+		attendee_id: c.text(),
+		slot_start_utc: c.text(),
+		updated_at: c.text(),
 	},
 	primaryKey: ['attendee_id', 'slot_start_utc'],
 })

@@ -1,11 +1,14 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import {
 	collectRangeSlotIds,
 	createGridModel,
 	renderScheduleGrid,
 } from '#client/schedule-grid.tsx'
 import { colors, radius, spacing, typography } from '#client/styles/tokens.ts'
-import { formatUtcInTimeZone, normalizeIanaTimeZone } from '#shared/scheduling-time.ts'
+import {
+	formatUtcInTimeZone,
+	normalizeIanaTimeZone,
+} from '#shared/scheduling-time.ts'
 
 type SchedulePayload = {
 	scheduleKey: string
@@ -74,7 +77,7 @@ export function RespondScheduleRoute(handle: Handle) {
 			return
 		}
 
-		handle.queueTask(async (signal) => {
+		handle.queueTask(async (signal: AbortSignal) => {
 			try {
 				const response = await fetch(
 					`/api/schedules/${encodeURIComponent(scheduleKey)}`,
@@ -166,15 +169,23 @@ export function RespondScheduleRoute(handle: Handle) {
 
 	function handleSelectionHandlePointerMove(event: PointerEvent) {
 		if (!isHandleDragging || !anchorSlotId || !schedule) return
-		const slots = schedule.slotsUtc.map((slot) => ({ id: slot, startsAtUtc: slot }))
+		const slots = schedule.slotsUtc.map((slot) => ({
+			id: slot,
+			startsAtUtc: slot,
+		}))
 		const model = createGridModel(slots, attendeeTimeZone)
-		const targetElement = document.elementFromPoint(event.clientX, event.clientY)
-		const cellElement = targetElement?.closest('[data-slot-id]') as
-			| HTMLElement
-			| null
+		const targetElement = document.elementFromPoint(
+			event.clientX,
+			event.clientY,
+		)
+		const cellElement = targetElement?.closest(
+			'[data-slot-id]',
+		) as HTMLElement | null
 		const targetSlotId = cellElement?.dataset.slotId
 		if (!targetSlotId) return
-		selectedSlots = new Set(collectRangeSlotIds(model, anchorSlotId, targetSlotId))
+		selectedSlots = new Set(
+			collectRangeSlotIds(model, anchorSlotId, targetSlotId),
+		)
 		handle.update()
 	}
 
@@ -214,9 +225,10 @@ export function RespondScheduleRoute(handle: Handle) {
 					}),
 				},
 			)
-			const payload = (await response.json().catch(() => null)) as
-				| { ok?: boolean; error?: string }
-				| null
+			const payload = (await response.json().catch(() => null)) as {
+				ok?: boolean
+				error?: string
+			} | null
 			if (!response.ok || !payload?.ok) {
 				errorMessage = payload?.error ?? 'Unable to submit availability.'
 				isSaving = false
@@ -238,7 +250,9 @@ export function RespondScheduleRoute(handle: Handle) {
 		queueLoad()
 
 		if (status === 'loading') {
-			return <p css={{ margin: 0, color: colors.textMuted }}>Loading schedule...</p>
+			return (
+				<p css={{ margin: 0, color: colors.textMuted }}>Loading schedule...</p>
+			)
 		}
 
 		if (status === 'error' || !schedule) {
@@ -301,7 +315,10 @@ export function RespondScheduleRoute(handle: Handle) {
 					) : null}
 				</header>
 
-				<form on={{ submit: handleSaveResponse }} css={{ display: 'grid', gap: spacing.md }}>
+				<form
+					on={{ submit: handleSaveResponse }}
+					css={{ display: 'grid', gap: spacing.md }}
+				>
 					<label
 						for="attendee-name"
 						css={{
@@ -323,7 +340,7 @@ export function RespondScheduleRoute(handle: Handle) {
 							id="attendee-name"
 							value={attendeeName}
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									if (!(event.currentTarget instanceof HTMLInputElement)) return
 									attendeeName = event.currentTarget.value
 									handle.update()
@@ -383,4 +400,3 @@ export function RespondScheduleRoute(handle: Handle) {
 		)
 	}
 }
-

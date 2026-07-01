@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { navigate } from '#client/client-router.tsx'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
 import {
@@ -125,7 +125,9 @@ export function LoginRoute(handle: Handle) {
 		if (nextLocationKey === lastLocationKey) return
 		lastLocationKey = nextLocationKey
 		const url = new URL(
-			typeof window === 'undefined' ? 'https://example.com/login' : window.location.href,
+			typeof window === 'undefined'
+				? 'https://example.com/login'
+				: window.location.href,
 		)
 		redirectTo = normalizeRedirectTo(url.searchParams.get('redirectTo'))
 		statusMessage = getErrorMessage(url.searchParams.get('error'))
@@ -197,7 +199,7 @@ export function LoginRoute(handle: Handle) {
 							placeholder="host@example.com"
 							autocomplete="email"
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									email = (event.currentTarget as HTMLInputElement).value
 									handle.update()
 								},
@@ -223,8 +225,7 @@ export function LoginRoute(handle: Handle) {
 								border: `1px solid ${colors.border}`,
 								backgroundColor: colors.surface,
 								color: colors.text,
-								cursor:
-									isSubmitting || isCheckingSession ? 'wait' : 'pointer',
+								cursor: isSubmitting || isCheckingSession ? 'wait' : 'pointer',
 							}}
 						>
 							{isSubmitting ? 'Creating link…' : 'Create sign-in link'}
@@ -234,11 +235,7 @@ export function LoginRoute(handle: Handle) {
 
 					<p
 						role={
-							statusMessage
-								? statusIsError
-									? 'alert'
-									: 'status'
-								: undefined
+							statusMessage ? (statusIsError ? 'alert' : 'status') : undefined
 						}
 						aria-live="polite"
 						aria-hidden={statusMessage ? undefined : true}

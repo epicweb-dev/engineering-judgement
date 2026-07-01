@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { enum_, object, parseSafe, string } from 'remix/data-schema'
 import { createAuthCookie } from '#server/auth-session.ts'
 import { getRequestIp, logAuditEvent } from '#server/audit-log.ts'
@@ -31,7 +31,7 @@ export function createAuthHandler(appEnv: AppEnv) {
 
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			let body: unknown
 
 			try {

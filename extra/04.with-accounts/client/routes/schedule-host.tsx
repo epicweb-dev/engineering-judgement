@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { getBrowserTimeZone } from '#client/browser-time-zone.ts'
 import { navigate } from '#client/client-router.tsx'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
@@ -1009,18 +1009,22 @@ export function ScheduleHostRoute(handle: Handle) {
 	async function claimSchedule() {
 		const requestShareToken = shareToken
 		const requestHostAccessToken = hostAccessToken
-		if (!requestShareToken || !requestHostAccessToken || isClaimingSchedule) return
+		if (!requestShareToken || !requestHostAccessToken || isClaimingSchedule)
+			return
 		isClaimingSchedule = true
 		claimMessage = null
 		claimMessageIsError = false
 		handle.update()
 		try {
-			const response = await fetch(`/api/schedules/${requestShareToken}/claim`, {
-				method: 'POST',
-				headers: createHostAuthHeaders({
-					'Content-Type': 'application/json',
-				}),
-			})
+			const response = await fetch(
+				`/api/schedules/${requestShareToken}/claim`,
+				{
+					method: 'POST',
+					headers: createHostAuthHeaders({
+						'Content-Type': 'application/json',
+					}),
+				},
+			)
 			const payload = (await response.json().catch(() => null)) as {
 				ok?: boolean
 				snapshot?: ScheduleSnapshot
@@ -1036,14 +1040,17 @@ export function ScheduleHostRoute(handle: Handle) {
 							: 'Unable to save this schedule to your account.'
 				claimMessageIsError = true
 				if (response.status === 401) {
-					navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+					navigate(
+						`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`,
+					)
 					return
 				}
 				handle.update()
 				return
 			}
 			applySnapshot(payload.snapshot)
-			claimMessage = 'Saved to your account. You can reopen it from Your schedules.'
+			claimMessage =
+				'Saved to your account. You can reopen it from Your schedules.'
 			claimMessageIsError = false
 			handle.update()
 		} catch {
@@ -1088,7 +1095,9 @@ export function ScheduleHostRoute(handle: Handle) {
 			}
 			if (!response.ok || !payload?.ok || !payload.snapshot) {
 				if (accessMode === 'account' && response.status === 401) {
-					navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+					navigate(
+						`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`,
+					)
 					return
 				}
 				const errorText =
@@ -1130,7 +1139,7 @@ export function ScheduleHostRoute(handle: Handle) {
 				if (socket !== ws || handle.signal.aborted) return
 				setConnectionState('live')
 			}
-			ws.onmessage = (event) => {
+			ws.onmessage = (event: any) => {
 				if (socket !== ws || handle.signal.aborted) return
 				try {
 					const payload = JSON.parse(String(event.data)) as {
@@ -2018,13 +2027,19 @@ export function ScheduleHostRoute(handle: Handle) {
 			? `${attendeePath}/${encodeURIComponent(hostAccessToken)}`
 			: null
 		const attendeeUrl = appOrigin ? `${appOrigin}${attendeePath}` : attendeePath
-		const hostUrl = hostPath ? (appOrigin ? `${appOrigin}${hostPath}` : hostPath) : null
+		const hostUrl = hostPath
+			? appOrigin
+				? `${appOrigin}${hostPath}`
+				: hostPath
+			: null
 		const scheduleTitle = currentSnapshot?.schedule.title.trim() ?? ''
 		const ownerUserId = currentSnapshot?.schedule.ownerUserId ?? null
 		const isOwnedByCurrentSession =
 			ownerUserId !== null && authSession?.id === ownerUserId
 		const isClaimedByAnotherAccount =
-			ownerUserId !== null && authSession !== null && authSession.id !== ownerUserId
+			ownerUserId !== null &&
+			authSession !== null &&
+			authSession.id !== ownerUserId
 		const loginRedirectPath = `/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`
 
 		if (isLoading && !currentSnapshot) {
@@ -2242,10 +2257,12 @@ export function ScheduleHostRoute(handle: Handle) {
 						) : authSession ? (
 							<div css={{ display: 'grid', gap: spacing.sm }}>
 								<p css={{ margin: 0, color: colors.textMuted }}>
-									Signed in as {authSession.email}. Save this schedule so you can
-									reopen it from Your schedules.
+									Signed in as {authSession.email}. Save this schedule so you
+									can reopen it from Your schedules.
 								</p>
-								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+								<div
+									css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}
+								>
 									<button
 										type="button"
 										on={{ click: () => void claimSchedule() }}
@@ -2269,10 +2286,12 @@ export function ScheduleHostRoute(handle: Handle) {
 						) : authSessionLoaded ? (
 							<div css={{ display: 'grid', gap: spacing.sm }}>
 								<p css={{ margin: 0, color: colors.textMuted }}>
-									Want an easier return path? Sign in, then save this schedule to
-									your account without changing attendee access.
+									Want an easier return path? Sign in, then save this schedule
+									to your account without changing attendee access.
 								</p>
-								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+								<div
+									css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}
+								>
 									<a href={loginRedirectPath}>Sign in to save this schedule</a>
 									<a href="/account/schedules">Your schedules</a>
 								</div>
@@ -2361,7 +2380,7 @@ export function ScheduleHostRoute(handle: Handle) {
 										type="text"
 										value={titleDraft}
 										on={{
-											input: (event) => {
+											input: (event: any) => {
 												const nextTitle = event.currentTarget.value
 												if (nextTitle === titleDraft) return
 												titleDraft = nextTitle
@@ -2392,7 +2411,7 @@ export function ScheduleHostRoute(handle: Handle) {
 										type="date"
 										value={rangeStartDateInput}
 										on={{
-											change: (event) => {
+											change: (event: any) => {
 												updateRangeDraft({
 													startDateInput: event.currentTarget.value,
 												})
@@ -2420,7 +2439,7 @@ export function ScheduleHostRoute(handle: Handle) {
 										type="date"
 										value={rangeEndDateInput}
 										on={{
-											change: (event) => {
+											change: (event: any) => {
 												updateRangeDraft({
 													endDateInput: event.currentTarget.value,
 												})
@@ -2584,7 +2603,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																<form
 																	data-submission-edit-form={attendee.id}
 																	on={{
-																		submit: (event) => {
+																		submit: (event: any) => {
 																			event.preventDefault()
 																			const formData = new FormData(
 																				event.currentTarget,
@@ -2692,7 +2711,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																				},
 																			}}
 																			on={{
-																				input: (event) => {
+																				input: (event: any) => {
 																					const nextName =
 																						event.currentTarget.value
 																					const measuredWidthPx =
@@ -2714,7 +2733,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																						handle.update()
 																					}
 																				},
-																				keydown: (event) => {
+																				keydown: (event: any) => {
 																					if (event.key !== 'Escape') return
 																					event.preventDefault()
 																					editingSubmissionId = null
@@ -2732,7 +2751,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																					handle.update()
 																					focusSubmissionEditButton(attendee.id)
 																				},
-																				blur: (event) => {
+																				blur: (event: any) => {
 																					if (
 																						editingSubmissionId !== attendee.id
 																					)
@@ -2853,7 +2872,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																	}
 																	disabled={pendingSubmissionAction !== null}
 																	on={{
-																		click: (event) => {
+																		click: (event: any) => {
 																			if (pendingSubmissionAction !== null)
 																				return
 																			if (
@@ -3369,7 +3388,6 @@ export function ScheduleHostRoute(handle: Handle) {
 									</p>
 								) : null}
 							</section>
-
 						</>
 					) : (
 						<p css={{ margin: 0, color: colors.error }}>

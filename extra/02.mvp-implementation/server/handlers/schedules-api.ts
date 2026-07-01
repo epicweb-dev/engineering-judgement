@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import {
 	createScheduleWithUrls,
 	parseSlotList,
@@ -14,7 +14,7 @@ import { type AppEnv } from '#types/env-schema.ts'
 export function createCreateScheduleHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			let body: unknown
 			try {
 				body = await request.json()
@@ -24,20 +24,20 @@ export function createCreateScheduleHandler(appEnv: AppEnv) {
 
 			const payload = validateSchedulePayload(body)
 			if (!payload) {
-				return Response.json({ error: 'Invalid schedule payload.' }, { status: 400 })
+				return Response.json(
+					{ error: 'Invalid schedule payload.' },
+					{ status: 400 },
+				)
 			}
 
 			try {
 				const created = await createScheduleWithUrls(appEnv, payload)
-				return Response.json(
-					created,
-					{
-						status: 201,
-						headers: {
-							Location: new URL(created.hostUrl, url.origin).toString(),
-						},
+				return Response.json(created, {
+					status: 201,
+					headers: {
+						Location: new URL(created.hostUrl, url.origin).toString(),
 					},
-				)
+				})
 			} catch (error) {
 				const message =
 					error instanceof Error ? error.message : 'Unable to create schedule.'
@@ -53,7 +53,7 @@ export function createCreateScheduleHandler(appEnv: AppEnv) {
 export function createReadScheduleHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
-		async action({ params, url }) {
+		async handler({ params, url }) {
 			const result = await readScheduleForAttendee(
 				appEnv,
 				params.scheduleKey,
@@ -73,7 +73,7 @@ export function createReadScheduleHandler(appEnv: AppEnv) {
 export function createSubmitResponseHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
-		async action({ request, params }) {
+		async handler({ request, params }) {
 			const schedule = await readScheduleForAttendee(appEnv, params.scheduleKey)
 			if (!schedule) {
 				return Response.json({ error: 'Schedule not found.' }, { status: 404 })
@@ -103,7 +103,10 @@ export function createSubmitResponseHandler(appEnv: AppEnv) {
 					selectedSlotUtc,
 				)
 				if (!result) {
-					return Response.json({ error: 'Schedule not found.' }, { status: 404 })
+					return Response.json(
+						{ error: 'Schedule not found.' },
+						{ status: 404 },
+					)
 				}
 				return Response.json({ ok: true, attendeeName: result.attendeeName })
 			} catch (error) {
@@ -121,14 +124,17 @@ export function createSubmitResponseHandler(appEnv: AppEnv) {
 export function createReadHostScheduleHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
-		async action({ params }) {
+		async handler({ params }) {
 			const result = await readScheduleForHost(
 				appEnv,
 				params.scheduleKey,
 				params.hostKey,
 			)
 			if (!result) {
-				return Response.json({ error: 'Host schedule not found.' }, { status: 404 })
+				return Response.json(
+					{ error: 'Host schedule not found.' },
+					{ status: 404 },
+				)
 			}
 			return Response.json(result)
 		},
@@ -141,7 +147,7 @@ export function createReadHostScheduleHandler(appEnv: AppEnv) {
 export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 	return {
 		middleware: [],
-		async action({ request, params }) {
+		async handler({ request, params }) {
 			let body: unknown
 			try {
 				body = await request.json()
@@ -151,7 +157,10 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 
 			const payload = validateSchedulePayload(body)
 			if (!payload) {
-				return Response.json({ error: 'Invalid schedule payload.' }, { status: 400 })
+				return Response.json(
+					{ error: 'Invalid schedule payload.' },
+					{ status: 400 },
+				)
 			}
 
 			try {
@@ -162,7 +171,10 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 					payload,
 				)
 				if (!result) {
-					return Response.json({ error: 'Host schedule not found.' }, { status: 404 })
+					return Response.json(
+						{ error: 'Host schedule not found.' },
+						{ status: 404 },
+					)
 				}
 				return Response.json(result)
 			} catch (error) {
@@ -176,4 +188,3 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 		typeof routes.apiHostScheduleUpdate.pattern
 	>
 }
-

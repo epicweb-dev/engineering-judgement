@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { html } from 'remix/html-template'
 import { Layout } from '#server/layout.ts'
 import { render } from '#server/render.ts'
@@ -32,7 +32,7 @@ function notFoundPage() {
 
 export const howItWorks = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const page = getHowItWorksPage()
 		return render(
 			Layout({
@@ -52,7 +52,7 @@ export const howItWorks = {
 
 export const features = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const page = getFeaturesPage()
 		return render(
 			Layout({
@@ -72,7 +72,7 @@ export const features = {
 
 export const blogIndex = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const page = getBlogIndexPage()
 		return render(
 			Layout({
@@ -89,7 +89,7 @@ export const blogIndex = {
 
 export const blogPost = {
 	middleware: [],
-	async action({ request, url }) {
+	async handler({ request, url }) {
 		const slug = parseBlogSlug(url.pathname)
 		const page = getBlogPostPage(slug)
 		if (!page) {
@@ -125,7 +125,7 @@ export const blogPost = {
 
 export const privacy = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const page = getPrivacyPage()
 		return render(
 			Layout({
@@ -144,7 +144,7 @@ export const privacy = {
 
 export const terms = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const page = getTermsPage()
 		return render(
 			Layout({

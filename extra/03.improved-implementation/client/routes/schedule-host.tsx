@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { getBrowserTimeZone } from '#client/browser-time-zone.ts'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
 import { renderScheduleGrid } from '#client/components/schedule-grid.tsx'
@@ -999,7 +999,7 @@ export function ScheduleHostRoute(handle: Handle) {
 				if (socket !== ws || handle.signal.aborted) return
 				setConnectionState('live')
 			}
-			ws.onmessage = (event) => {
+			ws.onmessage = (event: any) => {
 				if (socket !== ws || handle.signal.aborted) return
 				try {
 					const payload = JSON.parse(String(event.data)) as {
@@ -2128,7 +2128,7 @@ export function ScheduleHostRoute(handle: Handle) {
 										type="text"
 										value={titleDraft}
 										on={{
-											input: (event) => {
+											input: (event: any) => {
 												const nextTitle = event.currentTarget.value
 												if (nextTitle === titleDraft) return
 												titleDraft = nextTitle
@@ -2159,7 +2159,7 @@ export function ScheduleHostRoute(handle: Handle) {
 										type="date"
 										value={rangeStartDateInput}
 										on={{
-											change: (event) => {
+											change: (event: any) => {
 												updateRangeDraft({
 													startDateInput: event.currentTarget.value,
 												})
@@ -2187,7 +2187,7 @@ export function ScheduleHostRoute(handle: Handle) {
 										type="date"
 										value={rangeEndDateInput}
 										on={{
-											change: (event) => {
+											change: (event: any) => {
 												updateRangeDraft({
 													endDateInput: event.currentTarget.value,
 												})
@@ -2351,7 +2351,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																<form
 																	data-submission-edit-form={attendee.id}
 																	on={{
-																		submit: (event) => {
+																		submit: (event: any) => {
 																			event.preventDefault()
 																			const formData = new FormData(
 																				event.currentTarget,
@@ -2459,7 +2459,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																				},
 																			}}
 																			on={{
-																				input: (event) => {
+																				input: (event: any) => {
 																					const nextName =
 																						event.currentTarget.value
 																					const measuredWidthPx =
@@ -2481,7 +2481,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																						handle.update()
 																					}
 																				},
-																				keydown: (event) => {
+																				keydown: (event: any) => {
 																					if (event.key !== 'Escape') return
 																					event.preventDefault()
 																					editingSubmissionId = null
@@ -2499,7 +2499,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																					handle.update()
 																					focusSubmissionEditButton(attendee.id)
 																				},
-																				blur: (event) => {
+																				blur: (event: any) => {
 																					if (
 																						editingSubmissionId !== attendee.id
 																					)
@@ -2620,7 +2620,7 @@ export function ScheduleHostRoute(handle: Handle) {
 																	}
 																	disabled={pendingSubmissionAction !== null}
 																	on={{
-																		click: (event) => {
+																		click: (event: any) => {
 																			if (pendingSubmissionAction !== null)
 																				return
 																			if (
@@ -3136,7 +3136,6 @@ export function ScheduleHostRoute(handle: Handle) {
 									</p>
 								) : null}
 							</section>
-
 						</>
 					) : (
 						<p css={{ margin: 0, color: colors.error }}>

@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { getRequestIp, logAuditEvent } from '#server/audit-log.ts'
 import { normalizeRedirectPath } from '#server/auth-redirect.ts'
 import { createHostLoginRequest } from '#shared/host-account-store.ts'
@@ -14,7 +14,7 @@ type LoginRequestBody = {
 export function createLoginRequestHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			let body: LoginRequestBody
 			try {
 				const parsed = await request.json()

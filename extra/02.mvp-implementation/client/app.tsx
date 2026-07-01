@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { clientRoutes } from './routes/index.tsx'
 import { Router } from './client-router.tsx'
 import { colors, spacing, typography } from './styles/tokens.ts'
