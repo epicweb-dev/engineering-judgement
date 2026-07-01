@@ -125,7 +125,9 @@ export function LoginRoute(handle: Handle) {
 		if (nextLocationKey === lastLocationKey) return
 		lastLocationKey = nextLocationKey
 		const url = new URL(
-			typeof window === 'undefined' ? 'https://example.com/login' : window.location.href,
+			typeof window === 'undefined'
+				? 'https://example.com/login'
+				: window.location.href,
 		)
 		redirectTo = normalizeRedirectTo(url.searchParams.get('redirectTo'))
 		statusMessage = getErrorMessage(url.searchParams.get('error'))
@@ -223,8 +225,7 @@ export function LoginRoute(handle: Handle) {
 								border: `1px solid ${colors.border}`,
 								backgroundColor: colors.surface,
 								color: colors.text,
-								cursor:
-									isSubmitting || isCheckingSession ? 'wait' : 'pointer',
+								cursor: isSubmitting || isCheckingSession ? 'wait' : 'pointer',
 							}}
 						>
 							{isSubmitting ? 'Creating link…' : 'Create sign-in link'}
@@ -234,11 +235,7 @@ export function LoginRoute(handle: Handle) {
 
 					<p
 						role={
-							statusMessage
-								? statusIsError
-									? 'alert'
-									: 'status'
-								: undefined
+							statusMessage ? (statusIsError ? 'alert' : 'status') : undefined
 						}
 						aria-live="polite"
 						aria-hidden={statusMessage ? undefined : true}

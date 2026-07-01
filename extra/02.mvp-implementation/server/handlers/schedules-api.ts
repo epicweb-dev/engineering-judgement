@@ -24,20 +24,20 @@ export function createCreateScheduleHandler(appEnv: AppEnv) {
 
 			const payload = validateSchedulePayload(body)
 			if (!payload) {
-				return Response.json({ error: 'Invalid schedule payload.' }, { status: 400 })
+				return Response.json(
+					{ error: 'Invalid schedule payload.' },
+					{ status: 400 },
+				)
 			}
 
 			try {
 				const created = await createScheduleWithUrls(appEnv, payload)
-				return Response.json(
-					created,
-					{
-						status: 201,
-						headers: {
-							Location: new URL(created.hostUrl, url.origin).toString(),
-						},
+				return Response.json(created, {
+					status: 201,
+					headers: {
+						Location: new URL(created.hostUrl, url.origin).toString(),
 					},
-				)
+				})
 			} catch (error) {
 				const message =
 					error instanceof Error ? error.message : 'Unable to create schedule.'
@@ -103,7 +103,10 @@ export function createSubmitResponseHandler(appEnv: AppEnv) {
 					selectedSlotUtc,
 				)
 				if (!result) {
-					return Response.json({ error: 'Schedule not found.' }, { status: 404 })
+					return Response.json(
+						{ error: 'Schedule not found.' },
+						{ status: 404 },
+					)
 				}
 				return Response.json({ ok: true, attendeeName: result.attendeeName })
 			} catch (error) {
@@ -128,7 +131,10 @@ export function createReadHostScheduleHandler(appEnv: AppEnv) {
 				params.hostKey,
 			)
 			if (!result) {
-				return Response.json({ error: 'Host schedule not found.' }, { status: 404 })
+				return Response.json(
+					{ error: 'Host schedule not found.' },
+					{ status: 404 },
+				)
 			}
 			return Response.json(result)
 		},
@@ -151,7 +157,10 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 
 			const payload = validateSchedulePayload(body)
 			if (!payload) {
-				return Response.json({ error: 'Invalid schedule payload.' }, { status: 400 })
+				return Response.json(
+					{ error: 'Invalid schedule payload.' },
+					{ status: 400 },
+				)
 			}
 
 			try {
@@ -162,7 +171,10 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 					payload,
 				)
 				if (!result) {
-					return Response.json({ error: 'Host schedule not found.' }, { status: 404 })
+					return Response.json(
+						{ error: 'Host schedule not found.' },
+						{ status: 404 },
+					)
 				}
 				return Response.json(result)
 			} catch (error) {
@@ -176,4 +188,3 @@ export function createUpdateHostScheduleHandler(appEnv: AppEnv) {
 		typeof routes.apiHostScheduleUpdate.pattern
 	>
 }
-

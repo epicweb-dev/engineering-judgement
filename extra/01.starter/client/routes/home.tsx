@@ -56,7 +56,8 @@ export function HomeRoute(_handle: Handle) {
 								color: colors.text,
 							}}
 						>
-							epic-scheduler <span css={{ color: colors.primaryText }}>Remix 3</span>
+							epic-scheduler{' '}
+							<span css={{ color: colors.primaryText }}>Remix 3</span>
 						</h1>
 						<p css={{ margin: 0, color: colors.textMuted }}>
 							Remix 3 components running on the client, backed by Remix 3

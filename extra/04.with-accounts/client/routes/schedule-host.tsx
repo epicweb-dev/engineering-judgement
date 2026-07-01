@@ -1009,18 +1009,22 @@ export function ScheduleHostRoute(handle: Handle) {
 	async function claimSchedule() {
 		const requestShareToken = shareToken
 		const requestHostAccessToken = hostAccessToken
-		if (!requestShareToken || !requestHostAccessToken || isClaimingSchedule) return
+		if (!requestShareToken || !requestHostAccessToken || isClaimingSchedule)
+			return
 		isClaimingSchedule = true
 		claimMessage = null
 		claimMessageIsError = false
 		handle.update()
 		try {
-			const response = await fetch(`/api/schedules/${requestShareToken}/claim`, {
-				method: 'POST',
-				headers: createHostAuthHeaders({
-					'Content-Type': 'application/json',
-				}),
-			})
+			const response = await fetch(
+				`/api/schedules/${requestShareToken}/claim`,
+				{
+					method: 'POST',
+					headers: createHostAuthHeaders({
+						'Content-Type': 'application/json',
+					}),
+				},
+			)
 			const payload = (await response.json().catch(() => null)) as {
 				ok?: boolean
 				snapshot?: ScheduleSnapshot
@@ -1036,14 +1040,17 @@ export function ScheduleHostRoute(handle: Handle) {
 							: 'Unable to save this schedule to your account.'
 				claimMessageIsError = true
 				if (response.status === 401) {
-					navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+					navigate(
+						`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`,
+					)
 					return
 				}
 				handle.update()
 				return
 			}
 			applySnapshot(payload.snapshot)
-			claimMessage = 'Saved to your account. You can reopen it from Your schedules.'
+			claimMessage =
+				'Saved to your account. You can reopen it from Your schedules.'
 			claimMessageIsError = false
 			handle.update()
 		} catch {
@@ -1088,7 +1095,9 @@ export function ScheduleHostRoute(handle: Handle) {
 			}
 			if (!response.ok || !payload?.ok || !payload.snapshot) {
 				if (accessMode === 'account' && response.status === 401) {
-					navigate(`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`)
+					navigate(
+						`/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`,
+					)
 					return
 				}
 				const errorText =
@@ -2018,13 +2027,19 @@ export function ScheduleHostRoute(handle: Handle) {
 			? `${attendeePath}/${encodeURIComponent(hostAccessToken)}`
 			: null
 		const attendeeUrl = appOrigin ? `${appOrigin}${attendeePath}` : attendeePath
-		const hostUrl = hostPath ? (appOrigin ? `${appOrigin}${hostPath}` : hostPath) : null
+		const hostUrl = hostPath
+			? appOrigin
+				? `${appOrigin}${hostPath}`
+				: hostPath
+			: null
 		const scheduleTitle = currentSnapshot?.schedule.title.trim() ?? ''
 		const ownerUserId = currentSnapshot?.schedule.ownerUserId ?? null
 		const isOwnedByCurrentSession =
 			ownerUserId !== null && authSession?.id === ownerUserId
 		const isClaimedByAnotherAccount =
-			ownerUserId !== null && authSession !== null && authSession.id !== ownerUserId
+			ownerUserId !== null &&
+			authSession !== null &&
+			authSession.id !== ownerUserId
 		const loginRedirectPath = `/login?redirectTo=${encodeURIComponent(getPathWithSearch())}`
 
 		if (isLoading && !currentSnapshot) {
@@ -2242,10 +2257,12 @@ export function ScheduleHostRoute(handle: Handle) {
 						) : authSession ? (
 							<div css={{ display: 'grid', gap: spacing.sm }}>
 								<p css={{ margin: 0, color: colors.textMuted }}>
-									Signed in as {authSession.email}. Save this schedule so you can
-									reopen it from Your schedules.
+									Signed in as {authSession.email}. Save this schedule so you
+									can reopen it from Your schedules.
 								</p>
-								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+								<div
+									css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}
+								>
 									<button
 										type="button"
 										on={{ click: () => void claimSchedule() }}
@@ -2269,10 +2286,12 @@ export function ScheduleHostRoute(handle: Handle) {
 						) : authSessionLoaded ? (
 							<div css={{ display: 'grid', gap: spacing.sm }}>
 								<p css={{ margin: 0, color: colors.textMuted }}>
-									Want an easier return path? Sign in, then save this schedule to
-									your account without changing attendee access.
+									Want an easier return path? Sign in, then save this schedule
+									to your account without changing attendee access.
 								</p>
-								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+								<div
+									css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}
+								>
 									<a href={loginRedirectPath}>Sign in to save this schedule</a>
 									<a href="/account/schedules">Your schedules</a>
 								</div>
@@ -3369,7 +3388,6 @@ export function ScheduleHostRoute(handle: Handle) {
 									</p>
 								) : null}
 							</section>
-
 						</>
 					) : (
 						<p css={{ margin: 0, color: colors.error }}>

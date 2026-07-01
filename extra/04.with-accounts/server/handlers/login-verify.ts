@@ -11,7 +11,9 @@ export function createLoginVerifyHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 		middleware: [],
 		async handler({ request, url }) {
 			const loginToken = url.searchParams.get('token') ?? ''
-			const redirectTo = normalizeRedirectPath(url.searchParams.get('redirectTo'))
+			const redirectTo = normalizeRedirectPath(
+				url.searchParams.get('redirectTo'),
+			)
 			const requestIp = getRequestIp(request) ?? undefined
 
 			const loginResult = await consumeHostLoginToken(appEnv.APP_DB, loginToken)

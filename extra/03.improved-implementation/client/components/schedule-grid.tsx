@@ -733,7 +733,8 @@ export function renderScheduleGrid(props: ScheduleGridProps) {
 																? () => props.onCellHover?.(slot)
 																: undefined,
 													pointermove: props.onCellPointerMove
-														? (event: any) => props.onCellPointerMove?.(slot, event)
+														? (event: any) =>
+																props.onCellPointerMove?.(slot, event)
 														: undefined,
 													pointerleave: props.onCellHover
 														? (event: any) => {
@@ -744,7 +745,8 @@ export function renderScheduleGrid(props: ScheduleGridProps) {
 															}
 														: undefined,
 													pointerup: props.onCellPointerUp
-														? (event: any) => props.onCellPointerUp?.(slot, event)
+														? (event: any) =>
+																props.onCellPointerUp?.(slot, event)
 														: undefined,
 													click: props.onCellClick
 														? (event: any) => props.onCellClick?.(slot, event)

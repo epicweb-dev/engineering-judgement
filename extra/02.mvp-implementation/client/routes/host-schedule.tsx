@@ -60,7 +60,8 @@ export function HostScheduleRoute(handle: Handle) {
 	let saveMessage: string | null = null
 	let requestQueued = false
 	let listenersAttached = false
-	let attendeeSummary: Array<{ attendeeName: string; slots: Array<string> }> = []
+	let attendeeSummary: Array<{ attendeeName: string; slots: Array<string> }> =
+		[]
 	let title = ''
 	let startDate = ''
 	let endDate = ''
@@ -236,17 +237,22 @@ export function HostScheduleRoute(handle: Handle) {
 
 	function handleSelectionHandlePointerMove(event: PointerEvent) {
 		if (!isHandleDragging || !anchorSlotId) return
-		const gridSlots = generateLocalSlotKeys(startDate, endDate, slotMinutes).map(
-			(localSlotKey) => ({
-				id: localSlotKey,
-				startsAtUtc: localSlotKeyToUtcIso(localSlotKey, timezone),
-			}),
-		)
+		const gridSlots = generateLocalSlotKeys(
+			startDate,
+			endDate,
+			slotMinutes,
+		).map((localSlotKey) => ({
+			id: localSlotKey,
+			startsAtUtc: localSlotKeyToUtcIso(localSlotKey, timezone),
+		}))
 		const model = createGridModel(gridSlots, timezone)
-		const targetElement = document.elementFromPoint(event.clientX, event.clientY)
-		const cellElement = targetElement?.closest('[data-slot-id]') as
-			| HTMLElement
-			| null
+		const targetElement = document.elementFromPoint(
+			event.clientX,
+			event.clientY,
+		)
+		const cellElement = targetElement?.closest(
+			'[data-slot-id]',
+		) as HTMLElement | null
 		const targetSlotId = cellElement?.dataset.slotId
 		if (!targetSlotId) return
 		selectedLocalSlots = new Set(
@@ -324,7 +330,11 @@ export function HostScheduleRoute(handle: Handle) {
 		queueLoad()
 
 		if (status === 'loading') {
-			return <p css={{ margin: 0, color: colors.textMuted }}>Loading host dashboard...</p>
+			return (
+				<p css={{ margin: 0, color: colors.textMuted }}>
+					Loading host dashboard...
+				</p>
+			)
 		}
 
 		if (status === 'error' || !hostParams) {
@@ -358,7 +368,8 @@ export function HostScheduleRoute(handle: Handle) {
 						Host dashboard
 					</h1>
 					<p css={{ margin: 0, color: colors.textMuted }}>
-						Share your attendee link, tune schedule details, and review responses.
+						Share your attendee link, tune schedule details, and review
+						responses.
 					</p>
 				</header>
 
@@ -401,7 +412,9 @@ export function HostScheduleRoute(handle: Handle) {
 						</div>
 					</div>
 					<div css={{ display: 'grid', gap: spacing.xs }}>
-						<p css={{ margin: 0, color: colors.textMuted }}>Private host link</p>
+						<p css={{ margin: 0, color: colors.textMuted }}>
+							Private host link
+						</p>
 						<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
 							<code
 								css={{
@@ -430,7 +443,10 @@ export function HostScheduleRoute(handle: Handle) {
 					</div>
 				</div>
 
-				<form on={{ submit: handleSaveSchedule }} css={{ display: 'grid', gap: spacing.md }}>
+				<form
+					on={{ submit: handleSaveSchedule }}
+					css={{ display: 'grid', gap: spacing.md }}
+				>
 					<div
 						css={{
 							display: 'grid',
@@ -445,14 +461,17 @@ export function HostScheduleRoute(handle: Handle) {
 						}}
 					>
 						<label css={{ display: 'grid', gap: spacing.xs }}>
-							<span css={{ color: colors.text, fontSize: typography.fontSize.sm }}>
+							<span
+								css={{ color: colors.text, fontSize: typography.fontSize.sm }}
+							>
 								Plan title
 							</span>
 							<input
 								value={title}
 								on={{
 									input: (event: any) => {
-										if (!(event.currentTarget instanceof HTMLInputElement)) return
+										if (!(event.currentTarget instanceof HTMLInputElement))
+											return
 										title = event.currentTarget.value
 										handle.update()
 									},
@@ -467,7 +486,9 @@ export function HostScheduleRoute(handle: Handle) {
 							/>
 						</label>
 						<label css={{ display: 'grid', gap: spacing.xs }}>
-							<span css={{ color: colors.text, fontSize: typography.fontSize.sm }}>
+							<span
+								css={{ color: colors.text, fontSize: typography.fontSize.sm }}
+							>
 								Start date
 							</span>
 							<input
@@ -475,7 +496,8 @@ export function HostScheduleRoute(handle: Handle) {
 								value={startDate}
 								on={{
 									input: (event: any) => {
-										if (!(event.currentTarget instanceof HTMLInputElement)) return
+										if (!(event.currentTarget instanceof HTMLInputElement))
+											return
 										startDate = event.currentTarget.value
 										syncSelectedSlotsToRange()
 										handle.update()
@@ -491,7 +513,9 @@ export function HostScheduleRoute(handle: Handle) {
 							/>
 						</label>
 						<label css={{ display: 'grid', gap: spacing.xs }}>
-							<span css={{ color: colors.text, fontSize: typography.fontSize.sm }}>
+							<span
+								css={{ color: colors.text, fontSize: typography.fontSize.sm }}
+							>
 								End date
 							</span>
 							<input
@@ -499,7 +523,8 @@ export function HostScheduleRoute(handle: Handle) {
 								value={endDate}
 								on={{
 									input: (event: any) => {
-										if (!(event.currentTarget instanceof HTMLInputElement)) return
+										if (!(event.currentTarget instanceof HTMLInputElement))
+											return
 										endDate = event.currentTarget.value
 										syncSelectedSlotsToRange()
 										handle.update()
@@ -515,14 +540,17 @@ export function HostScheduleRoute(handle: Handle) {
 							/>
 						</label>
 						<label css={{ display: 'grid', gap: spacing.xs }}>
-							<span css={{ color: colors.text, fontSize: typography.fontSize.sm }}>
+							<span
+								css={{ color: colors.text, fontSize: typography.fontSize.sm }}
+							>
 								Slot size
 							</span>
 							<select
 								value={String(slotMinutes)}
 								on={{
 									change: (event: any) => {
-										if (!(event.currentTarget instanceof HTMLSelectElement)) return
+										if (!(event.currentTarget instanceof HTMLSelectElement))
+											return
 										slotMinutes = Number(
 											event.currentTarget.value,
 										) as SlotIncrement
@@ -546,14 +574,17 @@ export function HostScheduleRoute(handle: Handle) {
 							</select>
 						</label>
 						<label css={{ display: 'grid', gap: spacing.xs }}>
-							<span css={{ color: colors.text, fontSize: typography.fontSize.sm }}>
+							<span
+								css={{ color: colors.text, fontSize: typography.fontSize.sm }}
+							>
 								Timezone
 							</span>
 							<input
 								value={timezone}
 								on={{
 									input: (event: any) => {
-										if (!(event.currentTarget instanceof HTMLInputElement)) return
+										if (!(event.currentTarget instanceof HTMLInputElement))
+											return
 										timezone = normalizeIanaTimeZone(event.currentTarget.value)
 										handle.update()
 									},
@@ -676,4 +707,3 @@ export function HostScheduleRoute(handle: Handle) {
 		)
 	}
 }
-

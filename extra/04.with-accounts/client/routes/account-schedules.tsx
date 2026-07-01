@@ -171,7 +171,9 @@ export function AccountSchedulesRoute(handle: Handle) {
 										schedule.claimedAt ?? schedule.createdAt,
 									).toLocaleString()}
 								</p>
-								<div css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}>
+								<div
+									css={{ display: 'flex', gap: spacing.sm, flexWrap: 'wrap' }}
+								>
 									<a
 										href={`/account/schedules/${encodeURIComponent(schedule.shareToken)}`}
 									>

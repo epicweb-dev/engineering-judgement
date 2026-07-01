@@ -12,4 +12,7 @@ export const session = {
 			session: authSession,
 		})
 	},
-} satisfies BuildAction<typeof routes.session.method, typeof routes.session.pattern>
+} satisfies BuildAction<
+	typeof routes.session.method,
+	typeof routes.session.pattern
+>

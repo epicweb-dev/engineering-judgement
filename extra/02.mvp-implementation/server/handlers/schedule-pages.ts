@@ -29,4 +29,3 @@ export const scheduleHostPage = {
 	typeof routes.scheduleHostPage.method,
 	typeof routes.scheduleHostPage.pattern
 >
-

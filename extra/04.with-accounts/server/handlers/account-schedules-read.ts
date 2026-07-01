@@ -18,7 +18,10 @@ export function createAccountSchedulesReadHandler(
 				)
 			}
 
-			const schedules = await listSchedulesOwnedByUser(appEnv.APP_DB, session.id)
+			const schedules = await listSchedulesOwnedByUser(
+				appEnv.APP_DB,
+				session.id,
+			)
 			return Response.json({
 				ok: true,
 				email: session.email,

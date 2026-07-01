@@ -84,10 +84,7 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 	async execute(request: AdapterExecuteRequest): Promise<AdapterResult> {
 		const statement = request.operation
 
-		if (
-			statement.kind === 'insertMany' &&
-			statement.values.length === 0
-		) {
+		if (statement.kind === 'insertMany' && statement.values.length === 0) {
 			return {
 				affectedRows: 0,
 				insertId: undefined,
@@ -109,10 +106,7 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 		if (shouldReadRows) {
 			const result = (await prepared.all()) as D1StatementResult
 			let rows = normalizeRows(result.results ?? [])
-			if (
-				statement.kind === 'count' ||
-				statement.kind === 'exists'
-			) {
+			if (statement.kind === 'count' || statement.kind === 'exists') {
 				rows = normalizeCountRows(rows)
 			}
 			return {
@@ -134,11 +128,7 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 		const result = (await prepared.run()) as D1StatementResult
 		return {
 			affectedRows: normalizeAffectedRowsForRun(statement.kind, result),
-			insertId: normalizeInsertIdForRun(
-				statement.kind,
-				statement,
-				result,
-			),
+			insertId: normalizeInsertIdForRun(statement.kind, statement, result),
 		}
 	}
 

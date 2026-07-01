@@ -20,7 +20,10 @@ export const loginPage = {
 			}),
 		)
 	},
-} satisfies BuildAction<typeof routes.loginPage.method, typeof routes.loginPage.pattern>
+} satisfies BuildAction<
+	typeof routes.loginPage.method,
+	typeof routes.loginPage.pattern
+>
 
 export const accountSchedulesPage = {
 	middleware: [],

@@ -25,7 +25,9 @@ function getTimeParts(date: Date, timeZone: string) {
 	})
 	const parts = partsFormatter.formatToParts(date)
 	const hour = Number(parts.find((part) => part.type === 'hour')?.value ?? 0)
-	const minute = Number(parts.find((part) => part.type === 'minute')?.value ?? 0)
+	const minute = Number(
+		parts.find((part) => part.type === 'minute')?.value ?? 0,
+	)
 	const label = new Intl.DateTimeFormat('en-US', {
 		timeZone,
 		hour: 'numeric',
@@ -80,7 +82,10 @@ export function createGridModel(
 	const timeIndexByMinute = new Map(
 		times.map((time, index) => [time.minutes, index]),
 	)
-	const coordinatesBySlot = new Map<string, { dayIndex: number; timeIndex: number }>()
+	const coordinatesBySlot = new Map<
+		string,
+		{ dayIndex: number; timeIndex: number }
+	>()
 
 	for (const slot of slots) {
 		const date = new Date(slot.startsAtUtc)
@@ -121,7 +126,9 @@ export function collectRangeSlotIds(
 		for (let timeIndex = minTime; timeIndex <= maxTime; timeIndex += 1) {
 			const time = model.times[timeIndex]
 			if (!time) continue
-			const slot = model.slotByCoordinate.get(coordinateKey(day.key, time.minutes))
+			const slot = model.slotByCoordinate.get(
+				coordinateKey(day.key, time.minutes),
+			)
 			if (slot) slotIds.push(slot.id)
 		}
 	}
@@ -319,4 +326,3 @@ export function renderScheduleGrid({
 		</div>
 	)
 }
-
