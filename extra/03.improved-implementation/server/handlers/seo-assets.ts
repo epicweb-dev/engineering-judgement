@@ -1,10 +1,10 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { getMarketingSitemapPaths } from '#server/seo-content.ts'
 import { type routes } from '#server/routes.ts'
 
 export const robotsTxt = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const url = new URL(request.url)
 		const sitemapUrl = new URL('/sitemap.xml', url.origin).toString()
 		const body = `User-agent: *\nAllow: /\nSitemap: ${sitemapUrl}\n`
@@ -22,7 +22,7 @@ export const robotsTxt = {
 
 export const sitemapXml = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const url = new URL(request.url)
 		const pages = getMarketingSitemapPaths()
 		const xml = [

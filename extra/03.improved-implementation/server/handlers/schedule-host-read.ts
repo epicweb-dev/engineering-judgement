@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import {
 	getScheduleSnapshot,
 	verifyScheduleHostAccessToken,
@@ -10,7 +10,7 @@ import { getShareToken } from './schedule-handler-utils.ts'
 export function createScheduleHostReadHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			const shareToken = getShareToken(url.pathname)
 			if (!shareToken) {
 				return Response.json(

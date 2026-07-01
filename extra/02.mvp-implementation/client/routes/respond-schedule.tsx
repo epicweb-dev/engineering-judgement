@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import {
 	collectRangeSlotIds,
 	createGridModel,
@@ -74,7 +74,7 @@ export function RespondScheduleRoute(handle: Handle) {
 			return
 		}
 
-		handle.queueTask(async (signal) => {
+		handle.queueTask(async (signal: AbortSignal) => {
 			try {
 				const response = await fetch(
 					`/api/schedules/${encodeURIComponent(scheduleKey)}`,
@@ -323,7 +323,7 @@ export function RespondScheduleRoute(handle: Handle) {
 							id="attendee-name"
 							value={attendeeName}
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									if (!(event.currentTarget instanceof HTMLInputElement)) return
 									attendeeName = event.currentTarget.value
 									handle.update()

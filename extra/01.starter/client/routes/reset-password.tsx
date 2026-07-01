@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import {
 	colors,
 	radius,
@@ -141,7 +141,7 @@ export function ResetPasswordRoute(handle: Handle) {
 						boxShadow: shadows.sm,
 					}}
 					on={{
-						submit: (event) =>
+						submit: (event: any) =>
 							mode === 'confirm'
 								? submitResetConfirm(event, token)
 								: submitResetRequest(event),

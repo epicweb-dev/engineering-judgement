@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import {
 	getScheduleSnapshot,
 	updateScheduleHostSettings,
@@ -58,7 +58,7 @@ export function createScheduleHostUpdateHandler(
 ) {
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			const shareToken = getShareToken(url.pathname)
 			if (!shareToken) {
 				return Response.json(

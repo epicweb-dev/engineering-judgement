@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { type routes } from '#server/routes.ts'
 import { createAuthPageHandler } from './auth-page.ts'
 

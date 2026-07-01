@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { readAuthSession } from '#server/auth-session.ts'
 import {
 	claimScheduleOwnership,
@@ -16,7 +16,7 @@ function isClaimValidationError(message: string) {
 export function createScheduleClaimHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			const shareToken = getShareToken(url.pathname)
 			if (!shareToken) {
 				return Response.json(

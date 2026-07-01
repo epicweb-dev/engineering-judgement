@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { buildAuthLink } from '#client/auth-links.ts'
 import { navigate } from '#client/client-router.tsx'
 import { fetchSessionInfo, type SessionStatus } from '#client/session.ts'
@@ -60,7 +60,7 @@ export function LoginRoute(handle: Handle, setup: LoginFormSetup = {}) {
 		handle.update()
 	}
 
-	handle.queueTask(async (signal) => {
+	handle.queueTask(async (signal: AbortSignal) => {
 		if (sessionStatus !== 'idle') return
 		sessionStatus = 'loading'
 
@@ -261,7 +261,7 @@ export function LoginRoute(handle: Handle, setup: LoginFormSetup = {}) {
 						href={buildAuthPath(isSignup ? 'login' : 'signup', redirectTo)}
 						aria-pressed={isSignup}
 						on={{
-							click: (event) => {
+							click: (event: any) => {
 								if (event.defaultPrevented) return
 								switchMode(isSignup ? 'login' : 'signup')
 							},

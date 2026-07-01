@@ -19,7 +19,7 @@ function createAuthRequest(
 	const context = new RequestContext(request)
 
 	return {
-		run: () => handler.action(context),
+		run: () => handler.handler(context),
 	}
 }
 

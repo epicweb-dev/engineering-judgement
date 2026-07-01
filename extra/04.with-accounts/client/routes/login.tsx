@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { navigate } from '#client/client-router.tsx'
 import { setDocumentTitle, toAppTitle } from '#client/document-title.ts'
 import {
@@ -197,7 +197,7 @@ export function LoginRoute(handle: Handle) {
 							placeholder="host@example.com"
 							autocomplete="email"
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									email = (event.currentTarget as HTMLInputElement).value
 									handle.update()
 								},

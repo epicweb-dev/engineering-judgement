@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { object, parseSafe, string } from 'remix/data-schema'
 import { type AppEnv } from '#types/env-schema.ts'
 import { createDb, passwordResetsTable, usersTable } from '#worker/db.ts'
@@ -73,7 +73,7 @@ export function createPasswordResetRequestHandler(appEnv: AppEnv) {
 
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			let body: unknown
 			try {
 				body = await request.json()
@@ -192,7 +192,7 @@ export function createPasswordResetConfirmHandler(appEnv: AppEnv) {
 
 	return {
 		middleware: [],
-		async action({ request, url }) {
+		async handler({ request, url }) {
 			let body: unknown
 			try {
 				body = await request.json()

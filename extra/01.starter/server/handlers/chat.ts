@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { readAuthSession } from '#server/auth-session.ts'
 import { redirectToLogin } from '#server/auth-redirect.ts'
 import { Layout } from '#server/layout.ts'
@@ -7,7 +7,7 @@ import { type routes } from '#server/routes.ts'
 
 export const chat = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const session = await readAuthSession(request)
 
 		if (!session) {

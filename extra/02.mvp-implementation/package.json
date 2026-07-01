@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "imports": {
+    "#client/remix-ui-compat": "./client/remix-ui-compat/index.js",
+    "#client/remix-ui-compat/jsx-runtime": "./client/remix-ui-compat/jsx-runtime.js",
     "#*": "./*"
   },
   "description": "A starter and reference for building full stack web applications",
@@ -17,10 +19,10 @@
   "scripts": {
     "dev": "node ./cli.ts",
     "dev:client": "npm run --silent dev:client:web",
-    "dev:client:web": "esbuild client/entry.tsx --bundle --format=esm --target=es2022 --outdir=public --entry-names=client-entry --chunk-names=assets/[name] --asset-names=assets/[name] --jsx=automatic --jsx-import-source=remix/component --watch",
+    "dev:client:web": "esbuild client/entry.tsx --bundle --format=esm --target=es2022 --outdir=public --entry-names=client-entry --chunk-names=assets/[name] --asset-names=assets/[name] --jsx=automatic --jsx-import-source=#client/remix-ui-compat --watch",
     "dev:worker": "node ./wrangler-env.ts dev --local",
     "deploy": "npm run build && node ./wrangler-env.ts deploy",
-    "build:client:web": "esbuild client/entry.tsx --bundle --format=esm --target=es2022 --outdir=public --entry-names=client-entry --chunk-names=assets/[name] --asset-names=assets/[name] --jsx=automatic --jsx-import-source=remix/component",
+    "build:client:web": "esbuild client/entry.tsx --bundle --format=esm --target=es2022 --outdir=public --entry-names=client-entry --chunk-names=assets/[name] --asset-names=assets/[name] --jsx=automatic --jsx-import-source=#client/remix-ui-compat",
     "build:client": "npm run build:client:web",
     "build": "npm run build:client && node ./wrangler-env.ts build",
     "lint": "oxlint .",

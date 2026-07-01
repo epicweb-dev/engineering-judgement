@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { navigate } from '#client/client-router.tsx'
 import {
 	collectRangeSlotIds,
@@ -294,7 +294,7 @@ export function CreateScheduleRoute(handle: Handle) {
 							name="title"
 							value={title}
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									if (!(event.currentTarget instanceof HTMLInputElement)) return
 									title = event.currentTarget.value
 									handle.update()
@@ -326,7 +326,7 @@ export function CreateScheduleRoute(handle: Handle) {
 							type="date"
 							value={startDate}
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									if (!(event.currentTarget instanceof HTMLInputElement)) return
 									startDate = event.currentTarget.value
 									syncSelectedSlotsToRange()
@@ -359,7 +359,7 @@ export function CreateScheduleRoute(handle: Handle) {
 							type="date"
 							value={endDate}
 							on={{
-								input: (event) => {
+								input: (event: any) => {
 									if (!(event.currentTarget instanceof HTMLInputElement)) return
 									endDate = event.currentTarget.value
 									syncSelectedSlotsToRange()
@@ -391,7 +391,7 @@ export function CreateScheduleRoute(handle: Handle) {
 							name="slot-minutes"
 							value={String(slotMinutes)}
 							on={{
-								change: (event) => {
+								change: (event: any) => {
 									if (!(event.currentTarget instanceof HTMLSelectElement)) return
 									slotMinutes = Number(
 										event.currentTarget.value,

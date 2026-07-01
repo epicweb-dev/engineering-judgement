@@ -1,10 +1,10 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { readAuthSession } from '#server/auth-session.ts'
 import { type routes } from '#server/routes.ts'
 
 export const session = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const authSession = await readAuthSession(request)
 		return Response.json({
 			ok: true,

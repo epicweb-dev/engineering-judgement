@@ -719,13 +719,13 @@ export function renderScheduleGrid(props: ScheduleGridProps) {
 												on={{
 													pointerdown:
 														interactive && props.onCellPointerDown
-															? (event) =>
+															? (event: any) =>
 																	props.onCellPointerDown?.(slot, event)
 															: undefined,
 													pointerenter:
 														interactive &&
 														(props.onCellPointerEnter || props.onCellHover)
-															? (event) => {
+															? (event: any) => {
 																	props.onCellPointerEnter?.(slot, event)
 																	props.onCellHover?.(slot)
 																}
@@ -733,10 +733,10 @@ export function renderScheduleGrid(props: ScheduleGridProps) {
 																? () => props.onCellHover?.(slot)
 																: undefined,
 													pointermove: props.onCellPointerMove
-														? (event) => props.onCellPointerMove?.(slot, event)
+														? (event: any) => props.onCellPointerMove?.(slot, event)
 														: undefined,
 													pointerleave: props.onCellHover
-														? (event) => {
+														? (event: any) => {
 																if (!shouldClearHoverOnPointerLeave(event)) {
 																	return
 																}
@@ -744,10 +744,10 @@ export function renderScheduleGrid(props: ScheduleGridProps) {
 															}
 														: undefined,
 													pointerup: props.onCellPointerUp
-														? (event) => props.onCellPointerUp?.(slot, event)
+														? (event: any) => props.onCellPointerUp?.(slot, event)
 														: undefined,
 													click: props.onCellClick
-														? (event) => props.onCellClick?.(slot, event)
+														? (event: any) => props.onCellClick?.(slot, event)
 														: undefined,
 													focus: props.onCellFocus
 														? () => props.onCellFocus?.(slot)

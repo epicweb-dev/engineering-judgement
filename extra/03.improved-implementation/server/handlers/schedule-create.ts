@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { createSchedule, getScheduleSnapshot } from '#shared/schedule-store.ts'
 import { type AppEnv } from '#types/env-schema.ts'
 import { type routes } from '#server/routes.ts'
@@ -46,7 +46,7 @@ function isCreateScheduleValidationError(message: string) {
 export function createScheduleCreateHandler(appEnv: Pick<AppEnv, 'APP_DB'>) {
 	return {
 		middleware: [],
-		async action({ request }) {
+		async handler({ request }) {
 			let body: CreateScheduleRequest
 			try {
 				const parsed = await request.json()

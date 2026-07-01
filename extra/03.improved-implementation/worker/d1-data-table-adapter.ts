@@ -1,14 +1,21 @@
 import {
 	getTableName,
 	getTablePrimaryKey,
+	type AdapterCapabilities,
 	type AdapterCapabilityOverrides,
-	type AdapterExecuteRequest,
-	type AdapterResult,
-	type AdapterStatement,
+	type AnyTable,
+	type DataManipulationOperation,
+	type DataManipulationRequest,
+	type DataManipulationResult,
 	type DatabaseAdapter,
+	type TableRef,
 	type TransactionOptions,
 	type TransactionToken,
 } from 'remix/data-table'
+
+type AdapterExecuteRequest = DataManipulationRequest
+type AdapterResult = DataManipulationResult
+type AdapterStatement = DataManipulationOperation
 
 type SqliteCompileContext = {
 	values: Array<unknown>
@@ -48,11 +55,7 @@ type D1PreparedQuery = {
  */
 export class D1DataTableAdapter implements DatabaseAdapter {
 	dialect = 'sqlite'
-	capabilities: {
-		returning: boolean
-		savepoints: boolean
-		upsert: boolean
-	}
+	capabilities: AdapterCapabilities
 
 	#database: D1Database
 	#transactions = new Set<string>()
@@ -69,51 +72,59 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 			returning: options?.capabilities?.returning ?? true,
 			savepoints: options?.capabilities?.savepoints ?? false,
 			upsert: options?.capabilities?.upsert ?? true,
+			transactionalDdl: options?.capabilities?.transactionalDdl ?? false,
+			migrationLock: options?.capabilities?.migrationLock ?? false,
 		}
 	}
 
+	compileSql(operation: AdapterStatement) {
+		return [compileSqliteStatement(operation)]
+	}
+
 	async execute(request: AdapterExecuteRequest): Promise<AdapterResult> {
+		const statement = request.operation
+
 		if (
-			request.statement.kind === 'insertMany' &&
-			request.statement.values.length === 0
+			statement.kind === 'insertMany' &&
+			statement.values.length === 0
 		) {
 			return {
 				affectedRows: 0,
 				insertId: undefined,
-				rows: request.statement.returning ? [] : undefined,
+				rows: statement.returning ? [] : undefined,
 			}
 		}
 
-		const statement = compileSqliteStatement(request.statement)
+		const compiledStatement = compileSqliteStatement(statement)
 		const prepared = this.#database
-			.prepare(statement.text)
-			.bind(...statement.values) as unknown as D1PreparedQuery
+			.prepare(compiledStatement.text)
+			.bind(...compiledStatement.values) as unknown as D1PreparedQuery
 
 		const shouldReadRows =
-			request.statement.kind === 'select' ||
-			request.statement.kind === 'count' ||
-			request.statement.kind === 'exists' ||
-			hasReturningClause(request.statement)
+			statement.kind === 'select' ||
+			statement.kind === 'count' ||
+			statement.kind === 'exists' ||
+			hasReturningClause(statement)
 
 		if (shouldReadRows) {
 			const result = (await prepared.all()) as D1StatementResult
 			let rows = normalizeRows(result.results ?? [])
 			if (
-				request.statement.kind === 'count' ||
-				request.statement.kind === 'exists'
+				statement.kind === 'count' ||
+				statement.kind === 'exists'
 			) {
 				rows = normalizeCountRows(rows)
 			}
 			return {
 				rows,
 				affectedRows: normalizeAffectedRowsForReader(
-					request.statement.kind,
+					statement.kind,
 					rows,
 					result.meta,
 				),
 				insertId: normalizeInsertIdForReader(
-					request.statement.kind,
-					request.statement,
+					statement.kind,
+					statement,
 					rows,
 					result.meta,
 				),
@@ -122,13 +133,36 @@ export class D1DataTableAdapter implements DatabaseAdapter {
 
 		const result = (await prepared.run()) as D1StatementResult
 		return {
-			affectedRows: normalizeAffectedRowsForRun(request.statement.kind, result),
+			affectedRows: normalizeAffectedRowsForRun(statement.kind, result),
 			insertId: normalizeInsertIdForRun(
-				request.statement.kind,
-				request.statement,
+				statement.kind,
+				statement,
 				result,
 			),
 		}
+	}
+
+	async executeScript(sql: string): Promise<void> {
+		await this.#database.exec(sql)
+	}
+
+	async hasTable(table: TableRef): Promise<boolean> {
+		const result = await this.#database
+			.prepare(
+				'select 1 from sqlite_master where type = ? and name = ? limit 1',
+			)
+			.bind('table', table.name)
+			.all()
+
+		return (result.results?.length ?? 0) > 0
+	}
+
+	async hasColumn(table: TableRef, column: string): Promise<boolean> {
+		const result = await this.#database
+			.prepare('pragma table_info(' + quoteIdentifier(table.name) + ')')
+			.all<{ name?: unknown }>()
+
+		return result.results?.some((row) => row.name === column) ?? false
 	}
 
 	async beginTransaction(
@@ -597,11 +631,7 @@ function compileUpsertStatement(
 }
 
 function compileFromClause(
-	table: AdapterStatement extends infer T
-		? T extends { table: infer tableType }
-			? tableType
-			: never
-		: never,
+	table: AnyTable,
 	joins: Array<unknown>,
 	context: SqliteCompileContext,
 ) {

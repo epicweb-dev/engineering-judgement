@@ -263,7 +263,7 @@ export function renderScheduleGrid({
 													disabled={readOnly}
 													on={{
 														click: () => onCellClick(slot.id),
-														mousedown: (event) =>
+														mousedown: (event: any) =>
 															onCellMouseDown(event, slot.id),
 														mouseenter: () => onCellMouseEnter(slot.id),
 													}}

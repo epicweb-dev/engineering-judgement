@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { getBrowserTimeZone } from '#client/browser-time-zone.ts'
 import { navigate } from '#client/client-router.tsx'
 import { renderScheduleGrid } from '#client/components/schedule-grid.tsx'
@@ -654,7 +654,7 @@ export function HomeRoute(handle: Handle) {
 									scheduleTitleError ? 'schedule-title-error' : undefined
 								}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										title = event.currentTarget.value
 										if (title.trim()) {
 											scheduleTitleError = null
@@ -707,7 +707,7 @@ export function HomeRoute(handle: Handle) {
 								aria-invalid={hostNameError ? 'true' : undefined}
 								aria-describedby={hostNameError ? 'host-name-error' : undefined}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										hostName = event.currentTarget.value
 										if (hostName.trim()) {
 											hostNameError = null
@@ -764,7 +764,7 @@ export function HomeRoute(handle: Handle) {
 								name="interval"
 								value={String(intervalMinutes)}
 								on={{
-									change: (event) => {
+									change: (event: any) => {
 										const value = Number.parseInt(event.currentTarget.value, 10)
 										updateDateRange({ intervalMinutes: value })
 									},
@@ -793,7 +793,7 @@ export function HomeRoute(handle: Handle) {
 								name="startDate"
 								value={startDateInput}
 								on={{
-									change: (event) =>
+									change: (event: any) =>
 										updateDateRange({
 											startDateInput: event.currentTarget.value,
 										}),
@@ -818,7 +818,7 @@ export function HomeRoute(handle: Handle) {
 								name="endDate"
 								value={endDateInput}
 								on={{
-									change: (event) =>
+									change: (event: any) =>
 										updateDateRange({
 											endDateInput: event.currentTarget.value,
 										}),

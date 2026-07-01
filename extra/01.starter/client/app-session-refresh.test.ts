@@ -1,7 +1,7 @@
 import { expect, test, vi } from 'vitest'
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 
-type QueueTask = Parameters<Handle['queueTask']>[0]
+type QueueTask = (signal: AbortSignal) => void | Promise<void>
 
 const navigationListeners: Array<() => void> = []
 const queuedSessionResponses: Array<{ email: string } | null> = []

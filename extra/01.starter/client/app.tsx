@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import { clientRoutes } from './routes/index.tsx'
 import { listenToRouterNavigation, Router } from './client-router.tsx'
 import {
@@ -27,7 +27,7 @@ export function App(handle: Handle) {
 
 		sessionRefreshQueued = false
 		sessionRefreshInFlight = true
-		handle.queueTask(async (signal) => {
+		handle.queueTask(async (signal: AbortSignal) => {
 			const nextSession = await fetchSessionInfo(signal)
 			sessionRefreshInFlight = false
 			if (signal.aborted) return

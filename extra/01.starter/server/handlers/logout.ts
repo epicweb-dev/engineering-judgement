@@ -1,4 +1,4 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { destroyAuthCookie } from '#server/auth-session.ts'
 import { type routes } from '#server/routes.ts'
 
@@ -38,7 +38,7 @@ function isSecureRequest(request: Request) {
 
 export const logout = {
 	middleware: [],
-	async action({ request }) {
+	async handler({ request }) {
 		const cookie = await destroyAuthCookie(isSecureRequest(request))
 		const location = new URL('/login', request.url)
 

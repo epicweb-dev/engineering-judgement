@@ -1,11 +1,11 @@
-import { type BuildAction } from 'remix/fetch-router'
+import { type BuildAction } from '#server/build-action.ts'
 import { Layout } from '#server/layout.ts'
 import { render } from '#server/render.ts'
 import { type routes } from '#server/routes.ts'
 
 export const schedulePage = {
 	middleware: [],
-	async action() {
+	async handler() {
 		return render(
 			Layout({
 				title: 'Schedule availability | Epic Scheduler',
@@ -21,7 +21,7 @@ export const schedulePage = {
 
 export const scheduleHostPage = {
 	middleware: [],
-	async action() {
+	async handler() {
 		return render(
 			Layout({
 				title: 'Host dashboard | Epic Scheduler',

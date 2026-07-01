@@ -1,4 +1,4 @@
-import { type Handle } from 'remix/component'
+import { type Handle } from '#client/remix-ui-compat'
 import {
 	collectRangeSlotIds,
 	createGridModel,
@@ -112,7 +112,7 @@ export function HostScheduleRoute(handle: Handle) {
 			return
 		}
 
-		handle.queueTask(async (signal) => {
+		handle.queueTask(async (signal: AbortSignal) => {
 			try {
 				const response = await fetch(
 					`/api/schedules/${encodeURIComponent(hostParams.scheduleKey)}/${encodeURIComponent(hostParams.hostKey)}`,
@@ -451,7 +451,7 @@ export function HostScheduleRoute(handle: Handle) {
 							<input
 								value={title}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										if (!(event.currentTarget instanceof HTMLInputElement)) return
 										title = event.currentTarget.value
 										handle.update()
@@ -474,7 +474,7 @@ export function HostScheduleRoute(handle: Handle) {
 								type="date"
 								value={startDate}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										if (!(event.currentTarget instanceof HTMLInputElement)) return
 										startDate = event.currentTarget.value
 										syncSelectedSlotsToRange()
@@ -498,7 +498,7 @@ export function HostScheduleRoute(handle: Handle) {
 								type="date"
 								value={endDate}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										if (!(event.currentTarget instanceof HTMLInputElement)) return
 										endDate = event.currentTarget.value
 										syncSelectedSlotsToRange()
@@ -521,7 +521,7 @@ export function HostScheduleRoute(handle: Handle) {
 							<select
 								value={String(slotMinutes)}
 								on={{
-									change: (event) => {
+									change: (event: any) => {
 										if (!(event.currentTarget instanceof HTMLSelectElement)) return
 										slotMinutes = Number(
 											event.currentTarget.value,
@@ -552,7 +552,7 @@ export function HostScheduleRoute(handle: Handle) {
 							<input
 								value={timezone}
 								on={{
-									input: (event) => {
+									input: (event: any) => {
 										if (!(event.currentTarget instanceof HTMLInputElement)) return
 										timezone = normalizeIanaTimeZone(event.currentTarget.value)
 										handle.update()
